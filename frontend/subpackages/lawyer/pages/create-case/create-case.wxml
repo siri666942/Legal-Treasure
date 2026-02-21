@@ -1,0 +1,140 @@
+<view class="create-case-page">
+  <!-- 案件基本信息卡片 -->
+  <view class="form-card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📋</text>
+        </view>
+        <text class="card-title">案件基本信息</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <!-- 案号（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">案号 <text class="required">*</text></text>
+        <input 
+          class="form-input" 
+          placeholder="例如: (2024)沪01民初1234号" 
+          value="{{formData.caseNo}}"
+          bindinput="onCaseNoInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 案件名称（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">案件名称 <text class="required">*</text></text>
+        <input 
+          class="form-input" 
+          placeholder="例如: 张三诉李四合同纠纷案" 
+          value="{{formData.caseTitle}}"
+          bindinput="onCaseTitleInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 案件类型（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">案件类型 <text class="required">*</text></text>
+        <input 
+          class="form-input" 
+          placeholder="例如: 民事纠纷 - 合同纠纷" 
+          value="{{formData.caseType}}"
+          bindinput="onCaseTypeInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 受理法院（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">受理法院 <text class="required">*</text></text>
+        <input 
+          class="form-input" 
+          placeholder="例如: 上海市第一中级人民法院" 
+          value="{{formData.court}}"
+          bindinput="onCourtInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 承办法官（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">承办法官</text>
+        <input 
+          class="form-input" 
+          placeholder="例如: 张法官" 
+          value="{{formData.judge}}"
+          bindinput="onJudgeInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 立案时间（日期选择器） -->
+      <view class="form-item">
+        <text class="form-label">立案时间 <text class="required">*</text></text>
+        <picker 
+          mode="date" 
+          value="{{filingDateRaw}}" 
+          bindchange="onFilingDateChange"
+        >
+          <view class="form-input picker-input {{!formData.filingDate ? 'placeholder' : ''}}">
+            {{formData.filingDate || '请选择立案时间'}}
+          </view>
+        </picker>
+      </view>
+
+      <!-- 标的金额（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">标的金额</text>
+        <input 
+          class="form-input" 
+          placeholder="例如: ¥ 1,250,000" 
+          value="{{formData.amount}}"
+          bindinput="onAmountInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+
+      <!-- 适用法律（文本输入） -->
+      <view class="form-item">
+        <text class="form-label">适用法律</text>
+        <input 
+          class="form-input" 
+          placeholder="例如: 《民法典》第五百七十七条" 
+          value="{{formData.applicableLaw}}"
+          bindinput="onApplicableLawInput"
+          placeholder-class="placeholder"
+        />
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部固定操作按钮 -->
+  <view class="bottom-actions">
+    <view class="action-btn cancel-btn" bindtap="cancelCreate">取消</view>
+    <view class="action-btn save-btn" bindtap="saveCase">保存并创建</view>
+  </view>
+
+  <!-- 创建成功浮窗（自定义模态框）- 仅展示绑定码 -->
+  <view class="modal-overlay" wx:if="{{showSuccessModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title"> 案件创建成功</text>
+        <text class="close-btn" bindtap="closeModalAndBack">×</text>
+      </view>
+      <view class="modal-body">
+        <!-- 绑定码展示区域 -->
+        <view class="bind-code-section">
+          <text class="bind-code-label">绑定码</text>
+          <text class="bind-code-value">{{bindCode}}</text>
+        </view>
+        <text class="bind-tip">请将此绑定码发送给客户，客户可在小程序中输入绑定码关联案件。</text>
+      </view>
+      <view class="modal-actions">
+        <view class="btn cancel-btn" bindtap="closeModalAndBack">稍后</view>
+        <view class="btn confirm-btn" bindtap="copyBindCode">复制绑定码</view>
+      </view>
+    </view>
+  </view>
+</view>

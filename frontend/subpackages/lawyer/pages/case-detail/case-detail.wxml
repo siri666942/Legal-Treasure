@@ -1,0 +1,384 @@
+<view class="container">
+  <!-- 案件标题和操作 -->
+  <view class="case-header">
+    <view class="case-title-row">
+      <text class="case-title">{{caseInfo.caseTitle}}</text>
+    </view>
+    <view class="case-no-row">
+      <text class="case-no">{{caseInfo.caseNo}}</text>
+      <text class="copy-icon" bindtap="copyCaseNo">📋</text>
+    </view>
+  </view>
+
+  <!-- 案件基本信息 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📋</text>
+        </view>
+        <text class="card-title">案件基本信息</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="label">案号：</text>
+          <text class="value">{{caseInfo.caseNo}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">案件性质：</text>
+          <text class="value">{{caseInfo.caseType}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">受理法院：</text>
+          <text class="value">{{caseInfo.court}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">承办法官：</text>
+          <text class="value">{{caseInfo.judge}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">立案时间：</text>
+          <text class="value">{{caseInfo.filingDate}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">当前状态：</text>
+          <view class="status-badge status-active">审理中</view>
+        </view>
+        <view class="info-item">
+          <text class="label">标的金额：</text>
+          <text class="value">{{caseInfo.amount}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">适用法律：</text>
+          <text class="value">{{caseInfo.applicableLaw}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件时间轴（可编辑） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleTimeline">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📅</text>
+        </view>
+        <text class="card-title">案件时间轴</text>
+      </view>
+      <view class="header-actions">
+        <view wx:if="{{timelineExpanded && !timelineEditing}}" class="edit-btn" catchtap="startEditTimeline">
+          <text class="icon">✏️</text>
+        </view>
+        <view class="collapse-icon">
+          <text class="icon">{{timelineExpanded ? '▲' : '▼'}}</text>
+          <text class="collapse-text">{{timelineExpanded ? '收起' : '展开'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 查看模式 -->
+    <view wx:if="{{timelineExpanded && !timelineEditing}}" class="card-content">
+      <view class="timeline">
+        <view class="timeline-item" wx:for="{{timeline}}" wx:key="index">
+          <view class="timeline-dot {{item.status}}"></view>
+          <view class="timeline-content">
+            <view class="timeline-date">{{item.date}}</view>
+            <view class="timeline-event">{{item.event}}</view>
+            <view class="timeline-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 编辑模式 -->
+    <view wx:if="{{timelineExpanded && timelineEditing}}" class="card-content">
+      <view class="editable-list">
+        <view class="list-header">
+          <text class="list-title">编辑时间轴</text>
+        </view>
+        <view class="list-items">
+          <view class="editable-item" wx:for="{{timeline}}" wx:key="index">
+            <view class="item-content">
+              <text class="item-date">{{item.date}}</text>
+              <text class="item-event">{{item.event}}</text>
+              <text class="item-desc" wx:if="{{item.description}}">{{item.description}}</text>
+            </view>
+            <view class="item-actions">
+              <text class="delete-btn" bindtap="deleteTimelineItem" data-index="{{index}}">🗑️</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 添加按钮 -->
+        <view wx:if="{{!showTimelineAddForm}}" class="add-trigger" bindtap="showTimelineAdd">
+          <text class="add-trigger-icon">＋</text>
+          <text class="add-trigger-text">添加时间轴</text>
+        </view>
+
+        <!-- 添加表单 -->
+        <view wx:if="{{showTimelineAddForm}}" class="add-form">
+          <view class="form-row">
+            <picker mode="date" bindchange="onTimelineDateChange">
+              <view class="picker-input">
+                {{newTimelineItem.date || '选择日期'}}
+              </view>
+            </picker>
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="事件" value="{{newTimelineItem.event}}" bindinput="onTimelineEventInput" />
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="描述（可选）" value="{{newTimelineItem.description}}" bindinput="onTimelineDescInput" />
+          </view>
+          <view class="form-actions">
+            <view class="cancel-small-btn" bindtap="hideTimelineAdd">取消</view>
+            <view class="confirm-small-btn" bindtap="addTimelineItem">确认</view>
+          </view>
+        </view>
+
+        <view class="edit-actions">
+          <view class="cancel-btn" bindtap="cancelEditTimeline">取消</view>
+          <view class="save-btn" bindtap="saveEditTimeline">保存</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前4条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{timeline.slice(0,4)}}" wx:key="index">
+          <view class="collapsed-dot {{item.status}}"></view>
+          <text class="collapsed-text">{{item.date}} {{item.event}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关联卷宗（可编辑 + 真实文件操作，右侧“⋯”菜单） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleDocuments">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📁</text>
+        </view>
+        <text class="card-title">关联卷宗</text>
+      </view>
+      <view class="header-actions">
+        <view wx:if="{{documentsExpanded && !documentsEditing}}" class="edit-btn" catchtap="startEditDocuments">
+          <text class="icon">✏️</text>
+        </view>
+        <view class="collapse-icon">
+          <text class="icon">{{documentsExpanded ? '▲' : '▼'}}</text>
+          <text class="collapse-text">{{documentsExpanded ? '收起' : '展开'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 查看模式（右侧“⋯”菜单） -->
+    <view wx:if="{{documentsExpanded && !documentsEditing}}" class="card-content">
+      <view class="documents-grid">
+        <view class="document-item" wx:for="{{documents}}" wx:key="index">
+          <view class="document-info">
+            <text class="document-name">{{item.name}}</text>
+            <text class="document-meta">{{item.type}} • {{item.size}} • {{item.date}}</text>
+            <text class="document-uploader">上传：{{item.uploadedBy}}</text>
+          </view>
+          <!-- 右侧“⋯”菜单 -->
+          <view class="document-more" bindtap="showFileActions" data-index="{{index}}">
+            <text>⋯</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 编辑模式（无输入框，直接上传） -->
+    <view wx:if="{{documentsExpanded && documentsEditing}}" class="card-content">
+      <view class="editable-list">
+        <view class="list-header">
+          <text class="list-title">编辑卷宗</text>
+        </view>
+        <view class="list-items">
+          <view class="editable-item" wx:for="{{documents}}" wx:key="index">
+            <view class="item-content">
+              <text class="item-name">{{item.name}}</text>
+              <text class="item-meta">{{item.type}} • {{item.size}} • {{item.date}}</text>
+              <text class="item-sub">上传：{{item.uploadedBy}}</text>
+            </view>
+            <view class="item-actions">
+              <text class="delete-btn" bindtap="deleteDocumentItem" data-index="{{index}}">🗑️</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 直接显示“选择文件上传”按钮 -->
+        <view class="upload-file-btn" bindtap="uploadDocumentFile">选择文件上传</view>
+
+        <view class="edit-actions">
+          <view class="cancel-btn" bindtap="cancelEditDocuments">取消</view>
+          <view class="save-btn" bindtap="saveEditDocuments">保存</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前3条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{documents.slice(0,3)}}" wx:key="index">
+          <text class="collapsed-text">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件相关方（可编辑，联系按钮直接拨号） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleParties">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">👥</text>
+        </view>
+        <text class="card-title">案件相关方</text>
+      </view>
+      <view class="header-actions">
+        <view wx:if="{{partiesExpanded && !partiesEditing}}" class="edit-btn" catchtap="startEditParties">
+          <text class="icon">✏️</text>
+        </view>
+        <view class="collapse-icon">
+          <text class="icon">{{partiesExpanded ? '▲' : '▼'}}</text>
+          <text class="collapse-text">{{partiesExpanded ? '收起' : '展开'}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 查看模式（联系按钮） -->
+    <view wx:if="{{partiesExpanded && !partiesEditing}}" class="card-content">
+      <view class="parties-container">
+        <view class="party-card" wx:for="{{parties}}" wx:key="id">
+          <view class="party-header">
+            <view class="party-avatar {{item.roleClass}}">
+              <text>{{item.id}}</text>
+            </view>
+            <view class="party-title">
+              <text class="party-name">{{item.name}}</text>
+              <text class="party-type">{{item.type}}</text>
+            </view>
+          </view>
+          <view class="party-details">
+            <text class="party-role">{{item.role}}</text>
+            <text class="party-contact" wx:if="{{item.contact}}">{{item.contact}}</text>
+            <text class="party-address" wx:if="{{item.address}}">{{item.address}}</text>
+          </view>
+          <!-- 联系按钮（电话图标） -->
+          <view class="party-action">
+            <view wx:if="{{item.contact}}" class="contact-btn" bindtap="callParty" data-index="{{index}}">
+              <text class="btn-text">联系</text>
+            </view>
+            <view wx:else class="contact-btn disabled">
+              <text class="btn-text">无联系方式</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 展开 + 编辑模式 -->
+    <view wx:if="{{partiesExpanded && partiesEditing}}" class="card-content">
+      <view class="editable-list">
+        <view class="list-header">
+          <text class="list-title">编辑相关方</text>
+        </view>
+        <view class="list-items">
+          <view class="editable-item" wx:for="{{parties}}" wx:key="index">
+            <view class="item-content">
+              <text class="item-name">{{item.name}} · {{item.role}}</text>
+              <text class="item-meta">{{item.type}} · {{item.contact || '无联系方式'}}</text>
+              <text class="item-sub">{{item.address || '无地址'}}</text>
+            </view>
+            <view class="item-actions">
+              <text class="delete-btn" bindtap="deletePartyItem" data-index="{{index}}">🗑️</text>
+            </view>
+          </view>
+        </view>
+
+        <!-- 添加按钮 -->
+        <view wx:if="{{!showPartiesAddForm}}" class="add-trigger" bindtap="showPartiesAdd">
+          <text class="add-trigger-icon">＋</text>
+          <text class="add-trigger-text">添加相关方</text>
+        </view>
+
+        <!-- 添加表单 -->
+        <view wx:if="{{showPartiesAddForm}}" class="add-form">
+          <view class="form-row">
+            <input class="add-input" placeholder="姓名" value="{{newPartyItem.name}}" bindinput="onPartyNameInput" />
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="角色" value="{{newPartyItem.role}}" bindinput="onPartyRoleInput" />
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="类型（个人/公司）" value="{{newPartyItem.type}}" bindinput="onPartyTypeInput" />
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="联系方式" value="{{newPartyItem.contact}}" bindinput="onPartyContactInput" />
+          </view>
+          <view class="form-row">
+            <input class="add-input" placeholder="地址" value="{{newPartyItem.address}}" bindinput="onPartyAddressInput" />
+          </view>
+          <view class="form-actions">
+            <view class="cancel-small-btn" bindtap="hidePartiesAdd">取消</view>
+            <view class="confirm-small-btn" bindtap="addPartyItem">确认</view>
+          </view>
+        </view>
+
+        <view class="edit-actions">
+          <view class="cancel-btn" bindtap="cancelEditParties">取消</view>
+          <view class="save-btn" bindtap="saveEditParties">保存</view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前4条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{parties.slice(0,4)}}" wx:key="index">
+          <view class="collapsed-avatar {{item.roleClass}}">
+            <text>{{item.id}}</text>
+          </view>
+          <text class="collapsed-text">{{item.name}} - {{item.role}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部客户操作按钮栏 -->
+  <view class="client-action-bar">
+    <view class="action-btn bind-btn" bindtap="bindClient">
+      <text class="btn-text">绑定客户</text>
+    </view>
+    <view class="action-btn contact-btn" bindtap="contactClient">
+      <text class="btn-text">联系客户</text>
+    </view>
+  </view>
+
+  <!-- 绑定码浮窗（与创建案件页面风格一致） -->
+  <view class="modal-overlay" wx:if="{{showBindModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title"> 案件绑定码</text>
+        <text class="close-btn" bindtap="closeBindModal">×</text>
+      </view>
+      <view class="modal-body">
+        <view class="bind-code-section">
+          <text class="bind-code-label">绑定码</text>
+          <text class="bind-code-value">{{bindCode}}</text>
+        </view>
+        <text class="bind-tip">请将此绑定码发送给客户，客户可在小程序中输入绑定码关联案件。</text>
+      </view>
+      <view class="modal-actions">
+        <view class="btn cancel-btn" bindtap="closeBindModal">稍后</view>
+        <view class="btn confirm-btn" bindtap="copyBindCode">复制绑定码</view>
+      </view>
+    </view>
+  </view>
+</view>

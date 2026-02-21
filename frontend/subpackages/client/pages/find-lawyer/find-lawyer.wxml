@@ -1,0 +1,103 @@
+<!-- pages/find-lawyer/index.wxml -->
+<view class="find-lawyer-page">
+  <!-- 搜索栏 -->
+  <view class="search-section">
+    <view class="search-box">
+      <view class="search-icon">🔍</view>
+      <input 
+        class="search-input" 
+        placeholder="搜索律师姓名、专业领域" 
+        placeholder-class="placeholder"
+        bindinput="onSearchInput"
+        bindconfirm="onSearchConfirm"
+        confirm-type="search"
+        value="{{searchKeyword}}"
+      />
+      <view 
+        class="clear-btn {{searchKeyword ? 'show' : ''}}" 
+        bindtap="onClearSearch"
+      >
+        ✕
+      </view>
+    </view>
+  </view>
+
+  <!-- 筛选组件 -->
+  <view class="filter-section">
+    <scroll-view class="filter-scroll" scroll-x>
+      <view class="filter-tags">
+        <view 
+          class="filter-tag {{currentFilter === 'all' ? 'active' : ''}}" 
+          bindtap="onFilterTap" 
+          data-tag="all"
+        >
+          全部
+        </view>
+        <view 
+          wx:for="{{filterTags}}" 
+          wx:key="id"
+          class="filter-tag {{currentFilter === item.id ? 'active' : ''}}" 
+          bindtap="onFilterTap" 
+          data-tag="{{item.id}}"
+        >
+          {{item.name}}
+        </view>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 搜索结果显示 -->
+  <view class="search-result" wx:if="{{searchKeyword}}">
+    <view class="result-header">
+      <text class="result-text">
+        "{{searchKeyword}}" 的搜索结果
+        <text class="result-count">({{searchResultCount}})</text>
+      </text>
+    </view>
+  </view>
+
+  <!-- 律师列表 - 每行两个卡片 -->
+  <view class="lawyer-list">
+    <view class="lawyer-row" wx:for="{{displayedLawyers}}" wx:key="id" wx:for-item="row">
+      <view class="lawyer-card-wrapper" wx:for="{{row}}" wx:key="id">
+        <view 
+          class="lawyer-card" 
+          bindtap="onLawyerTap" 
+          data-id="{{item.id}}"
+        >
+          <!-- 头像区域 - 使用emoji代替图片 -->
+          <view class="lawyer-avatar-emoji">{{item.avatarEmoji}}</view>
+          <view class="lawyer-info">
+            <text class="lawyer-name">{{item.name}}</text>
+            <text class="lawyer-title">{{item.title}}</text>
+            <text class="lawyer-intro">{{item.introduction}}</text>
+          </view>
+          <view class="lawyer-tags">
+            <text class="tag" wx:for="{{item.tags.slice(0, 2)}}" wx:key="index">
+              {{item}}
+            </text>
+          </view>
+          <view class="consult-btn" catchtap="onConsultTap" data-id="{{item.id}}">立即咨询</view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 空状态 -->
+    <view class="empty-state" wx:if="{{displayedLawyers.length === 0}}">
+      <view class="empty-icon">👨‍⚖️</view>
+      <text class="empty-text" wx:if="{{searchKeyword}}">
+        未找到"{{searchKeyword}}"相关律师
+      </text>
+      <text class="empty-text" wx:else>
+        暂无符合条件的律师
+      </text>
+      <view 
+        class="reset-btn" 
+        bindtap="onResetFilter"
+        wx:if="{{currentFilter !== 'all' || searchKeyword}}"
+      >
+        重置筛选条件
+      </view>
+    </view>
+  </view>
+</view>

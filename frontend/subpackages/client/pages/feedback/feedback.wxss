@@ -1,0 +1,359 @@
+.feedback-page {
+    background-color: #f5f7fb;
+    min-height: 100vh;
+    padding-bottom: 40rpx;
+  }
+  
+  /* 通用区块样式 */
+  .section-header {
+    padding: 30rpx 30rpx 20rpx;
+    background-color: #ffffff;
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+  
+  .section-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333333;
+    position: relative;
+    padding-left: 20rpx;
+  }
+  
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6rpx;
+    height: 24rpx;
+    background-color: #2a6df5;
+    border-radius: 3rpx;
+  }
+  
+  /* 常见问题 */
+  .help-center {
+    background-color: #ffffff;
+    margin: 30rpx 30rpx 20rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .question-list {
+    padding: 0 30rpx;
+  }
+  
+  .question-item {
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+  
+  .question-item:last-child {
+    border-bottom: none;
+  }
+  
+  .question-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx 0;
+  }
+  
+  .question-text {
+    flex: 1;
+    font-size: 30rpx;
+    color: #333333;
+    margin-right: 20rpx;
+    font-weight: 500;
+  }
+  
+  .question-icon {
+    font-size: 36rpx;
+    color: #999999;
+    width: 40rpx;
+    text-align: center;
+    font-weight: 300;
+  }
+  
+  .answer-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+  }
+  
+  .answer-content.expanded {
+    max-height: 600rpx;
+  }
+  
+  .answer-text {
+    display: block;
+    font-size: 28rpx;
+    color: #666666;
+    line-height: 1.6;
+    padding-bottom: 30rpx;
+    white-space: pre-line;
+  }
+  
+  /* 帮助链接 - 居中显示（按钮样式改为蓝色） */
+  .help-links {
+    display: flex;
+    justify-content: center;
+    padding: 30rpx;
+    border-top: 1rpx solid #f0f0f0;
+  }
+  
+  .help-link {
+    display: inline-block;
+    padding: 20rpx 60rpx;
+    background-color: #2a6df5;
+    border-radius: 12rpx;
+    color: #ffffff;
+    font-size: 28rpx;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    text-align: center;
+  }
+  
+  .help-link:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  
+  .link-text {
+    font-size: 28rpx;
+    font-weight: 500;
+    color: inherit; /* 继承父级白色 */
+  }
+  
+  /* 意见反馈 */
+  .feedback-section {
+    background-color: #ffffff;
+    margin: 0 30rpx 30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .feedback-form {
+    padding: 30rpx;
+  }
+  
+  .form-group {
+    margin-bottom: 40rpx;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 30rpx;
+    color: #333333;
+    margin-bottom: 20rpx;
+    font-weight: 500;
+  }
+  
+  .type-buttons {
+    display: flex;
+    gap: 20rpx;
+    margin-bottom: 20rpx;
+  }
+  
+  .type-buttons:last-child {
+    margin-bottom: 0;
+  }
+  
+  .type-btn {
+    flex: 1;
+    padding: 20rpx;
+    text-align: center;
+    background-color: #f5f5f5;
+    border-radius: 12rpx;
+    font-size: 28rpx;
+    color: #666666;
+    transition: all 0.3s ease;
+    font-weight: 500;
+  }
+  
+  .type-btn.active {
+    background-color: #2a6df5;
+    color: #ffffff;
+  }
+  
+  .feedback-input {
+    width: 100%;
+    height: 200rpx;
+    background-color: #f9f9f9;
+    border-radius: 12rpx;
+    padding: 24rpx;
+    font-size: 28rpx;
+    color: #333333;
+    box-sizing: border-box;
+  }
+  
+  .word-count {
+    text-align: right;
+    font-size: 24rpx;
+    color: #999999;
+    margin-top: 10rpx;
+  }
+  
+  .contact-input {
+    width: 100%;
+    height: 80rpx;
+    background-color: #f9f9f9;
+    border-radius: 12rpx;
+    padding: 0 24rpx;
+    font-size: 28rpx;
+    color: #333333;
+    box-sizing: border-box;
+  }
+  
+  /* 图片上传 */
+  .image-upload {
+    margin-top: 10rpx;
+  }
+  
+  .image-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rpx;
+  }
+  
+  .image-item {
+    position: relative;
+    width: 180rpx;
+    height: 180rpx;
+    border-radius: 12rpx;
+    overflow: hidden;
+  }
+  
+  .uploaded-image {
+    width: 100%;
+    height: 100%;
+  }
+  
+  .delete-btn {
+    position: absolute;
+    top: 10rpx;
+    right: 10rpx;
+    width: 40rpx;
+    height: 40rpx;
+    background-color: rgba(0, 0, 0, 0.6);
+    color: #ffffff;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 28rpx;
+    font-weight: 300;
+  }
+  
+  .upload-btn {
+    width: 180rpx;
+    height: 180rpx;
+    background-color: #f9f9f9;
+    border: 2rpx dashed #cccccc;
+    border-radius: 12rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .upload-btn.disabled {
+    opacity: 0.5;
+  }
+  
+  .upload-icon {
+    font-size: 48rpx;
+    color: #999999;
+    margin-bottom: 10rpx;
+    font-weight: 300;
+  }
+  
+  .upload-text {
+    font-size: 24rpx;
+    color: #999999;
+  }
+  
+  /* 提交按钮 */
+  .submit-section {
+    margin-top: 40rpx;
+  }
+  
+  .submit-btn {
+    width: 100%;
+    height: 88rpx;
+    background: linear-gradient(135deg, #2a6df5 0%, #1a4cb5 100%);
+    border-radius: 44rpx;
+    color: #ffffff;
+    font-size: 32rpx;
+    font-weight: 600;
+    border: none;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+    padding: 0;
+  }
+  
+  .submit-btn:active:not([disabled]) {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+  
+  .submit-btn[disabled] {
+    background: #cccccc;
+    color: #ffffff;
+  }
+  
+  /* 联系我们 */
+  .contact-section {
+    background-color: #ffffff;
+    margin: 0 30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .contact-list {
+    padding: 0 30rpx;
+  }
+  
+  .contact-item {
+    display: flex;
+    align-items: center;
+    padding: 30rpx 0;
+    border-bottom: 1rpx solid #f0f0f0;
+    transition: background-color 0.3s ease;
+  }
+  
+  .contact-item:active {
+    background-color: #f9f9f9;
+  }
+  
+  .contact-item:last-child {
+    border-bottom: none;
+  }
+  
+  .contact-icon {
+    font-size: 36rpx;
+    margin-right: 20rpx;
+    width: 50rpx;
+    text-align: center;
+  }
+  
+  .contact-label {
+    flex: 1;
+    font-size: 30rpx;
+    color: #333333;
+    font-weight: 500;
+  }
+  
+  .contact-value {
+    font-size: 28rpx;
+    color: #666666;
+    margin-right: 20rpx;
+    text-align: right;
+    flex: 2;
+  }

@@ -1,0 +1,22 @@
+{
+    "usingComponents": {
+      "lubao-button": "/common/components/basic/button/button",
+      "lubao-modal": "/common/components/basic/modal/modal",
+      "lubao-loading": "/common/components/basic/loading/loading",
+      "lubao-empty": "/common/components/basic/empty/empty",
+
+      "lubao-input": "/common/components/form/input/input",
+      "lubao-picker": "/common/components/form/picker/picker",
+      "lubao-date-picker": "/common/components/form/date-picker/date-picker",
+      "lubao-upload": "/common/components/form/upload/upload",
+
+      "case-card": "/common/components/business/case-card/case-card",
+      "timeline": "/common/components/business/timeline/timeline",
+      "document-list": "/common/components/business/document-list/document-list"
+    },
+    "navigationBarTitleText": "组件测试",
+    "navigationBarBackgroundColor": "#1A5BFF",
+    "navigationBarTextStyle": "white",
+    "enablePullDownRefresh": false,
+    "backgroundTextStyle": "light"
+  }

@@ -27,6 +27,10 @@ from app.models.user import User
 # OAuth2 密码模式的 Bearer Token 认证方案
 # tokenUrl 指定获取 Token 的接口地址，用于 Swagger UI 的认证功能
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl=f"{settings.API_V1_STR}/auth/token")
+# 可选认证：未携带 Token 时不报错，用于反馈等接口
+oauth2_scheme_optional = OAuth2PasswordBearer(
+    tokenUrl=f"{settings.API_V1_STR}/auth/token", auto_error=False
+)
 
 
 def get_current_user(
@@ -88,3 +92,21 @@ def get_current_user(
         raise HTTPException(status_code=400, detail="用户已停用")
     
     return user
+
+
+def get_current_user_optional(
+    db: Session = Depends(get_db),
+    token: str | None = Depends(oauth2_scheme_optional),
+) -> User | None:
+    """可选当前用户：有有效 Token 则返回 User，否则返回 None。"""
+    if not token:
+        return None
+    try:
+        payload = jwt.decode(token, settings.SECRET_KEY, algorithms=[settings.ALGORITHM])
+        username = payload.get("sub")
+        if not username:
+            return None
+        user = db.query(User).filter(User.username == username).first()
+        return user if user and user.is_active else None
+    except JWTError:
+        return None

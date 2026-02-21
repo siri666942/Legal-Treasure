@@ -1,0 +1,89 @@
+/* subpackages/client/pages/setting/privacy.wxss */
+.privacy-page {
+    background-color: #f5f7fb;
+    min-height: 100vh;
+  }
+  
+  /* 设置列表 */
+  .settings-list {
+    background-color: #ffffff;
+    margin: 30rpx 30rpx 30rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-title {
+    font-size: 28rpx;
+    color: #999999;
+    padding: 30rpx 30rpx 20rpx;
+    background-color: #fafbfc;
+  }
+  
+  .setting-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+  
+  .setting-item:last-child {
+    border-bottom: none;
+  }
+  
+  .item-label {
+    font-size: 30rpx;
+    color: #333333;
+    flex: 1;
+    margin-right: 20rpx;
+  }
+  
+  .item-switch {
+    transform: scale(0.9);
+  }
+  
+  .item-value {
+    display: flex;
+    align-items: center;
+  }
+  
+  .value-text {
+    font-size: 28rpx;
+    color: #666666;
+    margin-right: 20rpx;
+  }
+  
+  .danger-text {
+    color: #ff4d4f !important;
+  }
+  
+  .item-arrow {
+    font-size: 36rpx;
+    color: #cccccc;
+  }
+  
+  /* 说明文本 */
+  .explanation-section {
+    background-color: #ffffff;
+    margin: 0 30rpx 50rpx;
+    padding: 30rpx;
+    border-radius: 20rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .explanation-title {
+    display: block;
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #333333;
+    margin-bottom: 20rpx;
+  }
+  
+  .explanation-text {
+    display: block;
+    font-size: 26rpx;
+    color: #666666;
+    line-height: 1.8;
+    white-space: pre-line;
+  }

@@ -1,0 +1,64 @@
+<!-- pages/test-final/test-final.wxml -->
+<view class="container">
+  <!-- 头部 -->
+  <view class="header">
+    <text class="title">🧪 工具函数完整测试</text>
+    <text class="subtitle">验证所有工具函数是否正常工作</text>
+  </view>
+
+  <!-- 进度统计 -->
+  <view class="stats">
+    <view class="stat-item">
+      <text class="stat-value">{{progress.completed}}/{{progress.total}}</text>
+      <text class="stat-label">完成</text>
+    </view>
+    <view class="stat-item success">
+      <text class="stat-value">{{progress.passed}}</text>
+      <text class="stat-label">通过</text>
+    </view>
+    <view class="stat-item warning">
+      <text class="stat-value">{{progress.failed}}</text>
+      <text class="stat-label">失败</text>
+    </view>
+  </view>
+
+  <!-- 控制按钮 -->
+  <view class="controls">
+    <button 
+      class="btn btn-primary {{running ? 'disabled' : ''}}" 
+      bindtap="runAllTests"
+      disabled="{{running}}"
+    >
+      {{running ? '测试中...' : '运行所有测试'}}
+    </button>
+    <button class="btn btn-secondary" bindtap="exportReport">导出报告</button>
+    <button class="btn btn-secondary" bindtap="clearLogs">清空日志</button>
+  </view>
+
+  <!-- 测试结果列表 -->
+  <scroll-view class="test-list" scroll-y="true">
+    <view wx:for="{{testResults}}" wx:key="index" class="test-item test-{{item.status}}">
+      <view class="test-info">
+        <text class="test-name">{{item.name}}</text>
+        <text class="test-status">{{item.status}}</text>
+      </view>
+      <view class="test-message" wx:if="{{item.message}}">
+        <text>{{item.message}}</text>
+      </view>
+    </view>
+  </scroll-view>
+
+  <!-- 日志区域 -->
+  <view class="log-container">
+    <view class="log-header">
+      <text class="log-title">📝 测试日志</text>
+      <text class="log-count">{{logs.length}} 条</text>
+    </view>
+    <scroll-view class="log-content" scroll-y="true">
+      <view wx:for="{{logs}}" wx:key="index" class="log-item log-{{item.type}}">
+        <text class="log-time">[{{item.time}}]</text>
+        <text class="log-message">{{item.message}}</text>
+      </view>
+    </scroll-view>
+  </view>
+</view>

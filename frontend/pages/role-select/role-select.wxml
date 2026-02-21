@@ -1,0 +1,37 @@
+<!-- pages/role-select/role-select.wxml -->
+<view class="role-select-page">
+  <!-- 顶部欢迎区域 - 移除时间显示 -->
+  <view class="welcome-section">
+    <view class="welcome-title">欢迎来到律宝</view>
+    <view class="welcome-subtitle">我是你的法律智能小助手，现在请选择你的身份</view>
+  </view>
+  
+  <!-- 角色选择卡片 -->
+  <view class="role-list">
+    <view class="role-card lawyer" bindtap="selectLawyer" hover-class="none" hover-stop-propagation="false">
+      <view class="card-content">
+        <view class="role-icon-wrapper">
+          <text class="role-icon">⚖️</text>
+        </view>
+        <view class="role-text-wrapper">
+          <text class="role-title">律师端</text>
+          <text class="role-desc">案件管理、日程安排、客户沟通</text>
+        </view>
+        <view class="arrow-icon">›</view>
+      </view>
+    </view>
+    
+    <view class="role-card client" bindtap="selectClient" hover-class="none" hover-stop-propagation="false">
+      <view class="card-content">
+        <view class="role-icon-wrapper">
+          <text class="role-icon">👤</text>
+        </view>
+        <view class="role-text-wrapper">
+          <text class="role-title">用户端</text>
+          <text class="role-desc">在线咨询、案例查询、法律服务</text>
+        </view>
+        <view class="arrow-icon">›</view>
+      </view>
+    </view>
+  </view>
+</view>

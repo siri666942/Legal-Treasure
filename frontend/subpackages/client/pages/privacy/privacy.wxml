@@ -1,0 +1,62 @@
+<!-- subpackages/client/pages/setting/privacy.wxml -->
+<view class="privacy-page">
+  <!-- 隐私设置列表 -->
+  <view class="settings-list">
+    <!-- 个人隐私 -->
+    <view class="section-title">个人隐私</view>
+    <view class="setting-item">
+      <text class="item-label">谁可以看到我的案件</text>
+      <switch class="item-switch" checked="{{privacySettings.caseVisibility}}" bindchange="onCaseVisibilityChange" />
+    </view>
+    <view class="setting-item">
+      <text class="item-label">允许搜索到我</text>
+      <switch class="item-switch" checked="{{privacySettings.searchable}}" bindchange="onSearchableChange" />
+    </view>
+    <view class="setting-item">
+      <text class="item-label">向他人显示我的联系方式</text>
+      <switch class="item-switch" checked="{{privacySettings.showContact}}" bindchange="onShowContactChange" />
+    </view>
+
+    <!-- 消息通知 -->
+    <view class="section-title">消息通知</view>
+    <view class="setting-item">
+      <text class="item-label">接收案件状态通知</text>
+      <switch class="item-switch" checked="{{privacySettings.caseNotifications}}" bindchange="onCaseNotificationsChange" />
+    </view>
+    <view class="setting-item">
+      <text class="item-label">接收律师消息通知</text>
+      <switch class="item-switch" checked="{{privacySettings.lawyerNotifications}}" bindchange="onLawyerNotificationsChange" />
+    </view>
+    <view class="setting-item">
+      <text class="item-label">接收系统公告</text>
+      <switch class="item-switch" checked="{{privacySettings.systemNotifications}}" bindchange="onSystemNotificationsChange" />
+    </view>
+
+    <!-- 数据安全 -->
+    <view class="section-title">数据安全</view>
+    <view class="setting-item" bindtap="goDataDownload">
+      <text class="item-label">个人数据下载</text>
+      <view class="item-value">
+        <text class="item-arrow">›</text>
+      </view>
+    </view>
+    <view class="setting-item" bindtap="goDataDelete">
+      <text class="item-label">账户注销</text>
+      <view class="item-value">
+        <text class="value-text danger-text">永久删除所有数据</text>
+        <text class="item-arrow">›</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 说明文本 -->
+  <view class="explanation-section">
+    <text class="explanation-title">隐私说明</text>
+    <text class="explanation-text">
+      1. 我们严格遵守《个人信息保护法》等相关法律法规\n
+      2. 您的个人信息仅用于法律咨询和案件处理\n
+      3. 您可以随时修改隐私设置或联系我们删除数据\n
+      4. 了解更多请查看《隐私政策》和《用户协议》
+    </text>
+  </view>
+</view>

@@ -1,0 +1,120 @@
+/* subpackages/client/pages/setting/account.wxss - 最终稳定版 */
+.account-page {
+    background-color: #f5f7fb;
+    min-height: 100vh;
+  }
+  
+  /* 账户卡片（保持不变） */
+  .info-card {
+    background-color: #ffffff;
+    padding: 40rpx 30rpx;
+    margin: 30rpx 30rpx 30rpx;
+    border-radius: 20rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  .user-info { display: flex; align-items: center; }
+  .avatar-section { position: relative; margin-right: 30rpx; }
+  .avatar, .avatar-placeholder {
+    width: 120rpx; height: 120rpx; border-radius: 50%;
+    border: 4rpx solid #e6f0ff; background-color: #2a6df5;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .avatar-placeholder text { font-size: 48rpx; color: white; font-weight: 600; }
+  .avatar { object-fit: cover; }
+  .avatar-edit {
+    position: absolute; bottom: -10rpx; left: 50%; transform: translateX(-50%);
+    background-color: #2a6df5; color: #fff; font-size: 20rpx;
+    padding: 6rpx 16rpx; border-radius: 20rpx; white-space: nowrap;
+  }
+  .user-detail { flex: 1; }
+  .user-name { display: block; font-size: 36rpx; font-weight: 600; color: #333; margin-bottom: 10rpx; }
+  .user-phone { display: block; font-size: 26rpx; color: #666; }
+  
+  /* 设置列表 */
+  .settings-list {
+    background-color: #fff; margin: 0 30rpx; border-radius: 20rpx;
+    overflow: hidden; box-shadow: 0 8rpx 30rpx rgba(0,0,0,0.05);
+  }
+  .section-title {
+    font-size: 28rpx; color: #999; padding: 30rpx 30rpx 20rpx;
+    background-color: #fafbfc;
+  }
+  
+  /* ===== 统一菜单项样式（所有view菜单项）===== */
+  .setting-item {
+    position: relative;        /* 给儿子绝对定位当参考 */
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+    background-color: #fff;
+    font-size: 30rpx;
+    color: #333;
+    line-height: 1.5;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .setting-item:active { background-color: #f9f9f9; }
+  .setting-item:last-child { border-bottom: none; }
+  
+  /* 左侧标签 */
+  .item-label {
+    font-size: 30rpx;
+    color: #333;
+    flex-shrink: 0;
+    margin-right: 20rpx;
+  }
+  
+  /* 右侧值容器（重点：靠右） */
+  .item-value {
+    display: flex;
+    align-items: center;
+    flex: 1;                 /* 占满剩余空间 */
+    justify-content: flex-end; /* 内容右对齐 */
+    min-width: 0;            /* 允许压缩 */
+  }
+  
+  /* 右侧文本 */
+  .value-text {
+    font-size: 28rpx;
+    color: #666;
+    margin-right: 20rpx;
+    white-space: nowrap;     /* 强制不换行 */
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  /* 右侧箭头 */
+  .item-arrow {
+    font-size: 36rpx;
+    color: #ccc;
+    flex-shrink: 0;
+  }
+  
+  /* ===== 出生日期专用：儿子picker绝对定位，透明但可点击 ===== */
+  .birthday-item {
+    position: relative;       /* 爸爸是relative */
+  }
+  
+  .birthday-picker-cover {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.001;          /* 几乎透明，但可点击（0.01也可以，0.001更稳） */
+    pointer-events: auto;    /* 允许点击穿透（其实不需要，因为它在最上层） */
+    background-color: transparent;
+    border: none;
+    outline: none;
+    z-index: 10;            /* 确保覆盖在爸爸上面 */
+  }
+  
+  /* 退出登录 */
+  .logout-section { margin: 50rpx 30rpx 100rpx; }
+  .logout-btn {
+    background-color: #fff; color: #ff4d4f; font-size: 32rpx; font-weight: 500;
+    text-align: center; padding: 30rpx; border-radius: 20rpx;
+  }
+  .logout-btn:active { background-color: #fff2f0; }

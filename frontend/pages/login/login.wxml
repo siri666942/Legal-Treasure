@@ -1,0 +1,58 @@
+<view class="login-container">
+  <!-- Logo区域（高度压缩） -->
+  <view class="logo-section">
+    <view class="logo-circle">
+      <text class="logo-icon">⚖️</text>
+    </view>
+    <text class="app-name">律宝</text>
+    <text class="app-subtitle">专业法律服务平台</text>
+  </view>
+
+  <!-- 表单卡片（内边距缩减） -->
+  <view class="form-section">
+    <!-- 用户名 -->
+    <view class="form-group">
+      <text class="input-label">用户名</text>
+      <view class="input-wrapper">
+        <image class="input-icon" src="/common/assets/icons/user.png" mode="aspectFit"></image>
+        <input class="native-input" placeholder="请输入用户名" placeholder-class="placeholder"
+               value="{{username}}" bindinput="onUsernameInput" />
+        <view wx:if="{{username}}" class="clear-btn" bindtap="setData" data-field="username" data-value="">
+          <text class="clear-icon">✕</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 密码 -->
+    <view class="form-group">
+      <text class="input-label">密码</text>
+      <view class="input-wrapper">
+        <image class="input-icon" src="/common/assets/icons/lock.png" mode="aspectFit"></image>
+        <input class="native-input" type="password" placeholder="请输入密码" placeholder-class="placeholder"
+               value="{{password}}" bindinput="onPasswordInput" />
+        <view wx:if="{{password}}" class="clear-btn" bindtap="setData" data-field="password" data-value="">
+          <text class="clear-icon">✕</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 登录按钮（高度降低） -->
+    <button class="primary-btn" loading="{{loading}}"
+            disabled="{{!username || !password || loading}}"
+            bindtap="onLoginTap">
+      {{loading ? '登录中...' : '立即登录'}}
+    </button>
+
+    <!-- 快速体验按钮（高度降低） -->
+    <button class="default-btn" bindtap="onQuickExperience">
+      快速体验
+    </button>
+
+    <!-- 底部链接（间距压缩） -->
+    <view class="link-section">
+      <text class="link-text" bindtap="onRegisterTap">注册账号</text>
+      <text class="divider">|</text>
+      <text class="link-text" bindtap="onForgetPasswordTap">忘记密码</text>
+    </view>
+  </view>
+</view>

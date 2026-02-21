@@ -25,12 +25,24 @@ __all__ 列表定义了使用 from app.models import * 时会导出的名称。
 这是 Python 模块的最佳实践，用于控制公开 API。
 """
 
+from app.models.case import Case
 from app.models.contract import Contract
+from app.models.feedback import Feedback
 from app.models.law_article import LawArticle
+from app.models.lawyer_profile import LawyerProfile
 from app.models.model_call_log import ModelCallLog
 from app.models.uploaded_file import UploadedFile
 from app.models.user import User
 
 # __all__ 定义了 "from app.models import *" 时导出的名称列表
 # 这类似于 Java 中 public 和 package-private 的访问控制概念
-__all__ = ["User", "UploadedFile", "Contract", "LawArticle", "ModelCallLog"]
+__all__ = [
+    "User",
+    "UploadedFile",
+    "Contract",
+    "LawArticle",
+    "ModelCallLog",
+    "Case",
+    "LawyerProfile",
+    "Feedback",
+]

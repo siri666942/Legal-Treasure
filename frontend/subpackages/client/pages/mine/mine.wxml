@@ -1,0 +1,40 @@
+<!-- pages/mine/mine.wxml -->
+<!-- 用户端个人中心页面 -->
+<view class="mine-page">
+  <!-- 用户信息卡片 -->
+  <view class="user-card">
+    <view class="user-avatar" bindtap="viewAvatar">
+      <image class="avatar-img" src="{{userInfo.avatar}}" mode="aspectFill"></image>
+    </view>
+    <text class="user-name">{{userInfo.name}}</text>
+    <view class="user-id">ID: {{userInfo.id || '未设置'}}</view>
+  </view>
+  
+  <!-- 功能菜单 -->
+  <view class="menu-list">
+    <block wx:for="{{menuList}}" wx:key="id">
+      <view class="menu-item" bindtap="onMenuItemTap" data-id="{{item.id}}">
+        <view class="menu-icon {{item.icon}}"></view>
+        <text class="menu-name">{{item.name}}</text>
+        <view class="menu-arrow">›</view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 退出登录 -->
+  <view class="logout-btn" bindtap="logout">退出登录</view>
+  
+  <!-- 底部导航 -->
+  <view class="custom-tabbar">
+    <block wx:for="{{tabList}}" wx:key="id">
+      <view 
+        class="tab-item {{item.active ? 'active' : ''}}" 
+        bindtap="switchTab" 
+        data-id="{{item.id}}"
+      >
+        <view class="tab-icon {{item.icon}}"></view>
+        <text class="tab-text">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+</view>

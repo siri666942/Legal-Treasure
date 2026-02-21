@@ -1,0 +1,316 @@
+<!-- pages/test-components/index.wxml -->
+<view class="test-container">
+  <!-- 组件分类标签 -->
+  <view class="category-tabs">
+    <scroll-view class="tab-scroll" scroll-x>
+      <view class="tab-list">
+        <block wx:for="{{categories}}" wx:key="id">
+          <view 
+            class="tab-item {{currentCategory === item.id ? 'active' : ''}}"
+            data-category="{{item.id}}"
+            bindtap="switchCategory"
+          >
+            <text class="tab-icon icon-{{item.icon}}"></text>
+            <text class="tab-text">{{item.name}}</text>
+          </view>
+        </block>
+      </view>
+    </scroll-view>
+  </view>
+  
+  <!-- 组件展示区域 -->
+  <scroll-view class="component-area" scroll-y>
+    <!-- 基础组件 -->
+    <view wx:if="{{currentCategory === 'basic'}}" class="component-section">
+      <!-- 按钮示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">按钮 (lubao-button)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="button" bindtap="runComponentTest">运行测试</button>
+            <button class="action-btn" data-id="button" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">多种样式和状态的按钮组件</text>
+          <view class="demo-area">
+            <view class="button-demo">
+              <text class="demo-title">按钮类型：</text>
+              <view class="button-group">
+                <block wx:for="{{testData.buttonTypes}}" wx:key="*this">
+                  <lubao-button 
+                    type="{{item}}"
+                    size="medium"
+                    data-type="{{item}}"
+                    bindtap="onButtonTap"
+                  >
+                    {{item}}按钮
+                  </lubao-button>
+                </block>
+              </view>
+              
+              <text class="demo-title">按钮大小：</text>
+              <view class="button-group">
+                <block wx:for="{{testData.buttonSizes}}" wx:key="*this">
+                  <lubao-button 
+                    type="primary"
+                    size="{{item}}"
+                    data-size="{{item}}"
+                    bindtap="onButtonTap"
+                  >
+                    {{item}}按钮
+                  </lubao-button>
+                </block>
+              </view>
+              
+              <text class="demo-title">特殊状态：</text>
+              <view class="button-group">
+                <lubao-button 
+                  type="primary"
+                  loading="{{testData.buttonLoading}}"
+                  bindtap="onButtonTap"
+                >
+                  加载按钮
+                </lubao-button>
+                
+                <lubao-button 
+                  type="success"
+                  disabled="{{true}}"
+                >
+                  禁用按钮
+                </lubao-button>
+              </view>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 模态框示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">模态框 (lubao-modal)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="modal" bindtap="showModal">打开模态框</button>
+            <button class="action-btn" data-id="modal" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">对话框和提示框组件</text>
+          <view class="demo-area">
+            <lubao-button type="primary" bindtap="showModal">点击打开模态框</lubao-button>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 加载示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">加载 (lubao-loading)</text>
+          <view class="card-actions">
+            <button class="action-btn" bindtap="testLoading">测试加载</button>
+            <button class="action-btn" data-id="loading" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">加载状态指示器</text>
+          <view class="demo-area">
+            <lubao-loading text="加载中..."></lubao-loading>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 空状态示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">空状态 (lubao-empty)</text>
+          <view class="card-actions">
+            <button class="action-btn" bindtap="testEmpty">测试空状态</button>
+            <button class="action-btn" data-id="empty" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">数据为空时的展示组件</text>
+          <view class="demo-area">
+            <lubao-empty text="暂无数据" show-button="{{true}}" button-text="重新加载"></lubao-empty>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 表单组件 -->
+    <view wx:if="{{currentCategory === 'form'}}" class="component-section">
+      <!-- 输入框示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">输入框 (lubao-input)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="input" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">文本输入组件，支持验证和错误提示</text>
+          <view class="demo-area">
+            <lubao-input
+              placeholder="请输入内容（至少3个字符）"
+              value="{{testData.inputValue}}"
+              error="{{testData.inputError}}"
+              error-message="至少需要3个字符"
+              bindchange="onInputChange"
+            ></lubao-input>
+            <view class="input-tip">当前输入：{{testData.inputValue || '空'}}</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 选择器示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">选择器 (lubao-picker)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="picker" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">下拉选择组件</text>
+          <view class="demo-area">
+            <lubao-picker
+              options="{{testData.pickerOptions}}"
+              value="{{testData.pickerValue}}"
+              placeholder="请选择"
+              bindchange="onPickerChange"
+            ></lubao-picker>
+            <view class="picker-tip">当前选择：{{testData.pickerValue}}</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 日期选择器示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">日期选择器 (lubao-date-picker)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="date-picker" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">日期时间选择组件</text>
+          <view class="demo-area">
+            <lubao-date-picker
+              value="{{testData.dateValue}}"
+              start-date="{{testData.dateRange[0]}}"
+              end-date="{{testData.dateRange[1]}}"
+              placeholder="请选择日期"
+              bindchange="onDateChange"
+            ></lubao-date-picker>
+            <view class="date-tip">当前选择：{{testData.dateValue}}</view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 上传组件示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">上传 (lubao-upload)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="upload" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">文件上传组件，支持图片、文档等</text>
+          <view class="demo-area">
+            <lubao-upload
+              files="{{testData.uploadFiles}}"
+              max-count="{{testData.uploadMaxCount}}"
+              max-size="{{testData.uploadMaxSize}}"
+              accept="image/*,.pdf,.doc,.docx"
+              bindchange="onUploadChange"
+              binddelete="onUploadDelete"
+            ></lubao-upload>
+            <view class="upload-tip">已选择 {{testData.uploadFiles.length}} 个文件（最多 {{testData.uploadMaxCount}} 个）</view>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 业务组件 -->
+    <view wx:if="{{currentCategory === 'business'}}" class="component-section">
+      <!-- 案件卡片示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">案件卡片 (case-card)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="case-card" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">案件信息展示卡片组件</text>
+          <view class="demo-area">
+            <block wx:for="{{testData.caseList}}" wx:key="id">
+              <case-card
+                case-data="{{item}}"
+                bindtap="onCaseCardTap"
+              ></case-card>
+            </block>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 时间轴示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">时间轴 (timeline)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="timeline" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">时间线展示组件</text>
+          <view class="demo-area">
+            <timeline
+              items="{{testData.timelineItems}}"
+              binditemtap="onTimelineItemTap"
+            ></timeline>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 文档列表示例 -->
+      <view class="component-card">
+        <view class="card-header">
+          <text class="component-name">文档列表 (document-list)</text>
+          <view class="card-actions">
+            <button class="action-btn" data-id="document-list" bindtap="copyComponentCode">复制代码</button>
+          </view>
+        </view>
+        <view class="card-content">
+          <text class="component-desc">文件列表展示组件</text>
+          <view class="demo-area">
+            <document-list
+              documents="{{testData.documentList}}"
+              binditemtap="onDocumentItemTap"
+              binddelete="onDocumentDelete"
+            ></document-list>
+          </view>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 操作按钮 -->
+    <view class="action-buttons">
+      <lubao-button type="primary" size="large" bindtap="resetTestData">重置测试数据</lubao-button>
+      <lubao-button type="default" size="large" bindtap="testAllComponents">运行全部测试</lubao-button>
+    </view>
+  </scroll-view>
+  
+  <!-- 模态框 -->
+  <lubao-modal
+    show="{{testData.modalVisible}}"
+    title="{{testData.modalTitle}}"
+    content="{{testData.modalContent}}"
+    show-cancel="{{true}}"
+    confirm-text="确认"
+    cancel-text="取消"
+    bindconfirm="onModalConfirm"
+    bindcancel="onModalCancel"
+  ></lubao-modal>
+</view>

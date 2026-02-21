@@ -1,0 +1,138 @@
+<!-- pages/schedule/edit/edit.wxml -->
+<view class="container">
+  <!-- 日历区域 -->
+  <view class="calendar-section">
+    <!-- 年份月份选择 -->
+    <view class="month-header">
+      <view class="year-month">
+        <picker 
+          mode="date" 
+          fields="year" 
+          value="{{currentYear}}" 
+          bindchange="changeYear"
+        >
+          <text class="year">{{currentYear}}年</text>
+        </picker>
+        <picker 
+          mode="date" 
+          fields="month" 
+          value="{{currentMonth}}" 
+          bindchange="changeMonth"
+        >
+          <text class="month">{{currentMonth}}月</text>
+        </picker>
+      </view>
+      <view class="month-switch">
+        <text class="switch-btn" bindtap="prevMonth">‹</text>
+        <text class="switch-btn" bindtap="nextMonth">›</text>
+      </view>
+    </view>
+
+    <!-- 星期标题 -->
+    <view class="week-header">
+      <text class="week-day">一</text>
+      <text class="week-day">二</text>
+      <text class="week-day">三</text>
+      <text class="week-day">四</text>
+      <text class="week-day">五</text>
+      <text class="week-day">六</text>
+      <text class="week-day">日</text>
+    </view>
+
+    <!-- 日期格子 -->
+    <view class="calendar-grid">
+      <view 
+        class="date-cell {{item.isToday ? 'today' : ''}} {{item.isCurrentMonth ? 'current-month' : 'other-month'}} {{item.date === selectedDate ? 'selected' : ''}}" 
+        wx:for="{{calendarDays}}" 
+        wx:key="index"
+        bindtap="selectDate"
+        data-date="{{item.date}}"
+      >
+        <text class="date-number">{{item.day}}</text>
+        <!-- 有任务的日期标记 -->
+        <view class="task-indicator" wx:if="{{item.hasTask}}"></view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 任务列表区域 -->
+  <view class="task-section">
+    <view class="section-header">
+      <text class="section-title">{{selectedDateFormatted}}</text>
+      <view class="add-task-btn" bindtap="showAddTaskModal">
+        <text>+ 添加任务</text>
+      </view>
+    </view>
+
+    <view class="task-list">
+      <view class="task-item" wx:for="{{tasksForSelectedDate}}" wx:key="index">
+        <view class="task-content">
+          <view class="task-time">{{item.time}}</view>
+          <view class="task-title">{{item.title}}</view>
+          <view class="task-description" wx:if="{{item.description}}">{{item.description}}</view>
+        </view>
+        <view class="task-actions">
+          <text class="action-icon" bindtap="editTask" data-index="{{index}}">✏️</text>
+          <text class="action-icon" bindtap="deleteTask" data-index="{{index}}">🗑️</text>
+        </view>
+      </view>
+
+      <view class="empty-tasks" wx:if="{{tasksForSelectedDate.length === 0}}">
+        <text>暂无任务，点击上方按钮添加</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 添加/编辑任务模态框 -->
+  <view class="modal-overlay" wx:if="{{showTaskModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">{{isEditing ? '编辑任务' : '添加任务'}}</text>
+        <text class="close-btn" bindtap="hideTaskModal">×</text>
+      </view>
+
+      <view class="form-content">
+        <view class="form-item">
+          <text class="form-label">任务标题</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入任务标题" 
+            value="{{taskForm.title}}"
+            bindinput="onTaskTitleInput"
+            placeholder-style="color: #a0aec0;"
+          />
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">时间</text>
+          <picker 
+            mode="time" 
+            value="{{taskForm.time}}"
+            bindchange="onTimeChange"
+          >
+            <view class="form-input time-picker">
+              {{taskForm.time || '请选择时间'}}
+            </view>
+          </picker>
+        </view>
+
+        <view class="form-item">
+          <text class="form-label">描述 (可选)</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请输入任务描述" 
+            value="{{taskForm.description}}"
+            bindinput="onTaskDescriptionInput"
+            maxlength="200"
+            placeholder-style="color: #a0aec0;"
+          />
+        </view>
+      </view>
+
+      <view class="modal-actions">
+        <view class="btn cancel-btn" bindtap="hideTaskModal">取消</view>
+        <view class="btn confirm-btn" bindtap="saveTask">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

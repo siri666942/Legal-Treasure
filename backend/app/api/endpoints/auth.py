@@ -21,9 +21,10 @@ from fastapi import APIRouter, Depends, HTTPException
 from fastapi.security import OAuth2PasswordRequestForm
 from sqlalchemy.orm import Session
 
+from app.api.deps import get_current_user
 from app.db.session import get_db
 from app.models.user import User
-from app.schemas.auth import LoginIn, RegisterIn, TokenOut, UserOut
+from app.schemas.auth import LoginIn, LoginOut, RegisterIn, TokenOut, UserOut
 from app.services.security import create_access_token, hash_password, verify_password
 
 # 创建认证模块的路由器
@@ -74,11 +75,12 @@ def register(payload: RegisterIn, db: Session = Depends(get_db)) -> User:
         if existing:
             raise HTTPException(status_code=400, detail="用户名或邮箱已存在")
 
-    # 创建用户对象，密码经过 bcrypt 加密
+    # 创建用户对象，密码经过 bcrypt 加密；可选角色 lawyer/client
     user = User(
         username=payload.username,
         email=payload.email,
         hashed_password=hash_password(payload.password),  # 密码加密存储
+        role=payload.role if payload.role in ("lawyer", "client") else None,
     )
     
     # 保存到数据库
@@ -88,41 +90,10 @@ def register(payload: RegisterIn, db: Session = Depends(get_db)) -> User:
     return user
 
 
-@router.post("/login", response_model=TokenOut)
-def login(payload: LoginIn, db: Session = Depends(get_db)) -> TokenOut:
+@router.post("/login", response_model=LoginOut)
+def login(payload: LoginIn, db: Session = Depends(get_db)) -> LoginOut:
     """
-    用户登录接口（JSON 格式）
-    
-    【功能说明】
-    验证用户名和密码，验证成功后生成并返回 JWT Token。
-    这是面向前端应用的标准登录接口，使用 JSON 请求体。
-    
-    【请求参数】
-    - payload: LoginIn (请求体)
-        - username: str - 用户名
-        - password: str - 密码
-    - db: Session - 数据库会话（依赖注入）
-    
-    【返回值】
-    TokenOut: 访问令牌信息
-        - access_token: str - JWT Token
-        - token_type: str - Token 类型（固定为 "bearer"）
-    
-    【异常情况】
-    - HTTP 400: 用户名或密码错误
-    
-    【使用示例】
-    POST /api/v1/auth/login
-    {
-        "username": "testuser",
-        "password": "123456"
-    }
-    
-    返回:
-    {
-        "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-        "token_type": "bearer"
-    }
+    用户登录接口（JSON 格式），返回 token + 用户信息，供前端一次拿到 token 与 userInfo。
     """
     # 根据用户名查询用户
     user = db.query(User).filter(User.username == payload.username).first()
@@ -133,7 +104,16 @@ def login(payload: LoginIn, db: Session = Depends(get_db)) -> TokenOut:
     
     # 生成 JWT Token，subject 为用户名
     token = create_access_token(subject=user.username)
-    return TokenOut(access_token=token)
+    return LoginOut(access_token=token, user=UserOut.model_validate(user))
+
+
+@router.get("/me", response_model=UserOut)
+def me(current_user: User = Depends(get_current_user)) -> User:
+    """
+    获取当前登录用户信息（需携带 Token）。
+    供前端刷新用户信息或登录后补拉 userInfo。
+    """
+    return current_user
 
 
 @router.post("/token", response_model=TokenOut)

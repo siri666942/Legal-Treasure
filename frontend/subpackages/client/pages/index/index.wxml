@@ -1,0 +1,164 @@
+<!-- pages/index/index.wxml -->
+<view class="index-page">
+  <!-- AI法律顾问卡片 -->
+  <view class="ai-section">
+    <view class="ai-card">
+      <!-- AI助手头部 -->
+      <view class="ai-header" bindtap="navigateToAIChat">
+        <view class="ai-avatar-container">
+          <view class="ai-avatar">
+            <text>🤖</text>
+          </view>
+          <view class="ai-avatar-badge">AI</view>
+        </view>
+        <view class="ai-info">
+          <text class="ai-title">AI法律助手</text>
+          <text class="ai-desc">智能解答法律问题</text>
+        </view>
+        <view class="ai-arrow">›</view>
+      </view>
+      
+      <!-- 四个功能按钮 -->
+      <view class="ai-features">
+        <view class="feature-item" bindtap="navigateToFindLawyer">
+          <view class="feature-icon">
+            <text>👨‍⚖️</text>
+          </view>
+          <text class="feature-text">寻找律师</text>
+        </view>
+        <view class="feature-item" bindtap="navigateToCaseSearch">
+          <view class="feature-icon">
+            <text>🔍</text>
+          </view>
+          <text class="feature-text">案例检索</text>
+        </view>
+        <view class="feature-item" bindtap="navigateToFeeCalculate">
+          <view class="feature-icon">
+            <text>💰</text>
+          </view>
+          <text class="feature-text">诉讼费用</text>
+        </view>
+        <view class="feature-item" bindtap="navigateToOnlineConsult">
+          <view class="feature-icon">
+            <text>💬</text>
+          </view>
+          <text class="feature-text">在线咨询</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 我的案件进度 -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">我的案件进度</text>
+      <text class="section-more" bindtap="navigateToAllCases">查看全部</text>
+    </view>
+    
+    <view class="case-card" wx:if="{{activeCase}}" bindtap="navigateToCaseDetail">
+      <view class="case-header">
+        <view class="case-title-row">
+          <text class="case-name">{{activeCase.name}}</text>
+          <text class="case-status">{{activeCase.status}}</text>
+        </view>
+        <view class="case-date">{{activeCase.date}}</view>
+      </view>
+      
+      <view class="progress-container">
+        <view class="progress-info">
+          <text class="progress-label">案件进度</text>
+          <text class="progress-value">{{activeCase.progress}}%</text>
+        </view>
+        <view class="progress-bar">
+          <view class="progress-fill" style="width: {{activeCase.progress+'%'}}"></view>
+        </view>
+      </view>
+      
+      <view class="case-footer">
+        <text class="case-type">{{activeCase.type}}</text>
+        <view class="case-arrow">›</view>
+      </view>
+    </view>
+    
+    <view class="empty-case" wx:else bindtap="navigateToCreateCase">
+      <view class="empty-icon">📁</view>
+      <text class="empty-text">暂无进行中的案件</text>
+      <text class="empty-action">创建新案件</text>
+    </view>
+  </view>
+
+  <!-- 任务代办（带完成复选框） -->
+  <view class="section">
+    <view class="section-header">
+      <text class="section-title">任务代办</text>
+      <text class="section-more" bindtap="navigateToAllTasks">查看全部</text>
+    </view>
+    
+    <view class="todo-list">
+      <block wx:for="{{todoList}}" wx:key="id">
+        <view class="todo-item {{item.completed ? 'completed' : ''}}">
+          <!-- 左侧完成复选框 -->
+          <view class="todo-checkbox" bindtap="toggleTaskComplete" data-id="{{item.id}}" catchtap>
+            <view class="checkbox {{item.completed ? 'checked' : ''}}">
+              <text wx:if="{{item.completed}}">✓</text>
+            </view>
+          </view>
+          <!-- 任务内容（点击进入详情） -->
+          <view class="todo-middle" bindtap="navigateToTaskDetail" data-id="{{item.id}}">
+            <text class="todo-title">{{item.task}}</text>
+            <view class="todo-detail">
+              <text class="todo-detail-item">{{item.case}}</text>
+              <text class="todo-detail-item">{{item.initiator}}</text>
+            </view>
+          </view>
+          <!-- 右侧时间 + 紧急标识 -->
+          <view class="todo-right">
+            <text class="todo-time">{{item.time}}</text>
+            <view class="todo-urgent" wx:if="{{item.urgent}}">急</view>
+          </view>
+        </view>
+      </block>
+    </view>
+    
+    <view class="empty-todo" wx:if="{{todoList.length === 0}}">
+      <view class="empty-icon">✅</view>
+      <text class="empty-text">暂无待办任务</text>
+    </view>
+  </view>
+
+  <!-- 底部导航栏 -->
+  <view class="custom-tabbar">
+    <view 
+      class="tab-item {{currentTab === 0 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-id="0"
+    >
+      <view class="tab-icon icon-home"></view>
+      <text class="tab-text">主页</text>
+    </view>
+    <view 
+      class="tab-item {{currentTab === 1 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-id="1"
+    >
+      <view class="tab-icon icon-case"></view>
+      <text class="tab-text">案件</text>
+    </view>
+    <view 
+      class="tab-item {{currentTab === 2 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-id="2"
+    >
+      <view class="tab-icon icon-chat"></view>
+      <text class="tab-text">沟通</text>
+    </view>
+    <view 
+      class="tab-item {{currentTab === 3 ? 'active' : ''}}" 
+      bindtap="switchTab" 
+      data-id="3"
+    >
+      <view class="tab-icon icon-mine"></view>
+      <text class="tab-text">我的</text>
+    </view>
+  </view>
+</view>

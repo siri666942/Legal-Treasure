@@ -1,0 +1,168 @@
+<!-- subpackages/lawyer/pages/help/feedback.wxml -->
+<view class="feedback-page">
+  <!-- 帮助中心 -->
+  <view class="help-center">
+    <view class="section-header">
+      <text class="section-title">常见问题</text>
+    </view>
+    
+    <view class="question-list">
+      <view class="question-item" wx:for="{{faqList}}" wx:key="id" bindtap="toggleQuestion" data-id="{{item.id}}">
+        <view class="question-header">
+          <text class="question-text">{{item.question}}</text>
+          <text class="question-icon">{{item.expanded ? '−' : '+'}}</text>
+        </view>
+        <view class="answer-content {{item.expanded ? 'expanded' : ''}}">
+          <text class="answer-text">{{item.answer}}</text>
+        </view>
+      </view>
+    </view>
+    
+    <!-- 获得更多帮助按钮（蓝色，与反馈类型激活状态一致） -->
+    <view class="help-links">
+      <view class="type-btn active" bindtap="goToCommunication">
+        <text>获得更多帮助</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 意见反馈（保持不变） -->
+  <view class="feedback-section">
+    <view class="section-header">
+      <text class="section-title">意见反馈</text>
+    </view>
+    
+    <view class="feedback-form">
+      <!-- 反馈类型 -->
+      <view class="form-group">
+        <text class="form-label">反馈类型</text>
+        <view class="type-buttons">
+          <view 
+            class="type-btn {{feedback.type === 1 ? 'active' : ''}}" 
+            bindtap="setFeedbackType" 
+            data-type="1"
+          >
+            功能建议
+          </view>
+          <view 
+            class="type-btn {{feedback.type === 2 ? 'active' : ''}}" 
+            bindtap="setFeedbackType" 
+            data-type="2"
+          >
+            使用问题
+          </view>
+          <view 
+            class="type-btn {{feedback.type === 3 ? 'active' : ''}}" 
+            bindtap="setFeedbackType" 
+            data-type="3"
+          >
+            投诉举报
+          </view>
+        </view>
+        <view class="type-buttons">
+          <view 
+            class="type-btn {{feedback.type === 4 ? 'active' : ''}}" 
+            bindtap="setFeedbackType" 
+            data-type="4"
+          >
+            合作咨询
+          </view>
+          <view 
+            class="type-btn {{feedback.type === 5 ? 'active' : ''}}" 
+            bindtap="setFeedbackType" 
+            data-type="5"
+          >
+            认证问题
+          </view>
+        </view>
+      </view>
+      
+      <!-- 反馈内容 -->
+      <view class="form-group">
+        <text class="form-label">反馈内容</text>
+        <textarea 
+          class="feedback-input" 
+          placeholder="请详细描述您的问题或建议（10-500字）"
+          maxlength="500"
+          bindinput="onContentInput"
+          value="{{feedback.content}}"
+        />
+        <view class="word-count">{{contentLength}}/500</view>
+      </view>
+      
+      <!-- 联系方式 -->
+      <view class="form-group">
+        <text class="form-label">联系方式</text>
+        <input 
+          class="contact-input" 
+          type="text" 
+          placeholder="手机号/邮箱（选填）"
+          bindinput="onContactInput"
+          value="{{feedback.contact}}"
+        />
+      </view>
+      
+      <!-- 图片上传 -->
+      <view class="form-group">
+        <text class="form-label">相关截图（选填）</text>
+        <view class="image-upload">
+          <view class="image-list">
+            <view class="image-item" wx:for="{{feedback.images}}" wx:key="index">
+              <image class="uploaded-image" src="{{item}}" mode="aspectFill"></image>
+              <view class="delete-btn" bindtap="deleteImage" data-index="{{index}}">×</view>
+            </view>
+            <view 
+              class="upload-btn {{feedback.images.length >= 3 ? 'disabled' : ''}}" 
+              bindtap="chooseImage"
+              wx:if="{{feedback.images.length < 3}}"
+            >
+              <text class="upload-icon">+</text>
+              <text class="upload-text">添加图片</text>
+            </view>
+          </view>
+        </view>
+      </view>
+      
+      <!-- 提交按钮 -->
+      <view class="submit-section">
+        <button 
+          class="submit-btn" 
+          bindtap="submitFeedback"
+          disabled="{{!canSubmit || isSubmitting}}"
+        >
+          {{isSubmitting ? '提交中...' : '提交反馈'}}
+        </button>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系我们（保持不变） -->
+  <view class="contact-section">
+    <view class="section-header">
+      <text class="section-title">联系我们</text>
+    </view>
+    
+    <view class="contact-list">
+      <view class="contact-item" bindtap="callCustomerService">
+        <text class="contact-icon">📞</text>
+        <text class="contact-label">客服热线</text>
+        <text class="contact-value">{{lawyerContact.phone}}</text>
+      </view>
+      <view class="contact-item" bindtap="copyWechat">
+        <text class="contact-icon">💬</text>
+        <text class="contact-label">官方微信</text>
+        <text class="contact-value">{{lawyerContact.wechat}}</text>
+      </view>
+      <view class="contact-item" bindtap="copyEmail">
+        <text class="contact-icon">📧</text>
+        <text class="contact-label">官方邮箱</text>
+        <text class="contact-value">{{lawyerContact.email}}</text>
+      </view>
+      <view class="contact-item" bindtap="viewWorkingHours">
+        <text class="contact-icon">⏰</text>
+        <text class="contact-label">服务时间</text>
+        <text class="contact-value">{{lawyerContact.time}}</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,500 @@
+/* subpackages/lawyer/pages/index/index.wxss - 已完成任务置底，无多余提示 */
+.lawyer-page {
+    min-height: 100vh;
+    background: #f5faff;
+    padding-bottom: 120rpx;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  }
+  
+  /* ===== 统计数据卡片 ===== */
+  .stats-section {
+    padding: 28rpx 32rpx 16rpx;
+    display: flex;
+    gap: 20rpx;
+  }
+  .stat-card {
+    flex: 1;
+    background: white;
+    border-radius: 24rpx;
+    padding: 24rpx 28rpx;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-shadow: 0 6rpx 16rpx rgba(49,130,206,0.06);
+    border: 1rpx solid rgba(49,130,206,0.08);
+  }
+  .stat-card.todo .stat-number { color: #3182ce; }
+  .stat-card.case .stat-number { color: #38a169; }
+  .stat-number {
+    font-size: 48rpx;
+    font-weight: 700;
+    color: #1e293b;
+    line-height: 1.1;
+    margin-bottom: 6rpx;
+  }
+  .stat-label {
+    font-size: 26rpx;
+    color: #64748b;
+    font-weight: 500;
+  }
+  .stat-icon {
+    font-size: 52rpx;
+    opacity: 0.2;
+  }
+  
+  /* ===== 通用区块 ===== */
+  .case-section,
+  .task-section {
+    background: white;
+    margin: 16rpx 32rpx 24rpx;
+    border-radius: 28rpx;
+    padding: 28rpx 28rpx;
+    box-shadow: 0 6rpx 20rpx rgba(49,130,206,0.04);
+    border: 1rpx solid rgba(49,130,206,0.06);
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24rpx;
+  }
+  
+  .title-wrapper {
+    display: flex;
+    align-items: baseline;
+    gap: 12rpx;
+  }
+  
+  .section-title {
+    font-size: 34rpx;
+    font-weight: 700;
+    color: #0a3b5c;
+    position: relative;
+    padding-left: 16rpx;
+  }
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6rpx;
+    height: 30rpx;
+    background: linear-gradient(180deg, #3182ce, #63b3ed);
+    border-radius: 3rpx;
+  }
+  
+  .case-count,
+  .task-count {
+    font-size: 26rpx;
+    color: #64748b;
+    background: #f1f8ff;
+    padding: 4rpx 16rpx;
+    border-radius: 30rpx;
+  }
+  
+  /* 查看全部链接 */
+  .view-all {
+    font-size: 28rpx;
+    color: #3182ce;
+    font-weight: 500;
+    padding: 8rpx 12rpx;
+  }
+  .view-all:active {
+    opacity: 0.7;
+  }
+  
+  .action-buttons {
+    display: flex;
+    gap: 16rpx;
+  }
+  
+  /* 胶囊按钮（统一） */
+  .capsule-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 8rpx 24rpx;
+    font-size: 26rpx;
+    border-radius: 36rpx;
+    background: #f0f7ff;
+    color: #3182ce;
+    border: 1rpx solid rgba(49,130,206,0.2);
+    font-weight: 500;
+    transition: all 0.2s;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+  .capsule-btn:active {
+    background: #e1efff;
+    transform: scale(0.96);
+  }
+  .capsule-btn.primary {
+    background: #3182ce;
+    color: white;
+    border-color: #3182ce;
+  }
+  .capsule-btn.primary:active {
+    background: #2c5282;
+  }
+  
+  /* ===== 案件卡片（紧凑）===== */
+  .case-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+  }
+  .case-item {
+    background: #fafcff;
+    border-radius: 20rpx;
+    padding: 20rpx 24rpx;
+    border: 1rpx solid #edf2f7;
+  }
+  .case-item:active {
+    background: #f0f9ff;
+  }
+  .case-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8rpx;
+  }
+  .case-title-wrap {
+    display: flex;
+    align-items: center;
+    gap: 12rpx;
+  }
+  .case-name {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #1e293b;
+  }
+  .case-status {
+    font-size: 22rpx;
+    padding: 4rpx 16rpx;
+    border-radius: 30rpx;
+    font-weight: 600;
+  }
+  .status-processing { background: #e6f7ff; color: #3182ce; border: 1rpx solid #bde0fe; }
+  .status-pending { background: #fff7e6; color: #dd6b20; border: 1rpx solid #fed7b5; }
+  .status-completed { background: #f0fff4; color: #38a169; border: 1rpx solid #c6f6d5; }
+  .case-no {
+    font-size: 24rpx;
+    color: #94a3b8;
+    background: #f1f5f9;
+    padding: 4rpx 16rpx;
+    border-radius: 20rpx;
+  }
+  .case-client {
+    font-size: 26rpx;
+    color: #475569;
+    margin-bottom: 16rpx;
+  }
+  .progress-wrap {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+  }
+  .progress-value {
+    font-size: 26rpx;
+    font-weight: 600;
+    color: #3182ce;
+    min-width: 70rpx;
+  }
+  .progress-bar {
+    flex: 1;
+    height: 8rpx;
+    background: #e2e8f0;
+    border-radius: 10rpx;
+    overflow: hidden;
+  }
+  .progress-inner {
+    height: 100%;
+    background: linear-gradient(90deg, #3182ce, #63b3ed);
+    border-radius: 10rpx;
+    transition: width 0.4s;
+  }
+  
+  /* 空状态提示 */
+  .empty-tips {
+    text-align: center;
+    padding: 40rpx 0;
+    color: #94a3b8;
+    font-size: 28rpx;
+  }
+  
+  /* ===== 今日日程卡片 - 时间、标题、描述三元素 ===== */
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+  }
+  .task-item {
+    background: white;
+    border-radius: 20rpx;
+    padding: 18rpx 22rpx;
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+    border: 1rpx solid #edf2f7;
+    transition: all 0.2s;
+  }
+  .task-item:active {
+    background: #f8fafc;
+    border-color: #bde0fe;
+  }
+  .task-item.completed {
+    opacity: 0.65;
+    background: #f9fafb;
+  }
+  .task-item.completed .task-title {
+    text-decoration: line-through;
+    color: #94a3b8;
+  }
+  .task-item.completed .task-desc {
+    color: #94a3b8;
+  }
+  
+  /* 左侧时间胶囊 - 更窄 */
+  .task-time {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #3182ce;
+    min-width: 100rpx;
+    background: rgba(49,130,206,0.08);
+    padding: 6rpx 0;
+    border-radius: 36rpx;
+    text-align: center;
+    line-height: 1.2;
+  }
+  
+  /* 中间内容区域 */
+  .task-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 6rpx;
+  }
+  .task-title {
+    font-size: 30rpx;
+    font-weight: 600;
+    color: #1e293b;
+    line-height: 1.4;
+  }
+  .task-desc {
+    font-size: 26rpx;
+    color: #64748b;
+    line-height: 1.4;
+    word-break: break-word;
+  }
+  
+  /* 右侧完成按钮 */
+  .complete-btn {
+    width: 44rpx;
+    height: 44rpx;
+    border-radius: 50%;
+    border: 2rpx solid #cbd5e0;
+    background: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+    flex-shrink: 0;
+  }
+  .complete-btn.checked {
+    background: #3182ce;
+    border-color: #3182ce;
+  }
+  .check-icon {
+    color: white;
+    font-size: 30rpx;
+    line-height: 1;
+  }
+  
+  /* ===== 新建任务浮窗 ===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  .modal-content {
+    background-color: white;
+    width: 80%;
+    max-width: 600rpx;
+    border-radius: 28rpx;
+    overflow: hidden;
+  }
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28rpx 32rpx;
+    border-bottom: 1rpx solid #e8f1ff;
+  }
+  .modal-title {
+    font-size: 34rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  .close-btn {
+    font-size: 56rpx;
+    color: #718096;
+    line-height: 1;
+    padding: 0 8rpx;
+  }
+  .close-btn:active {
+    color: #3182ce;
+  }
+  .form-content {
+    padding: 32rpx;
+  }
+  .form-item {
+    margin-bottom: 32rpx;
+  }
+  .form-label {
+    display: block;
+    font-size: 28rpx;
+    color: #4a5568;
+    margin-bottom: 16rpx;
+    font-weight: 500;
+  }
+  .form-input {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 24rpx;
+    font-size: 28rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 16rpx;
+    border: 1rpx solid #e8f1ff;
+    box-sizing: border-box;
+  }
+  .time-picker {
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 24rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 16rpx;
+    border: 1rpx solid #e8f1ff;
+  }
+  .form-textarea {
+    width: 100%;
+    height: 160rpx;
+    padding: 20rpx 24rpx;
+    font-size: 28rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 16rpx;
+    border: 1rpx solid #e8f1ff;
+    box-sizing: border-box;
+  }
+  .placeholder {
+    color: #a0aec0;
+    font-size: 28rpx;
+  }
+  .modal-actions {
+    display: flex;
+    padding: 0 32rpx 32rpx;
+    gap: 20rpx;
+  }
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 24rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    border-radius: 16rpx;
+    transition: all 0.2s;
+  }
+  .cancel-btn {
+    background-color: #f5f7fa;
+    color: #718096;
+    border: 1rpx solid #e2e8f0;
+  }
+  .cancel-btn:active {
+    background-color: #e2e8f0;
+  }
+  .confirm-btn {
+    background-color: #3182ce;
+    color: white;
+  }
+  .confirm-btn:active {
+    background-color: #2c5282;
+  }
+  
+  /* ===== 底部导航（完全保留原始样式，仅激活色改为 #3182ce）===== */
+  .custom-tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120rpx;
+    background: #ffffff;
+    border-top: 1rpx solid rgba(0,0,0,0.04);
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20rpx;
+    z-index: 1000;
+    box-shadow: 0 -4rpx 20rpx rgba(0,0,0,0.02);
+    backdrop-filter: blur(10px);
+  }
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: all 0.2s;
+  }
+  .tab-item.active .tab-icon {
+    transform: translateY(-6rpx);
+  }
+  .tab-item.active .tab-text {
+    color: #3182ce;
+    font-weight: 600;
+  }
+  .tab-icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-bottom: 8rpx;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.2s;
+  }
+  /* SVG 图标代码完全保留 */
+  .tab-icon.icon-home { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-home { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233182ce'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-case { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-case { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233182ce'%3E%3Cpath d='M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-chat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-chat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233182ce'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-mine { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-mine { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%233182ce'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+  
+  .tab-text {
+    font-size: 24rpx;
+    color: #999;
+  }
+  
+  /* 响应式 */
+  @media screen and (max-width: 375px) {
+    .stats-section,
+    .case-section,
+    .task-section {
+      margin-left: 24rpx;
+      margin-right: 24rpx;
+    }
+  }

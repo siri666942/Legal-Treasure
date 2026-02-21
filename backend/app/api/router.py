@@ -22,7 +22,7 @@
 
 from fastapi import APIRouter
 
-from app.api.endpoints import auth, files, query
+from app.api.endpoints import auth, cases, feedback, files, lawyers, query
 
 # 创建 API 主路由器
 # 类似于 Java Spring 中的 @RequestMapping 注解在控制器类上的效果
@@ -33,5 +33,8 @@ api_router = APIRouter()
 # prefix: 路由前缀，所有该模块的接口都会加上这个前缀
 # tags: 用于 Swagger 文档分组显示
 api_router.include_router(auth.router, prefix="/auth", tags=["auth"])
+api_router.include_router(cases.router, prefix="/cases", tags=["cases"])
 api_router.include_router(files.router, prefix="/files", tags=["files"])
+api_router.include_router(lawyers.router, prefix="/lawyers", tags=["lawyers"])
+api_router.include_router(feedback.router, prefix="/feedback", tags=["feedback"])
 api_router.include_router(query.router, prefix="/query", tags=["query"])

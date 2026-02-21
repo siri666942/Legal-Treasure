@@ -1,0 +1,152 @@
+<view class="lawyer-page">
+  <!-- 统计数据卡片 -->
+  <view class="stats-section">
+    <view class="stat-card todo">
+      <view class="stat-content">
+        <text class="stat-number">{{todoCount}}</text>
+        <text class="stat-label">今日待办</text>
+      </view>
+      <view class="stat-icon">📋</view>
+    </view>
+    <view class="stat-card case">
+      <view class="stat-content">
+        <text class="stat-number">{{processingCaseCount}}</text>
+        <text class="stat-label">处理中案件</text>
+      </view>
+      <view class="stat-icon">⚖️</view>
+    </view>
+  </view>
+
+  <!-- 我的案件 - 使用 displayCases 确保显示 -->
+  <view class="case-section">
+    <view class="section-header">
+      <view class="title-wrapper">
+        <text class="section-title">我的案件</text>
+        <text class="case-count">{{cases.length}}件</text>
+      </view>
+      <text class="view-all" bindtap="viewAllCases">查看全部 ›</text>
+    </view>
+
+    <view class="case-list">
+      <block wx:if="{{displayCases.length > 0}}">
+        <block wx:for="{{displayCases}}" wx:key="id">
+          <view class="case-item" bindtap="viewCaseDetail" data-id="{{item.id}}">
+            <view class="case-header">
+              <view class="case-title-wrap">
+                <text class="case-name">{{item.name}}</text>
+                <text class="case-status status-{{item.status}}">{{item.statusText}}</text>
+              </view>
+              <text class="case-no">{{item.caseNo}}</text>
+            </view>
+            <view class="case-client">👤 {{item.client}}</view>
+            <view class="progress-wrap">
+              <text class="progress-value">{{item.progress}}%</text>
+              <view class="progress-bar">
+                <view class="progress-inner" style="width: {{item.progress+'%'}}"></view>
+              </view>
+            </view>
+          </view>
+        </block>
+      </block>
+      <view wx:else class="empty-tips">暂无案件</view>
+    </view>
+  </view>
+
+  <!-- 今日日程 - 仅含时间、标题、描述，已完成任务自动置底 -->
+  <view class="task-section">
+    <view class="section-header">
+      <view class="title-wrapper">
+        <text class="section-title">今日日程</text>
+        <text class="task-count">{{tasks.length}}项</text>
+      </view>
+      <view class="action-buttons">
+        <text class="capsule-btn" bindtap="viewCalendar">📅 日历</text>
+        <text class="capsule-btn primary" bindtap="showAddTaskModal">＋ 新建</text>
+      </view>
+    </view>
+
+    <view class="task-list">
+      <block wx:for="{{tasks}}" wx:key="id">
+        <view class="task-item {{item.completed ? 'completed' : ''}}" bindtap="viewTaskDetail" data-id="{{item.id}}">
+          <!-- 左侧时间胶囊 -->
+          <view class="task-time">{{item.time}}</view>
+          
+          <!-- 中间内容区域：标题 + 描述（描述为空时不显示） -->
+          <view class="task-content">
+            <view class="task-title">{{item.title}}</view>
+            <view class="task-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          </view>
+          
+          <!-- 右侧完成按钮 -->
+          <view 
+            class="complete-btn {{item.completed ? 'checked' : ''}}" 
+            bindtap="toggleTaskComplete" 
+            data-id="{{item.id}}"
+            catchtap
+          >
+            <text class="check-icon">{{item.completed ? '✓' : ''}}</text>
+          </view>
+        </view>
+      </block>
+    </view>
+  </view>
+
+  <!-- 新建任务浮窗 -->
+  <view class="modal-overlay" wx:if="{{showTaskModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">新建任务</text>
+        <text class="close-btn" bindtap="hideTaskModal">×</text>
+      </view>
+      <view class="form-content">
+        <view class="form-item">
+          <text class="form-label">任务标题</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入任务标题" 
+            value="{{taskForm.title}}"
+            bindinput="onTaskTitleInput"
+            placeholder-class="placeholder"
+          />
+        </view>
+        <view class="form-item">
+          <text class="form-label">时间</text>
+          <picker mode="time" value="{{taskForm.time}}" bindchange="onTimeChange">
+            <view class="form-input time-picker">
+              {{taskForm.time || '请选择时间'}}
+            </view>
+          </picker>
+        </view>
+        <view class="form-item">
+          <text class="form-label">描述（可选）</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请输入任务描述" 
+            value="{{taskForm.description}}"
+            bindinput="onTaskDescriptionInput"
+            maxlength="200"
+            placeholder-class="placeholder"
+          />
+        </view>
+      </view>
+      <view class="modal-actions">
+        <view class="btn cancel-btn" bindtap="hideTaskModal">取消</view>
+        <view class="btn confirm-btn" bindtap="saveNewTask">保存</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 底部导航（完全保留） -->
+  <view class="custom-tabbar">
+    <block wx:for="{{tabList}}" wx:key="id">
+      <view 
+        class="tab-item {{item.active ? 'active' : ''}}" 
+        bindtap="switchTab" 
+        data-id="{{item.id}}"
+      >
+        <view class="tab-icon {{item.icon}}"></view>
+        <text class="tab-text">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+</view>

@@ -1,0 +1,59 @@
+<!-- pages/client-chat/client-chat.wxml -->
+<!-- 用户端沟通页面 -->
+<view class="chat-page">
+  <!-- 消息列表 -->
+  <view class="message-list">
+    <block wx:for="{{messageList}}" wx:key="id">
+      <view 
+        class="message-item {{item.isTop ? 'top-item' : ''}}" 
+        bindtap="enterChat" 
+        data-id="{{item.id}}" 
+        data-type="{{item.type}}" 
+        data-name="{{item.name}}"
+      >
+        <view class="avatar-wrapper">
+          <text class="avatar {{item.type}}">{{item.avatar}}</text>
+          <view wx:if="{{item.unreadCount > 0}}" class="unread-dot"></view>
+        </view>
+        
+        <view class="message-content">
+          <view class="message-header">
+            <view class="name-wrapper">
+              <text class="contact-name">{{item.name}}</text>
+              <text wx:if="{{item.caseName}}" class="case-tag">{{item.caseName}}</text>
+            </view>
+            <text class="message-time">{{item.time}}</text>
+          </view>
+          
+          <view class="message-preview">
+            <text class="last-message">{{item.lastMessage}}</text>
+            <view wx:if="{{item.unreadCount > 0}}" class="unread-badge">
+              <text>{{item.unreadCount}}</text>
+            </view>
+          </view>
+        </view>
+      </view>
+    </block>
+  </view>
+  
+  <!-- 空状态提示 -->
+  <view wx:if="{{messageList.length === 0}}" class="empty-state">
+    <view class="empty-icon">💬</view>
+    <text class="empty-title">暂无消息</text>
+    <text class="empty-desc">您还没有任何聊天记录</text>
+  </view>
+  
+  <!-- 底部导航 -->
+  <view class="custom-tabbar">
+    <block wx:for="{{tabList}}" wx:key="id">
+      <view 
+        class="tab-item {{item.active ? 'active' : ''}}" 
+        bindtap="switchTab" 
+        data-id="{{item.id}}"
+      >
+        <view class="tab-icon {{item.icon}}"></view>
+        <text class="tab-text">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+</view>

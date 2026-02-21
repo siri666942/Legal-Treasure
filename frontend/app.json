@@ -1,0 +1,68 @@
+{
+  "pages": [
+    "pages/login/login",
+    "pages/test-components/index",
+    "pages/components-test/index",
+    "pages/test-final/test-final",
+    "pages/role-select/role-select",
+    "pages/register/register",
+    "pages/forget-password/forget-password"
+  ],
+  "subPackages": [
+    {
+      "root": "subpackages/lawyer",
+      "name": "lawyer",
+      "pages": [
+        "pages/index/index",
+        "pages/case/case",
+        "pages/case-detail/case-detail",
+        "pages/create-case/create-case",
+        "pages/past-cases/past-cases",
+        "pages/past-case-detail/past-case-detail",
+        "pages/schedule-edit/schedule-edit",
+        "pages/communication/communication",
+        "pages/chat/chat",
+        "pages/mine/mine",
+        "pages/account/account",
+        "pages/privacy/privacy",
+        "pages/feedback/feedback",
+        "pages/lawyer-edit/lawyer-edit",
+        "pages/history/history",
+        "pages/history-detail/history-detail"
+      ]
+    },
+    {
+      "root": "subpackages/client",
+      "name": "client",
+      "pages": [
+        "pages/index/index",
+        "pages/online-consult/online-consult",
+        "pages/case-search/case-search",
+        "pages/case-search-detail/case-search-detail",
+        "pages/litigation-cost/litigation-cost",
+        "pages/case/case",
+        "pages/case-detail/case-detail",
+        "pages/communication/communication",
+        "pages/chat/chat",
+        "pages/mine/mine",
+        "pages/find-lawyer/find-lawyer",
+        "pages/lawyer-detail/lawyer-detail",
+        "pages/account/account",
+        "pages/privacy/privacy",
+        "pages/feedback/feedback",
+        "pages/past-cases/past-cases",
+        "pages/past-case-detail/past-case-detail"
+      ]
+    }
+  ],
+  "window": {
+    "backgroundTextStyle": "light",
+    "navigationBarBackgroundColor": "#1A5BFF",
+    "navigationBarTitleText": "律宝",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#F5F5F5"
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

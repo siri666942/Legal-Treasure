@@ -1,0 +1,105 @@
+<view class="case-page">
+  <!-- 搜索栏 -->
+  <view class="search-wrapper">
+    <view class="search-box">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input" 
+        placeholder="搜索案件号、当事人姓名" 
+        bindconfirm="onSearch"
+        bindinput="onSearchInput"
+        value="{{searchKeyword}}"
+        placeholder-class="search-placeholder"
+      />
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+
+  <!-- 操作按钮组 - 纯蓝色胶囊 -->
+  <view class="action-group">
+    <view class="action-btn create-btn" bindtap="createNewCase">
+      <text class="btn-text">创建新案件</text>
+    </view>
+    <view class="action-btn history-btn" bindtap="viewHistoryCases">
+      <text class="btn-text">过往案件</text>
+    </view>
+  </view>
+
+  <!-- 案件列表标题 -->
+  <view class="list-title">
+    <text class="title-text">{{showHistory ? '过往案件' : '进行中案件'}}</text>
+    <text class="title-count">{{filteredCaseList.length}}件</text>
+  </view>
+
+  <!-- 案件列表（无状态标签） -->
+  <view class="case-list">
+    <block wx:for="{{filteredCaseList}}" wx:key="id">
+      <view class="case-card" bindtap="viewCaseDetail" data-id="{{item.id}}">
+        <!-- 头部：案件编号 + 日期（无状态标签） -->
+        <view class="card-header">
+          <text class="case-no">{{item.caseNo}}</text>
+          <text class="case-date">{{item.date}}</text>
+        </view>
+        
+        <!-- 标题独立一行 -->
+        <view class="card-title">
+          <text class="case-title">{{item.title}}</text>
+        </view>
+        
+        <!-- 当事人/案件类型网格 -->
+        <view class="card-info">
+          <text class="info-label">当事人</text>
+          <text class="info-value">{{item.client}}</text>
+          <text class="info-label">案件类型</text>
+          <text class="info-value">{{item.type || '民事纠纷'}}</text>
+        </view>
+        
+        <!-- 进度条 -->
+        <view class="progress-area">
+          <view class="progress-header">
+            <text class="progress-label">案件进度</text>
+            <text class="progress-value">{{item.progress}}%</text>
+          </view>
+          <view class="progress-track">
+            <view 
+              class="progress-fill progress-{{item.statusType}}" 
+              style="width: {{item.progress+'%'}}"
+            ></view>
+          </view>
+        </view>
+        
+        <!-- 操作按钮 -->
+        <view class="card-actions">
+          <view class="action-detail" bindtap="viewCaseDetail" data-id="{{item.id}}">查看详情</view>
+          <view class="action-contact" bindtap="contactClient" data-id="{{item.id}}" catchtap>联系当事人</view>
+        </view>
+      </view>
+    </block>
+  </view>
+
+  <!-- 【已移除】点击加载更多组件 -->
+
+  <!-- 空状态 -->
+  <view wx:if="{{filteredCaseList.length === 0}}" class="empty-state">
+    <view class="empty-icon">{{showHistory ? '📚' : '📄'}}</view>
+    <text class="empty-title">{{showHistory ? '暂无过往案件' : '暂无案件'}}</text>
+    <text class="empty-desc">{{showHistory ? '没有找到已结案的案件' : '点击下方按钮创建新案件'}}</text>
+    <view class="empty-action" bindtap="{{showHistory ? 'backToActiveCases' : 'createNewCase'}}">
+      {{showHistory ? '返回进行中案件' : '创建新案件'}}
+    </view>
+  </view>
+
+  <!-- 底部导航（完全保留原始SVG，仅激活色改为 #3182ce） -->
+  <view class="custom-tabbar">
+    <block wx:for="{{tabList}}" wx:key="id">
+      <view 
+        class="tab-item {{item.active ? 'active' : ''}}" 
+        bindtap="switchTab" 
+        data-id="{{item.id}}"
+      >
+        <view class="tab-icon {{item.icon}}"></view>
+        <text class="tab-text">{{item.name}}</text>
+      </view>
+    </block>
+  </view>
+</view>

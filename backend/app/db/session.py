@@ -79,6 +79,27 @@ def init_db() -> None:
     # checkfirst=True（默认）: 如果表已存在则跳过
     Base.metadata.create_all(bind=engine)
 
+    # SQLite 已有表不会自动加新列，为 users 表补充 role/avatar/phone 列（幂等）
+    if settings.DATABASE_URL.startswith("sqlite"):
+        from sqlalchemy import text
+        with engine.connect() as conn:
+            try:
+                r = conn.execute(text("PRAGMA table_info(users)"))
+                cols = [row[1] for row in r.fetchall()]
+            except Exception:
+                cols = []
+            for col, spec in [
+                ("role", "VARCHAR(20)"),
+                ("avatar", "VARCHAR(500)"),
+                ("phone", "VARCHAR(20)"),
+            ]:
+                if col not in cols:
+                    try:
+                        conn.execute(text(f"ALTER TABLE users ADD COLUMN {col} {spec}"))
+                        conn.commit()
+                    except Exception:
+                        pass
+
 
 def get_db() -> Generator[Session, None, None]:
     """

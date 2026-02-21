@@ -1,0 +1,262 @@
+/* subpackages/client/pages/payment/payment.wxss */
+.payment-page {
+    min-height: 100vh;
+    background-color: #f7f8fa;
+    padding-bottom: 200rpx;
+  }
+  
+  /* 案件信息卡片 */
+  .case-info-card {
+    background: linear-gradient(135deg, #2a6df5 0%, #1a4cb5 100%);
+    border-radius: 0 0 24rpx 24rpx;
+    padding: 30rpx;
+    margin-bottom: 30rpx;
+    color: #ffffff;
+  }
+  
+  .case-header {
+    margin-bottom: 30rpx;
+  }
+  
+  .case-title {
+    font-size: 32rpx;
+    font-weight: 700;
+  }
+  
+  .case-details {
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+  }
+  
+  .detail-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .detail-label {
+    font-size: 26rpx;
+    opacity: 0.9;
+  }
+  
+  .detail-value {
+    font-size: 26rpx;
+    font-weight: 600;
+    text-align: right;
+  }
+  
+  .detail-value.price {
+    font-size: 32rpx;
+    font-weight: 700;
+    color: #ffd700;
+  }
+  
+  .status-item {
+    margin-top: 10rpx;
+  }
+  
+  .status-badge {
+    font-size: 24rpx;
+    padding: 8rpx 20rpx;
+    border-radius: 20rpx;
+    font-weight: 600;
+  }
+  
+  .status-pending {
+    background-color: #ff9500;
+    color: #ffffff;
+  }
+  
+  .status-paid {
+    background-color: #34c759;
+    color: #ffffff;
+  }
+  
+  .status-overdue {
+    background-color: #ff3b30;
+    color: #ffffff;
+  }
+  
+  /* 费用明细 */
+  .fee-detail-section {
+    background-color: #ffffff;
+    border-radius: 24rpx;
+    margin: 0 30rpx 30rpx;
+    padding: 30rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .section-header {
+    margin-bottom: 30rpx;
+    padding-bottom: 20rpx;
+    border-bottom: 2rpx solid #f0f7ff;
+  }
+  
+  .section-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: #1a4cb5;
+    position: relative;
+    padding-left: 20rpx;
+  }
+  
+  .section-title::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 6rpx;
+    height: 24rpx;
+    background-color: #2a6df5;
+    border-radius: 3rpx;
+  }
+  
+  .fee-list {
+    margin-bottom: 30rpx;
+  }
+  
+  .fee-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24rpx 0;
+    border-bottom: 1rpx solid #f0f7ff;
+  }
+  
+  .fee-item:last-child {
+    border-bottom: none;
+  }
+  
+  .fee-item-left {
+    flex: 1;
+    margin-right: 20rpx;
+  }
+  
+  .fee-name {
+    display: block;
+    font-size: 26rpx;
+    color: #333333;
+    font-weight: 500;
+    margin-bottom: 8rpx;
+  }
+  
+  .fee-desc {
+    display: block;
+    font-size: 22rpx;
+    color: #666666;
+    line-height: 1.4;
+  }
+  
+  .fee-amount {
+    font-size: 26rpx;
+    color: #333333;
+    font-weight: 600;
+    min-width: 120rpx;
+    text-align: right;
+  }
+  
+  .fee-total {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx 0 10rpx;
+    border-top: 2rpx solid #2a6df5;
+    margin-top: 10rpx;
+  }
+  
+  .total-label {
+    font-size: 28rpx;
+    color: #333333;
+    font-weight: 600;
+  }
+  
+  .total-amount {
+    font-size: 32rpx;
+    color: #2a6df5;
+    font-weight: 700;
+  }
+  
+  /* 费用计算说明 */
+  .explanation-section {
+    background-color: #ffffff;
+    border-radius: 24rpx;
+    margin: 0 30rpx 30rpx;
+    padding: 30rpx;
+    box-shadow: 0 8rpx 30rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .explanation-content {
+    background-color: #f8faff;
+    border-radius: 16rpx;
+    padding: 30rpx;
+  }
+  
+  .explanation-text {
+    display: block;
+    font-size: 26rpx;
+    color: #333333;
+    line-height: 1.6;
+  }
+  
+  /* 底部支付区域 */
+  .fixed-payment-section {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: #ffffff;
+    padding: 20rpx 30rpx 40rpx;
+    box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.1);
+    z-index: 100;
+  }
+  
+  .payment-summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;
+    padding-bottom: 20rpx;
+    border-bottom: 1rpx solid #eeeeee;
+  }
+  
+  .summary-label {
+    font-size: 26rpx;
+    color: #666666;
+  }
+  
+  .summary-amount {
+    font-size: 32rpx;
+    color: #2a6df5;
+    font-weight: 700;
+  }
+  
+  .payment-actions {
+    display: flex;
+    gap: 20rpx;
+  }
+  
+  .payment-btn {
+    flex: 1;
+    height: 88rpx;
+    background: linear-gradient(135deg, #2a6df5 0%, #1a4cb5 100%);
+    border-radius: 44rpx;
+    color: #ffffff;
+    font-size: 32rpx;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+  }
+  
+  .payment-btn:active {
+    opacity: 0.9;
+    transform: scale(0.98);
+  }
+  
+  .payment-btn.paid {
+    background: linear-gradient(135deg, #34c759 0%, #2ca350 100%);
+    opacity: 0.7;
+  }

@@ -1,0 +1,261 @@
+/* pages/test-final/test-final.wxss */
+.container {
+    padding: 20rpx;
+    background-color: #f5f5f5;
+    min-height: 100vh;
+  }
+  
+  .header {
+    margin-bottom: 30rpx;
+    text-align: center;
+  }
+  
+  .title {
+    display: block;
+    font-size: 36rpx;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 10rpx;
+  }
+  
+  .subtitle {
+    display: block;
+    font-size: 24rpx;
+    color: #666;
+  }
+  
+  /* 统计信息 */
+  .stats {
+    display: flex;
+    justify-content: space-around;
+    background: white;
+    border-radius: 16rpx;
+    padding: 30rpx 0;
+    margin-bottom: 30rpx;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  }
+  
+  .stat-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .stat-value {
+    font-size: 48rpx;
+    font-weight: bold;
+  }
+  
+  .stat-label {
+    font-size: 24rpx;
+    color: #666;
+    margin-top: 10rpx;
+  }
+  
+  .stat-item.success .stat-value {
+    color: #07C160;
+  }
+  
+  .stat-item.warning .stat-value {
+    color: #FF9D00;
+  }
+  
+  /* 控制按钮 */
+  .controls {
+    display: flex;
+    gap: 20rpx;
+    margin-bottom: 30rpx;
+  }
+  
+  .btn {
+    flex: 1;
+    border-radius: 10rpx;
+    font-size: 28rpx;
+    padding: 20rpx 0;
+    border: none;
+  }
+  
+  .btn.disabled {
+    opacity: 0.6;
+  }
+  
+  .btn-primary {
+    background-color: #1A5BFF;
+    color: white;
+  }
+  
+  .btn-secondary {
+    background-color: #909399;
+    color: white;
+  }
+  
+  /* 测试列表 */
+  .test-list {
+    max-height: 400rpx;
+    margin-bottom: 30rpx;
+    background: white;
+    border-radius: 16rpx;
+    padding: 20rpx;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  }
+  
+  .test-item {
+    padding: 20rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+  
+  .test-item:last-child {
+    border-bottom: none;
+  }
+  
+  .test-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10rpx;
+  }
+  
+  .test-name {
+    font-size: 28rpx;
+    font-weight: bold;
+  }
+  
+  .test-status {
+    font-size: 24rpx;
+    padding: 4rpx 12rpx;
+    border-radius: 6rpx;
+  }
+  
+  .test-message {
+    font-size: 24rpx;
+    color: #666;
+    word-break: break-all;
+  }
+  
+  /* 测试状态样式 */
+  .test-pending {
+    background-color: #f9f9f9;
+  }
+  
+  .test-pending .test-status {
+    color: #909399;
+    background-color: #e9e9e9;
+  }
+  
+  .test-running {
+    background-color: #e8f4ff;
+  }
+  
+  .test-running .test-status {
+    color: #1A5BFF;
+    background-color: #d0e8ff;
+  }
+  
+  .test-passed {
+    background-color: #f0f9f0;
+  }
+  
+  .test-passed .test-name {
+    color: #07C160;
+  }
+  
+  .test-passed .test-status {
+    color: #07C160;
+    background-color: #d8f0d8;
+  }
+  
+  .test-failed {
+    background-color: #fff0f0;
+  }
+  
+  .test-failed .test-name {
+    color: #FF3B30;
+  }
+  
+  .test-failed .test-status {
+    color: #FF3B30;
+    background-color: #ffd8d8;
+  }
+  
+  .test-skipped {
+    background-color: #f9f9f9;
+  }
+  
+  .test-skipped .test-status {
+    color: #909399;
+    background-color: #e9e9e9;
+  }
+  
+  /* 日志区域 */
+  .log-container {
+    background: white;
+    border-radius: 16rpx;
+    overflow: hidden;
+    box-shadow: 0 2rpx 12rpx rgba(0, 0, 0, 0.1);
+  }
+  
+  .log-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 30rpx;
+    background-color: #f8f9fa;
+    border-bottom: 2rpx solid #e9ecef;
+  }
+  
+  .log-title {
+    font-size: 28rpx;
+    font-weight: bold;
+    color: #333;
+  }
+  
+  .log-count {
+    font-size: 24rpx;
+    color: #666;
+  }
+  
+  .log-content {
+    max-height: 400rpx;
+    padding: 20rpx 30rpx;
+  }
+  
+  .log-item {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 15rpx;
+    font-size: 24rpx;
+    line-height: 1.4;
+  }
+  
+  .log-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .log-time {
+    color: #999;
+    margin-right: 15rpx;
+    flex-shrink: 0;
+    min-width: 80rpx;
+  }
+  
+  .log-message {
+    flex: 1;
+    word-break: break-all;
+  }
+  
+  /* 日志类型颜色 */
+  .log-info .log-message {
+    color: #333;
+  }
+  
+  .log-success .log-message {
+    color: #07C160;
+  }
+  
+  .log-warning .log-message {
+    color: #FF9D00;
+  }
+  
+  .log-error .log-message {
+    color: #FF3B30;
+  }

@@ -24,7 +24,7 @@ from pydantic import BaseModel, ConfigDict, EmailStr, Field
 
 class RegisterIn(BaseModel):
     """
-    用户注册请求模式
+    用户注册请求模式（扩展 role 供前端角色选择）
     
     【类说明】
     定义用户注册接口的请求体结构。
@@ -56,6 +56,9 @@ class RegisterIn(BaseModel):
     # str | None = None 表示可选字段，默认值为 None
     # 这种语法在 Java 中没有直接对应，Java 需要用 @Nullable 注解
     email: EmailStr | None = None
+
+    # 角色：可选，lawyer=律师 / client=客户，默认不传则由前端角色选择页再设
+    role: str | None = Field(default=None, max_length=20)
 
 
 class LoginIn(BaseModel):
@@ -100,6 +103,13 @@ class TokenOut(BaseModel):
     token_type: str = "bearer"
 
 
+class LoginOut(BaseModel):
+    """登录成功响应：token + 用户信息，供前端一次拿到 token 与 userInfo"""
+    access_token: str
+    token_type: str = "bearer"
+    user: "UserOut"
+
+
 class UserOut(BaseModel):
     """
     用户信息响应模式
@@ -121,6 +131,9 @@ class UserOut(BaseModel):
     - id: 用户 ID
     - username: 用户名
     - email: 邮箱（可选）
+    - role: 角色 lawyer/client（可选）
+    - avatar: 头像 URL（可选）
+    - phone: 手机号（可选）
     
     【注意】
     不包含 password 或 hashed_password 字段，确保密码不会泄露
@@ -133,3 +146,10 @@ class UserOut(BaseModel):
     id: int
     username: str
     email: str | None  # 可选字段，用户可能未设置邮箱
+    role: str | None = None
+    avatar: str | None = None
+    phone: str | None = None
+
+
+# 解决 LoginOut 中 user: UserOut 前向引用
+LoginOut.model_rebuild()

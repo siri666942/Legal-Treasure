@@ -1,0 +1,243 @@
+<!-- subpackages/lawyer/pages/history-case-detail/history-case-detail.wxml -->
+<view class="container">
+  <!-- 案件标题和操作 -->
+  <view class="case-header">
+    <view class="case-title-row">
+      <text class="case-title">{{caseInfo.caseTitle}}</text>
+      <text class="case-status status-completed">{{caseInfo.status}}</text>
+    </view>
+    <view class="case-no-row">
+      <text class="case-no">{{caseInfo.caseNo}}</text>
+      <text class="copy-icon" bindtap="copyCaseNo">📋</text>
+    </view>
+  </view>
+
+  <!-- 办理律师 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">⚖️</text>
+        </view>
+        <text class="card-title">办理律师</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="lawyer-info">
+        <view class="lawyer-avatar-container">
+          <view class="lawyer-avatar">
+            <text>{{lawyerInfo.avatar}}</text>
+          </view>
+          <view class="lawyer-basic">
+            <text class="lawyer-name">{{lawyerInfo.name}}</text>
+            <text class="lawyer-firm">{{lawyerInfo.lawFirm}}</text>
+          </view>
+        </view>
+        <view class="lawyer-details">
+          <view class="detail-item">
+            <text class="detail-label">执业证号：</text>
+            <text class="detail-value">{{lawyerInfo.licenseNo}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">执业年限：</text>
+            <text class="detail-value">{{lawyerInfo.experience}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">专业领域：</text>
+            <text class="detail-value">{{lawyerInfo.specialty}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">联系方式：</text>
+            <text class="detail-value contact-phone" bindtap="callLawyer">{{lawyerInfo.phone}}</text>
+          </view>
+          <view class="detail-item">
+            <text class="detail-label">电子邮箱：</text>
+            <text class="detail-value">{{lawyerInfo.email}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件基本信息 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📋</text>
+        </view>
+        <text class="card-title">案件基本信息</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="label">案件性质：</text>
+          <text class="value">{{caseInfo.caseType}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">审理法院：</text>
+          <text class="value">{{caseInfo.court}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">承办法官：</text>
+          <text class="value">{{caseInfo.judge}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">立案时间：</text>
+          <text class="value">{{caseInfo.filingDate}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">结案时间：</text>
+          <text class="value">{{caseInfo.closeDate}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">标的金额：</text>
+          <text class="value">{{caseInfo.amount}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">适用法律：</text>
+          <text class="value">{{caseInfo.applicableLaw}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件时间轴 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📅</text>
+        </view>
+        <text class="card-title">案件时间轴</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="timeline">
+        <view class="timeline-item" wx:for="{{timeline}}" wx:key="index">
+          <view class="timeline-dot {{index === timeline.length - 1 ? 'completed-last' : 'completed'}}"></view>
+          <view class="timeline-content">
+            <view class="timeline-date">{{item.date}}</view>
+            <view class="timeline-event">{{item.event}}</view>
+            <view class="timeline-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关联卷宗（无图标，右侧“⋯”菜单） -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📁</text>
+        </view>
+        <text class="card-title">关联卷宗</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="documents-grid">
+        <view class="document-item" wx:for="{{documents}}" wx:key="index">
+          <!-- 无图标，仅显示文件信息 -->
+          <view class="document-info">
+            <text class="document-name">{{item.name}}</text>
+            <text class="document-meta">{{item.type}} • {{item.size}} • {{item.date}}</text>
+            <text class="document-uploader">上传：{{item.uploadedBy}}</text>
+          </view>
+          <!-- 右侧“⋯”菜单 -->
+          <view class="document-more" bindtap="showFileActions" data-index="{{index}}">
+            <text>⋯</text>
+          </view>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件相关方（仅展示，无任何操作按钮） -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">👥</text>
+        </view>
+        <text class="card-title">案件相关方</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="parties-container">
+        <view class="party-card" wx:for="{{parties}}" wx:key="id">
+          <view class="party-header">
+            <view class="party-avatar {{item.roleClass}}">
+              <text>{{item.id}}</text>
+            </view>
+            <view class="party-title">
+              <text class="party-name">{{item.name}}</text>
+              <text class="party-type">{{item.type}}</text>
+            </view>
+          </view>
+          <view class="party-details">
+            <text class="party-role">{{item.role}}</text>
+            <text class="party-contact" wx:if="{{item.contact}}">{{item.contact}}</text>
+            <text class="party-address" wx:if="{{item.address}}">{{item.address}}</text>
+          </view>
+          <!-- 已移除：联系按钮 -->
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 判决结果 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">⚖️</text>
+        </view>
+        <text class="card-title">判决结果</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="judgment-result">
+        <view class="judgment-header">
+          <text class="judgment-title">{{judgment.result}}</text>
+          <text class="judgment-date">{{judgment.decisionDate}}</text>
+        </view>
+        
+        <view class="judgment-summary">
+          <text class="summary-text">{{judgment.summary}}</text>
+        </view>
+        
+        <view class="judgment-details" wx:if="{{showFullJudgment}}">
+          <view class="details-title">判决内容：</view>
+          <view class="details-list">
+            <view class="detail-item" wx:for="{{judgment.details}}" wx:key="index">
+              <text class="detail-text">{{item}}</text>
+            </view>
+          </view>
+          
+          <view class="judgment-meta">
+            <view class="meta-item">
+              <text class="meta-label">生效日期：</text>
+              <text class="meta-value">{{judgment.effectiveDate}}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-label">合议庭：</text>
+              <text class="meta-value">{{judgment.judgePanel}}</text>
+            </view>
+            <view class="meta-item">
+              <text class="meta-label">法院印章：</text>
+              <text class="meta-value">{{judgment.courtSeal}}</text>
+            </view>
+          </view>
+        </view>
+        
+        <view class="judgment-toggle" bindtap="toggleJudgment">
+          <text class="toggle-text">{{showFullJudgment ? '收起详情' : '查看完整判决'}}</text>
+          <text class="toggle-icon">{{showFullJudgment ? '▲' : '▼'}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+</view>

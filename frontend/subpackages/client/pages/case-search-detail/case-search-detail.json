@@ -1,0 +1,8 @@
+{
+    "navigationBarTitleText": "过往案件详情",
+    "navigationBarBackgroundColor": "#1890ff",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f5f7fa",
+    "enablePullDownRefresh": false,
+    "usingComponents": {}
+  }

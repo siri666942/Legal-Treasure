@@ -1,0 +1,200 @@
+<view class="container">
+  <!-- 案件标题和操作 -->
+  <view class="case-header">
+    <view class="case-title-row">
+      <text class="case-title">{{caseInfo.caseTitle}}</text>
+    </view>
+    <view class="case-no-row">
+      <text class="case-no">{{caseInfo.caseNo}}</text>
+      <text class="copy-icon" bindtap="copyCaseNo">📋</text>
+    </view>
+  </view>
+
+  <!-- 案件基本信息 -->
+  <view class="card">
+    <view class="card-header">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📋</text>
+        </view>
+        <text class="card-title">案件基本信息</text>
+      </view>
+    </view>
+    <view class="card-content">
+      <view class="info-grid">
+        <view class="info-item">
+          <text class="label">案号：</text>
+          <text class="value">{{caseInfo.caseNo}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">案件性质：</text>
+          <text class="value">{{caseInfo.caseType}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">受理法院：</text>
+          <text class="value">{{caseInfo.court}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">承办法官：</text>
+          <text class="value">{{caseInfo.judge}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">立案时间：</text>
+          <text class="value">{{caseInfo.filingDate}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">当前状态：</text>
+          <view class="status-badge status-active">审理中</view>
+        </view>
+        <view class="info-item">
+          <text class="label">标的金额：</text>
+          <text class="value">{{caseInfo.amount}}</text>
+        </view>
+        <view class="info-item">
+          <text class="label">适用法律：</text>
+          <text class="value">{{caseInfo.applicableLaw}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件时间轴（只读） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleTimeline">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📅</text>
+        </view>
+        <text class="card-title">案件时间轴</text>
+      </view>
+      <view class="collapse-icon">
+        <text class="icon">{{timelineExpanded ? '▲' : '▼'}}</text>
+        <text class="collapse-text">{{timelineExpanded ? '收起' : '展开'}}</text>
+      </view>
+    </view>
+
+    <!-- 展开状态 -->
+    <view wx:if="{{timelineExpanded}}" class="card-content">
+      <view class="timeline">
+        <view class="timeline-item" wx:for="{{timeline}}" wx:key="index">
+          <view class="timeline-dot {{item.status}}"></view>
+          <view class="timeline-content">
+            <view class="timeline-date">{{item.date}}</view>
+            <view class="timeline-event">{{item.event}}</view>
+            <view class="timeline-desc" wx:if="{{item.description}}">{{item.description}}</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前4条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{timeline.slice(0,4)}}" wx:key="index">
+          <view class="collapsed-dot {{item.status}}"></view>
+          <text class="collapsed-text">{{item.date}} {{item.event}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 关联卷宗（只读，保留右侧“⋯”菜单） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleDocuments">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">📁</text>
+        </view>
+        <text class="card-title">关联卷宗</text>
+      </view>
+      <view class="collapse-icon">
+        <text class="icon">{{documentsExpanded ? '▲' : '▼'}}</text>
+        <text class="collapse-text">{{documentsExpanded ? '收起' : '展开'}}</text>
+      </view>
+    </view>
+
+    <!-- 展开状态 -->
+    <view wx:if="{{documentsExpanded}}" class="card-content">
+      <view class="documents-grid">
+        <view class="document-item" wx:for="{{documents}}" wx:key="index">
+          <view class="document-info">
+            <text class="document-name">{{item.name}}</text>
+            <text class="document-meta">{{item.type}} • {{item.size}} • {{item.date}}</text>
+            <text class="document-uploader">上传：{{item.uploadedBy}}</text>
+          </view>
+          <view class="document-more" bindtap="showFileActions" data-index="{{index}}">
+            <text>⋯</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前3条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{documents.slice(0,3)}}" wx:key="index">
+          <text class="collapsed-text">{{item.name}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 案件相关方（只读，无联系按钮） -->
+  <view class="card collapsible-card">
+    <view class="card-header" bindtap="toggleParties">
+      <view class="card-title-with-icon">
+        <view class="card-icon">
+          <text class="icon">👥</text>
+        </view>
+        <text class="card-title">案件相关方</text>
+      </view>
+      <view class="collapse-icon">
+        <text class="icon">{{partiesExpanded ? '▲' : '▼'}}</text>
+        <text class="collapse-text">{{partiesExpanded ? '收起' : '展开'}}</text>
+      </view>
+    </view>
+
+    <!-- 展开状态 -->
+    <view wx:if="{{partiesExpanded}}" class="card-content">
+      <view class="parties-container">
+        <view class="party-card" wx:for="{{parties}}" wx:key="id">
+          <view class="party-header">
+            <view class="party-avatar {{item.roleClass}}">
+              <text>{{item.id}}</text>
+            </view>
+            <view class="party-title">
+              <text class="party-name">{{item.name}}</text>
+              <text class="party-type">{{item.type}}</text>
+            </view>
+          </view>
+          <view class="party-details">
+            <text class="party-role">{{item.role}}</text>
+            <text class="party-contact" wx:if="{{item.contact}}">{{item.contact}}</text>
+            <text class="party-address" wx:if="{{item.address}}">{{item.address}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 折叠状态 - 动态简略显示（前4条） -->
+    <view class="collapsed-content" wx:else>
+      <view class="collapsed-items">
+        <view class="collapsed-item" wx:for="{{parties.slice(0,4)}}" wx:key="index">
+          <view class="collapsed-avatar {{item.roleClass}}">
+            <text>{{item.id}}</text>
+          </view>
+          <text class="collapsed-text">{{item.name}} - {{item.role}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 联系律师按钮 -->
+  <view class="contact-lawyer-wrapper">
+    <view class="contact-lawyer-btn" bindtap="contactLawyer">
+      <text class="btn-icon">📞</text>
+      <text class="btn-text">联系律师</text>
+    </view>
+  </view>
+
+</view>

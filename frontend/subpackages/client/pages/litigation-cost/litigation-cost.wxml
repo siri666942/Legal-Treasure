@@ -1,0 +1,78 @@
+<!-- subpackages/client/pages/payment/payment.wxml -->
+<view class="payment-page">
+  <!-- 案件信息卡片 -->
+  <view class="case-info-card">
+    <view class="case-header">
+      <text class="case-title">案件信息</text>
+    </view>
+    
+    <view class="case-details">
+      <view class="detail-item">
+        <text class="detail-label">案件名称</text>
+        <text class="detail-value">{{caseInfo.caseName}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-label">审理法院</text>
+        <text class="detail-value">{{caseInfo.courtName}}</text>
+      </view>
+      <view class="detail-item">
+        <text class="detail-label">总费用</text>
+        <text class="detail-value price">{{caseInfo.totalFee}}元</text>
+      </view>
+      <view class="detail-item status-item">
+        <text class="detail-label">支付状态</text>
+        <text class="status-badge {{caseInfo.statusClass}}">{{caseInfo.statusText}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 费用明细 -->
+  <view class="fee-detail-section">
+    <view class="section-header">
+      <text class="section-title">费用明细</text>
+    </view>
+    
+    <view class="fee-list">
+      <view class="fee-item" wx:for="{{feeDetails}}" wx:key="id">
+        <view class="fee-item-left">
+          <text class="fee-name">{{item.name}}</text>
+          <text class="fee-desc" wx:if="{{item.description}}">{{item.description}}</text>
+        </view>
+        <text class="fee-amount">{{item.amount}}元</text>
+      </view>
+    </view>
+    
+    <view class="fee-total">
+      <text class="total-label">合计</text>
+      <text class="total-amount">{{caseInfo.totalFee}}元</text>
+    </view>
+  </view>
+
+  <!-- 费用计算说明 -->
+  <view class="explanation-section">
+    <view class="section-header">
+      <text class="section-title">费用计算说明</text>
+    </view>
+    
+    <view class="explanation-content">
+      <text class="explanation-text">{{feeExplanation}}</text>
+    </view>
+  </view>
+
+  <!-- 底部支付按钮 -->
+  <view class="fixed-payment-section">
+    <view class="payment-summary">
+      <text class="summary-label">应付金额</text>
+      <text class="summary-amount">{{caseInfo.totalFee}}元</text>
+    </view>
+    
+    <view class="payment-actions">
+      <view class="payment-btn" bindtap="onPaymentTap" wx:if="{{caseInfo.status === 'pending'}}">
+        <text class="btn-text">立即支付</text>
+      </view>
+      <view class="payment-btn paid" wx:else>
+        <text class="btn-text">已支付</text>
+      </view>
+    </view>
+  </view>
+</view>

@@ -1,0 +1,216 @@
+<view class="page-container">
+  <!-- 聊天内容区域 -->
+  <scroll-view 
+    class="chat-content" 
+    scroll-y 
+    scroll-into-view="{{scrollToView}}" 
+    scroll-with-animation
+    enable-back-to-top
+  >
+    <view class="message-list">
+      <block wx:for="{{messages}}" wx:key="id" wx:for-index="index">
+        <!-- 时间分隔线 -->
+        <view class="message-divider" wx:if="{{item.type === 'divider'}}">
+          <text class="divider-text">{{item.content}}</text>
+        </view>
+
+        <!-- 正常消息 -->
+        <block wx:else>
+          <view 
+            class="message-item {{item.sender === 'me' ? 'message-right' : 'message-left'}}" 
+            id="msg-{{item.id}}"
+          >
+            <!-- 左侧头像 -->
+            <view class="avatar" wx:if="{{item.sender === 'other'}}">
+              <text class="avatar-text">{{chatTarget.name.charAt(0)}}</text>
+            </view>
+
+            <!-- 消息气泡 -->
+            <view class="bubble">
+              <!-- 文本消息 -->
+              <view class="bubble-text" wx:if="{{item.type === 'text'}}">{{item.content}}</view>
+
+              <!-- 图片消息（单击操作菜单） -->
+              <view class="bubble-image" wx:elif="{{item.type === 'image'}}" bindtap="handleImageTap" data-filepath="{{item.filePath}}">
+                <image class="image-preview" src="{{item.filePath}}" mode="aspectFill"></image>
+              </view>
+
+              <!-- 文件消息（单击操作菜单：预览/下载） -->
+              <view class="bubble-file" wx:elif="{{item.type === 'file'}}" bindtap="handleFileTap" data-filepath="{{item.filePath}}" data-filename="{{item.fileName}}">
+                <view class="file-card {{item.sender === 'me' ? 'file-card-right' : 'file-card-left'}}">
+                  <view class="file-icon">
+                    <text>📄</text>
+                  </view>
+                  <view class="file-info-wrapper">
+                    <text class="file-name">{{item.fileName || '文件'}}</text>
+                    <text class="file-size">{{item.fileSize ? formatFileSize(item.fileSize) : ''}}</text>
+                  </view>
+                </view>
+              </view>
+
+              <!-- ✨ 任务消息卡片（截止日期版） -->
+              <view class="bubble-task" wx:elif="{{item.type === 'task'}}">
+                <view class="task-card {{item.sender === 'me' ? 'task-card-right' : 'task-card-left'}}">
+                  <view class="task-icon">
+                    <text>✅</text>
+                  </view>
+                  <view class="task-info-wrapper">
+                    <text class="task-title">{{item.taskTitle}}</text>
+                    <text class="task-desc" wx:if="{{item.description}}">{{item.description}}</text>
+                    <text class="task-due">截止：{{item.dueDate}}</text>
+                  </view>
+                  <view class="task-status {{item.completed ? 'completed' : 'pending'}}">
+                    {{item.completed ? '已完成' : '待处理'}}
+                  </view>
+                </view>
+              </view>
+
+              <!-- 语音消息（仅保留播放） -->
+              <view class="bubble-voice" wx:elif="{{item.type === 'voice'}}" bindtap="playVoice" data-filepath="{{item.filePath}}" data-duration="{{item.duration}}">
+                <view class="voice-wrapper">
+                  <text class="voice-icon">🎤</text>
+                  <view class="voice-wave">
+                    <view class="wave-item"></view>
+                    <view class="wave-item"></view>
+                    <view class="wave-item"></view>
+                    <view class="wave-item"></view>
+                    <view class="wave-item"></view>
+                  </view>
+                  <text class="voice-duration">{{formatDuration(item.duration)}}</text>
+                </view>
+              </view>
+
+              <!-- 消息时间与状态（右侧） -->
+              <view class="bubble-footer" wx:if="{{item.sender === 'me'}}">
+                <text class="bubble-time">{{formatTime(item.timestamp)}}</text>
+                <view class="bubble-status">
+                  <block wx:if="{{item.status === 'sending'}}"><text class="status-icon sending">🕐</text></block>
+                  <block wx:elif="{{item.status === 'sent'}}"><text class="status-icon sent">✓</text></block>
+                  <block wx:elif="{{item.status === 'read'}}"><text class="status-icon read">✓✓</text></block>
+                </view>
+              </view>
+              <!-- 左侧消息时间（无状态） -->
+              <view class="bubble-footer-left" wx:if="{{item.sender === 'other'}}">
+                <text class="bubble-time">{{formatTime(item.timestamp)}}</text>
+              </view>
+            </view>
+
+            <!-- 右侧头像（自己） -->
+            <view class="avatar avatar-self" wx:if="{{item.sender === 'me'}}">
+              <text class="avatar-text">我</text>
+            </view>
+          </view>
+        </block>
+      </block>
+      <view id="bottom-anchor"></view>
+    </view>
+  </scroll-view>
+
+  <!-- 底部输入栏（附件左侧，发送按钮始终可点） -->
+  <view class="input-area">
+    <view class="input-wrapper">
+      <!-- 附件按钮（左侧） -->
+      <view class="action-btn" bindtap="toggleAttachmentPanel">
+        <text class="action-icon">+</text>
+      </view>
+
+      <!-- 文本输入框 -->
+      <input 
+        class="message-input" 
+        placeholder="请输入消息" 
+        placeholder-class="placeholder"
+        value="{{inputValue}}"
+        bindinput="onInput"
+        bindconfirm="sendTextMessage"
+        bindfocus="onInputFocus"
+        bindblur="onInputBlur"
+        focus="{{autoFocus}}"
+        adjust-position="{{true}}"
+      />
+
+      <!-- 发送按钮（始终可点，样式根据输入变化） -->
+      <view class="send-btn {{inputValue.trim() ? 'active' : ''}}" bindtap="sendTextMessage">
+        <text class="send-btn-text">发送</text>
+      </view>
+    </view>
+
+    <!-- 附件面板（四列布局） -->
+    <view class="attachment-panel" wx:if="{{showAttachmentPanel}}">
+      <view class="attachment-grid">
+        <view class="attachment-item" bindtap="chooseImage">
+          <view class="attachment-icon-bg">
+            <text class="attachment-emoji">🌄</text>
+          </view>
+          <text class="attachment-label">照片</text>
+        </view>
+        <view class="attachment-item" bindtap="chooseFile">
+          <view class="attachment-icon-bg">
+            <text class="attachment-emoji">📁</text>
+          </view>
+          <text class="attachment-label">文件</text>
+        </view>
+        <view class="attachment-item" bindtap="takePhoto">
+          <view class="attachment-icon-bg">
+            <text class="attachment-emoji">📸</text>
+          </view>
+          <text class="attachment-label">拍照</text>
+        </view>
+        <!-- ✨ 新建任务入口 -->
+        <view class="attachment-item" bindtap="showAddTaskModal">
+          <view class="attachment-icon-bg">
+            <text class="attachment-emoji">✅</text>
+          </view>
+          <text class="attachment-label">新建任务</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== ✨ 任务浮窗（截止日期选择）===== -->
+  <view class="modal-overlay" wx:if="{{showTaskModal}}">
+    <view class="modal-content">
+      <view class="modal-header">
+        <text class="modal-title">新建任务</text>
+        <text class="close-btn" bindtap="hideTaskModal">×</text>
+      </view>
+      <view class="form-content">
+        <!-- 任务标题（必填） -->
+        <view class="form-item">
+          <text class="form-label">任务标题</text>
+          <input 
+            class="form-input" 
+            placeholder="请输入任务标题" 
+            value="{{taskForm.title}}"
+            bindinput="onTaskTitleInput"
+            placeholder-class="placeholder"
+          />
+        </view>
+        <!-- 截止日期（日期选择器） -->
+        <view class="form-item">
+          <text class="form-label">截止日期</text>
+          <picker mode="date" value="{{taskForm.dueDate}}" bindchange="onDueDateChange">
+            <view class="form-input date-picker">
+              {{taskForm.dueDate || '请选择日期'}}
+            </view>
+          </picker>
+        </view>
+        <!-- 描述（可选） -->
+        <view class="form-item">
+          <text class="form-label">描述（可选）</text>
+          <textarea 
+            class="form-textarea" 
+            placeholder="请输入任务描述" 
+            value="{{taskForm.description}}"
+            bindinput="onTaskDescriptionInput"
+            maxlength="200"
+            placeholder-class="placeholder"
+          />
+        </view>
+      </view>
+      <view class="modal-actions">
+        <view class="btn cancel-btn" bindtap="hideTaskModal">取消</view>
+        <view class="btn confirm-btn" bindtap="saveNewTask">保存</view>
+      </view>
+    </view>
+  </view>
+</view>

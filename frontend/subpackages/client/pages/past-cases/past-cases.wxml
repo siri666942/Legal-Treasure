@@ -1,0 +1,119 @@
+<view class="history-page">
+  <!-- 搜索栏 -->
+  <view class="search-container">
+    <view class="search-input">
+      <text class="search-icon">🔍</text>
+      <input 
+        class="search-input-inner" 
+        placeholder="搜索案件号、当事人姓名" 
+        bindconfirm="onSearch"
+        bindinput="onSearchInput"
+        value="{{searchKeyword}}"
+      />
+      <text wx:if="{{searchKeyword}}" class="clear-icon" bindtap="clearSearch">✕</text>
+    </view>
+    <view class="search-btn" bindtap="onSearch">搜索</view>
+  </view>
+  
+  <!-- 筛选条件（完全保留原样式） -->
+  <view class="filter-container">
+    <view class="filter-item">
+      <text class="filter-label">案件类型：</text>
+      <picker 
+        class="filter-picker" 
+        range="{{caseTypes}}" 
+        value="{{caseTypeIndex}}" 
+        bindchange="onCaseTypeChange"
+      >
+        <view class="picker-content {{caseTypeIndex === -1 ? 'placeholder' : ''}}">
+          {{caseTypeIndex === -1 ? '全部类型' : caseTypes[caseTypeIndex]}}
+        </view>
+      </picker>
+    </view>
+    
+    <view class="filter-item">
+      <text class="filter-label">结案时间：</text>
+      <picker 
+        class="filter-picker" 
+        mode="date" 
+        fields="year" 
+        value="{{yearFilter}}" 
+        bindchange="onYearChange"
+      >
+        <view class="picker-content {{!yearFilter ? 'placeholder' : ''}}">
+          {{yearFilter ? yearFilter + '年' : '全部年份'}}
+        </view>
+      </picker>
+    </view>
+  </view>
+  
+  <!-- 统计信息（完全保留原样式） -->
+  <view class="stats-container">
+    <text class="stats-text">共找到 {{filteredCaseList.length}} 个过往案件</text>
+    <text class="clear-filters" bindtap="clearFilters" wx:if="{{searchKeyword || caseTypeIndex !== -1 || yearFilter}}">
+      清除筛选
+    </text>
+  </view>
+  
+  <!-- 案件列表（仅移除状态标签和多余按钮，卡片布局完全不变） -->
+  <scroll-view class="case-list" scroll-y="true">
+    <block wx:for="{{filteredCaseList}}" wx:key="id">
+      <view class="case-item" bindtap="viewCaseDetail" data-id="{{item.id}}">
+        <view class="case-header">
+          <view class="case-no-container">
+            <text class="case-no">{{item.caseNo}}</text>
+            <text class="case-type-tag">{{item.type || '民事'}}</text>
+          </view>
+          <!-- 【已移除】已结案状态标签 -->
+          <!-- 原代码此处有 <text class="case-status status-completed">已结案</text>，已删除 -->
+        </view>
+        
+        <view class="case-title-row">
+          <text class="case-title">{{item.title}}</text>
+          <text class="case-date">{{item.completeDate || item.date}}</text>
+        </view>
+        
+        <view class="case-info">
+          <view class="info-item">
+            <text class="info-label">当事人：</text>
+            <text class="info-value">{{item.client}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">结案方式：</text>
+            <text class="info-value">{{item.completeType || '判决'}}</text>
+          </view>
+          <view class="info-item">
+            <text class="info-label">审理法院：</text>
+            <text class="info-value">{{item.court || 'XX人民法院'}}</text>
+          </view>
+        </view>
+        
+        <!-- 操作区：仅保留“查看详情”按钮，移除其他两个按钮 -->
+        <view class="case-actions">
+          <text class="case-action" bindtap="viewCaseDetail" data-id="{{item.id}}">查看详情</text>
+          <!-- 已移除：查看卷宗、联系当事人 -->
+        </view>
+      </view>
+    </block>
+    
+    <!-- 空状态提示（完全保留原样式） -->
+    <view wx:if="{{filteredCaseList.length === 0}}" class="empty-state">
+      <view class="empty-icon">📚</view>
+      <text class="empty-title">暂无过往案件</text>
+      <text class="empty-desc" wx:if="{{searchKeyword || caseTypeIndex !== -1 || yearFilter}}">
+        没有找到符合条件的案件
+      </text>
+      <text class="empty-desc" wx:else>
+        您还没有已结案的案件记录
+      </text>
+      <view class="empty-actions">
+        <view class="empty-action" bindtap="clearFilters" wx:if="{{searchKeyword || caseTypeIndex !== -1 || yearFilter}}">
+          清除筛选条件
+        </view>
+        <view class="empty-action" bindtap="goBack" wx:else>
+          返回案件列表
+        </view>
+      </view>
+    </view>
+  </scroll-view>
+</view>

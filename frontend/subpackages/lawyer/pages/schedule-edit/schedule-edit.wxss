@@ -1,0 +1,354 @@
+/* pages/schedule/edit/edit.wxss */
+/* 全局样式 */
+page {
+    background-color: #f5f7fa;
+    height: 100%;
+  }
+  
+  .container {
+    padding-bottom: 40rpx;
+  }
+  
+  /* ========== 日历区域 - 紧凑化修改 ========== */
+  .calendar-section {
+    background-color: white;
+    border-radius: 16rpx;
+    margin: 20rpx;
+    padding: 24rpx 20rpx;    /* 减小上下内边距，左右也稍减 */
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.1);
+  }
+  
+  .month-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;     /* 从40rpx减小到20rpx */
+  }
+  
+  .year-month {
+    display: flex;
+    align-items: baseline;
+  }
+  
+  .year, .month {
+    font-size: 32rpx;         /* 从36rpx减小到32rpx */
+    font-weight: 600;
+    color: #1a365d;
+    margin-right: 16rpx;      /* 从20rpx减小到16rpx */
+    padding: 4rpx 12rpx;      /* 从8rpx 16rpx减小 */
+    border-radius: 8rpx;
+  }
+  
+  .year:active, .month:active {
+    background-color: rgba(49, 130, 206, 0.1);
+  }
+  
+  .month-switch {
+    display: flex;
+    gap: 20rpx;               /* 从30rpx减小到20rpx */
+  }
+  
+  .switch-btn {
+    font-size: 48rpx;         /* 从60rpx减小到48rpx */
+    font-weight: 300;
+    color: #718096;
+    cursor: pointer;
+    padding: 0 8rpx;          /* 从0 10rpx减小 */
+  }
+  
+  .switch-btn:active {
+    color: #3182ce;
+  }
+  
+  /* 星期标题 - 更紧凑 */
+  .week-header {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12rpx;     /* 从20rpx减小到12rpx */
+  }
+  
+  .week-day {
+    flex: 1;
+    text-align: center;
+    font-size: 26rpx;         /* 从28rpx减小到26rpx */
+    color: #718096;
+    font-weight: 500;
+  }
+  
+  /* 日期格子 - 高度大幅降低 */
+  .calendar-grid {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .date-cell {
+    width: 14.28%;
+    height: 80rpx;            /* 从100rpx减小到80rpx */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 12rpx;
+    margin-bottom: 6rpx;      /* 从10rpx减小到6rpx */
+  }
+  
+  .date-cell.current-month {
+    cursor: pointer;
+  }
+  
+  .date-cell.other-month {
+    opacity: 0.4;
+  }
+  
+  .date-cell.today {
+    background-color: rgba(49, 130, 206, 0.1);
+  }
+  
+  .date-cell.selected {
+    background-color: #3182ce;
+  }
+  
+  .date-cell.selected .date-number {
+    color: white;
+    font-weight: 600;
+  }
+  
+  .date-number {
+    font-size: 28rpx;         /* 从32rpx减小到28rpx */
+    color: #2d3748;
+    margin-bottom: 4rpx;      /* 从8rpx减小到4rpx */
+  }
+  
+  .task-indicator {
+    width: 6rpx;              /* 从8rpx减小到6rpx */
+    height: 6rpx;
+    border-radius: 50%;
+    background-color: #e53e3e;
+  }
+  
+  .date-cell.selected .task-indicator {
+    background-color: white;
+  }
+  
+  /* ========== 任务列表区域（保持不变）========== */
+  .task-section {
+    background-color: white;
+    border-radius: 16rpx;
+    margin: 20rpx;
+    padding: 30rpx;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.1);
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30rpx;
+  }
+  
+  .section-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .add-task-btn {
+    background-color: #3182ce;
+    color: white;
+    font-size: 26rpx;
+    padding: 12rpx 24rpx;
+    border-radius: 30rpx;
+    cursor: pointer;
+  }
+  
+  .add-task-btn:active {
+    background-color: #2b6cb0;
+  }
+  
+  /* 任务列表 */
+  .task-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+  }
+  
+  .task-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    padding: 24rpx;
+    background-color: #f8fbff;
+    border-radius: 12rpx;
+    border-left: 6rpx solid #3182ce;
+  }
+  
+  .task-content {
+    flex: 1;
+  }
+  
+  .task-time {
+    font-size: 26rpx;
+    color: #3182ce;
+    font-weight: 500;
+    margin-bottom: 8rpx;
+  }
+  
+  .task-title {
+    font-size: 30rpx;
+    color: #1a1a1a;
+    font-weight: 500;
+    margin-bottom: 8rpx;
+  }
+  
+  .task-description {
+    font-size: 26rpx;
+    color: #718096;
+    line-height: 1.4;
+  }
+  
+  .task-actions {
+    display: flex;
+    gap: 20rpx;
+  }
+  
+  .action-icon {
+    font-size: 36rpx;
+    cursor: pointer;
+  }
+  
+  .empty-tasks {
+    text-align: center;
+    padding: 60rpx 20rpx;
+    color: #a0aec0;
+    font-size: 28rpx;
+  }
+  
+  /* ========== 模态框（完全不变）========== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+  }
+  
+  .modal-content {
+    background-color: white;
+    width: 80%;
+    max-width: 600rpx;
+    border-radius: 20rpx;
+    overflow: hidden;
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 30rpx;
+    border-bottom: 1rpx solid #e8f1ff;
+  }
+  
+  .modal-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .close-btn {
+    font-size: 50rpx;
+    color: #718096;
+    cursor: pointer;
+  }
+  
+  .form-content {
+    padding: 30rpx;
+  }
+  
+  .form-item {
+    margin-bottom: 30rpx;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 28rpx;
+    color: #4a5568;
+    margin-bottom: 12rpx;
+    font-weight: 500;
+  }
+  
+  .form-input {
+    width: 100%;
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 20rpx;
+    font-size: 30rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 12rpx;
+    border: 1rpx solid #e8f1ff;
+    box-sizing: border-box;
+  }
+  
+  .time-picker {
+    height: 80rpx;
+    line-height: 80rpx;
+    padding: 0 20rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 12rpx;
+    border: 1rpx solid #e8f1ff;
+    box-sizing: border-box;
+  }
+  
+  .form-textarea {
+    width: 100%;
+    height: 200rpx;
+    padding: 20rpx;
+    font-size: 30rpx;
+    color: #1a1a1a;
+    background-color: #f5f7fa;
+    border-radius: 12rpx;
+    border: 1rpx solid #e8f1ff;
+    box-sizing: border-box;
+  }
+  
+  .modal-actions {
+    display: flex;
+    padding: 0 30rpx 30rpx;
+    gap: 20rpx;
+  }
+  
+  .btn {
+    flex: 1;
+    text-align: center;
+    padding: 24rpx;
+    font-size: 30rpx;
+    font-weight: 500;
+    border-radius: 12rpx;
+    cursor: pointer;
+  }
+  
+  .cancel-btn {
+    background-color: #f5f7fa;
+    color: #718096;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .cancel-btn:active {
+    background-color: #e2e8f0;
+  }
+  
+  .confirm-btn {
+    background-color: #3182ce;
+    color: white;
+  }
+  
+  .confirm-btn:active {
+    background-color: #2b6cb0;
+  }

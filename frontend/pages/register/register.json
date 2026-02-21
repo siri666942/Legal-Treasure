@@ -1,0 +1,12 @@
+{
+    "navigationStyle": "default",
+    "navigationBarTitleText": "注册",
+    "navigationBarBackgroundColor": "#1A5BFF",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#1A5BFF",
+    "usingComponents": {
+      "custom-button": "/common/components/basic/button/button",
+      "custom-modal": "/common/components/basic/modal/modal",
+      "custom-input": "/common/components/form/input/input"
+    }
+  }

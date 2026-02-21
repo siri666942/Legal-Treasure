@@ -1,0 +1,508 @@
+/* pages/index/index.wxss */
+.index-page {
+    background-color: #f5f7fb;
+    min-height: 100vh;
+    padding-bottom: 140rpx;
+  }
+  
+  /* ============ AI法律顾问卡片 ============ */
+  .ai-section {
+    padding: 32rpx 32rpx 24rpx;
+  }
+  
+  .ai-card {
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 32rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border: 1rpx solid #f0f0f0;
+  }
+  
+  .ai-header {
+    display: flex;
+    align-items: center;
+    padding-bottom: 28rpx;
+    margin-bottom: 28rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+  }
+  
+  .ai-header:active {
+    background-color: #f9f9f9;
+  }
+  
+  .ai-avatar-container {
+    position: relative;
+    margin-right: 20rpx;
+  }
+  
+  .ai-avatar {
+    width: 80rpx;
+    height: 80rpx;
+    border-radius: 20rpx;
+    background: #4a6cf7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 40rpx;
+    color: white;
+  }
+  
+  .ai-avatar-badge {
+    position: absolute;
+    top: -8rpx;
+    right: -8rpx;
+    background: #ff4d4f;
+    color: white;
+    font-size: 20rpx;
+    padding: 4rpx 8rpx;
+    border-radius: 12rpx;
+    font-weight: 600;
+    border: 2rpx solid white;
+  }
+  
+  .ai-info {
+    flex: 1;
+  }
+  
+  .ai-title {
+    display: block;
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 4rpx;
+  }
+  
+  .ai-desc {
+    display: block;
+    font-size: 24rpx;
+    color: #999;
+  }
+  
+  .ai-arrow {
+    font-size: 36rpx;
+    color: #ccc;
+    font-weight: 300;
+  }
+  
+  .ai-features {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24rpx;
+  }
+  
+  .feature-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .feature-item:active .feature-icon {
+    background-color: #f0f0f0;
+  }
+  
+  .feature-icon {
+    width: 80rpx;
+    height: 80rpx;
+    background-color: #f8f9fa;
+    border-radius: 16rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16rpx;
+    font-size: 36rpx;
+  }
+  
+  .feature-icon text {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    font-size: 36rpx;
+    line-height: 1;
+    text-align: center;
+  }
+  
+  .feature-text {
+    font-size: 24rpx;
+    color: #333;
+    font-weight: 500;
+    text-align: center;
+    line-height: 1.4;
+  }
+  
+  /* ============ 通用区块样式 ============ */
+  .section {
+    padding: 0 32rpx 32rpx;
+  }
+  
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24rpx;
+  }
+  
+  .section-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333;
+  }
+  
+  .section-more {
+    font-size: 26rpx;
+    color: #4a6cf7;
+    font-weight: 500;
+  }
+  
+  .section-more:active {
+    opacity: 0.7;
+  }
+  
+  /* ============ 案件卡片 ============ */
+  .case-card {
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 32rpx;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border: 1rpx solid #f0f0f0;
+  }
+  
+  .case-card:active {
+    background-color: #f9f9f9;
+  }
+  
+  .case-header {
+    margin-bottom: 24rpx;
+  }
+  
+  .case-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 12rpx;
+  }
+  
+  .case-name {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #333;
+    flex: 1;
+  }
+  
+  .case-status {
+    font-size: 24rpx;
+    color: #4a6cf7;
+    background-color: #e6f7ff;
+    padding: 6rpx 16rpx;
+    border-radius: 20rpx;
+    font-weight: 500;
+    margin-left: 12rpx;
+  }
+  
+  .case-date {
+    font-size: 26rpx;
+    color: #999;
+  }
+  
+  .progress-container {
+    margin-bottom: 24rpx;
+  }
+  
+  .progress-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16rpx;
+  }
+  
+  .progress-label {
+    font-size: 26rpx;
+    color: #666;
+  }
+  
+  .progress-value {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #4a6cf7;
+  }
+  
+  .progress-bar {
+    height: 12rpx;
+    background-color: #f0f0f0;
+    border-radius: 6rpx;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: #4a6cf7;
+    border-radius: 6rpx;
+    transition: width 0.3s;
+  }
+  
+  .case-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 24rpx;
+    border-top: 1rpx solid #f0f0f0;
+  }
+  
+  .case-type {
+    font-size: 24rpx;
+    color: #666;
+    background-color: #f5f5f5;
+    padding: 6rpx 16rpx;
+    border-radius: 20rpx;
+  }
+  
+  .case-arrow {
+    font-size: 32rpx;
+    color: #ccc;
+    font-weight: 300;
+  }
+  
+  /* 空案件状态 */
+  .empty-case {
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 64rpx 32rpx;
+    text-align: center;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border: 1rpx solid #f0f0f0;
+  }
+  
+  .empty-case:active {
+    background-color: #f9f9f9;
+  }
+  
+  .empty-case .empty-icon {
+    font-size: 80rpx;
+    color: #d9d9d9;
+    margin-bottom: 24rpx;
+  }
+  
+  .empty-case .empty-text {
+    display: block;
+    font-size: 28rpx;
+    color: #999;
+    margin-bottom: 16rpx;
+    font-weight: 600;
+  }
+  
+  .empty-case .empty-action {
+    display: block;
+    font-size: 26rpx;
+    color: #4a6cf7;
+    font-weight: 500;
+  }
+  
+  /* ============ 任务代办（带完成复选框）============ */
+  .todo-list {
+    background-color: #fff;
+    border-radius: 16rpx;
+    overflow: hidden;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border: 1rpx solid #f0f0f0;
+  }
+  
+  .todo-item {
+    display: flex;
+    align-items: flex-start;
+    padding: 28rpx 32rpx;
+    border-bottom: 1rpx solid #f0f0f0;
+    transition: all 0.3s;
+  }
+  
+  .todo-item:last-child {
+    border-bottom: none;
+  }
+  
+  /* 已完成任务样式 */
+  .todo-item.completed .todo-title {
+    text-decoration: line-through;
+    color: #999;
+  }
+  
+  .todo-item.completed .todo-detail-item {
+    color: #ccc;
+  }
+  
+  .todo-item.completed .todo-time {
+    color: #ccc;
+  }
+  
+  .todo-item.completed .todo-urgent {
+    opacity: 0.5;
+  }
+  
+  /* 复选框 */
+  .todo-checkbox {
+    margin-right: 20rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48rpx;
+    height: 48rpx;
+  }
+  
+  .checkbox {
+    width: 40rpx;
+    height: 40rpx;
+    border-radius: 50%;
+    border: 2rpx solid #d9d9d9;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+  
+  .checkbox.checked {
+    background-color: #4a6cf7;
+    border-color: #4a6cf7;
+    color: white;
+  }
+  
+  .checkbox text {
+    font-size: 28rpx;
+    line-height: 1;
+    color: white;
+  }
+  
+  /* 任务内容区域（点击进入详情） */
+  .todo-middle {
+    flex: 1;
+    margin-right: 20rpx;
+  }
+  
+  .todo-title {
+    display: block;
+    font-size: 28rpx;
+    color: #333;
+    font-weight: 500;
+    margin-bottom: 12rpx;
+    transition: color 0.3s;
+  }
+  
+  .todo-detail {
+    display: flex;
+    gap: 20rpx;
+  }
+  
+  .todo-detail-item {
+    font-size: 24rpx;
+    color: #999;
+    transition: color 0.3s;
+  }
+  
+  /* 右侧区域 */
+  .todo-right {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    min-width: 120rpx;
+  }
+  
+  .todo-time {
+    font-size: 24rpx;
+    color: #999;
+    white-space: nowrap;
+    margin-bottom: 8rpx;
+    transition: color 0.3s;
+  }
+  
+  .todo-urgent {
+    font-size: 20rpx;
+    color: #ff4d4f;
+    background-color: #fff1f0;
+    padding: 4rpx 12rpx;
+    border-radius: 20rpx;
+    font-weight: 500;
+    display: inline-block;
+  }
+  
+  /* 空任务状态 */
+  .empty-todo {
+    background-color: #fff;
+    border-radius: 16rpx;
+    padding: 64rpx 32rpx;
+    text-align: center;
+    box-shadow: 0 4rpx 12rpx rgba(0, 0, 0, 0.05);
+    border: 1rpx solid #f0f0f0;
+  }
+  
+  .empty-todo .empty-icon {
+    font-size: 80rpx;
+    color: #d9d9d9;
+    margin-bottom: 24rpx;
+  }
+  
+  .empty-todo .empty-text {
+    display: block;
+    font-size: 28rpx;
+    color: #999;
+    font-weight: 600;
+  }
+  
+  /* ============ 底部导航栏 ============ */
+  .custom-tabbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 120rpx;
+    background: #fff;
+    border-top: 1rpx solid #f0f0f0;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 0 20rpx;
+    z-index: 1000;
+    box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .tab-item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    transition: all 0.3s ease;
+  }
+  
+  .tab-item.active .tab-icon {
+    transform: translateY(-10rpx);
+  }
+  
+  .tab-item.active .tab-text {
+    color: #4a6cf7;
+    font-weight: 600;
+  }
+  
+  .tab-icon {
+    width: 48rpx;
+    height: 48rpx;
+    margin-bottom: 8rpx;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+    transition: transform 0.3s ease;
+  }
+  
+  /* SVG 图标 - 完全保留原始路径 */
+  .tab-icon.icon-home { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-home { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234a6cf7'%3E%3Cpath d='M10 20v-6h4v6h5v-8h3L12 3 2 12h3v8z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-case { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-case { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234a6cf7'%3E%3Cpath d='M14 6V4h-4v2h4zM4 8v11h16V8H4zm16-2c1.11 0 2 .89 2 2v11c0 1.11-.89 2-2 2H4c-1.11 0-2-.89-2-2l.01-11c0-1.11.88-2 1.99-2h4V4c0-1.11.89-2 2-2h4c1.11 0 2 .89 2 2v2h4z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-chat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-chat { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234a6cf7'%3E%3Cpath d='M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm0 14H5.17L4 17.17V4h16v12z'/%3E%3C/svg%3E"); }
+  .tab-icon.icon-mine { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23999999'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+  .tab-item.active .tab-icon.icon-mine { background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%234a6cf7'%3E%3Cpath d='M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z'/%3E%3C/svg%3E"); }
+  
+  .tab-text {
+    font-size: 24rpx;
+    color: #999;
+  }

@@ -80,6 +80,14 @@ class User(Base):
     # default=True: 插入新记录时的默认值
     is_active: Mapped[bool] = mapped_column(Boolean, default=True)
     
+    # ======================== 扩展字段（前端对接）========================
+    # 角色：lawyer=律师 / client=客户，可选，注册或角色选择后设置
+    role: Mapped[str | None] = mapped_column(String(20), index=True, default=None)
+    # 头像 URL，可选
+    avatar: Mapped[str | None] = mapped_column(String(500), default=None)
+    # 手机号，可选
+    phone: Mapped[str | None] = mapped_column(String(20), default=None)
+    
     # ======================== 时间戳字段 ========================
     # 账户创建时间
     # default 使用 lambda 函数获取当前 UTC 时间

@@ -1,0 +1,466 @@
+<view class="lawyer-edit-page">
+  <scroll-view class="edit-content" scroll-y enhanced show-scrollbar="{{false}}">
+
+    <!-- ===== 头像区域（支持图片或表情符号）===== -->
+    <view class="avatar-section">
+      <view class="avatar-container">
+        <view class="avatar-wrapper" bindtap="uploadAvatar">
+          <view class="avatar-emoji" wx:if="{{!lawyerInfo.avatar}}">
+            {{lawyerInfo.avatarEmoji}}
+          </view>
+          <image class="avatar-image" wx:else src="{{lawyerInfo.avatar}}" mode="aspectFill"></image>
+          <text class="avatar-hint">点击更换</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 基本信息卡片 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">基本信息</text>
+      </view>
+      <view class="card-content">
+        <view class="form-item">
+          <text class="form-label">姓名 <text class="required">*</text></text>
+          <input class="form-input" placeholder="请输入姓名" value="{{lawyerInfo.name}}" 
+                 bindinput="onInputChange" data-field="name" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">头衔</text>
+          <input class="form-input" placeholder="如：高级合伙人律师" value="{{lawyerInfo.title}}" 
+                 bindinput="onInputChange" data-field="title" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">执业机构</text>
+          <input class="form-input" placeholder="请输入执业机构" value="{{lawyerInfo.organization}}" 
+                 bindinput="onInputChange" data-field="organization" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">执业证号 <text class="required">*</text></text>
+          <input class="form-input" placeholder="请输入执业证号" value="{{lawyerInfo.licenseNumber}}" 
+                 bindinput="onInputChange" data-field="licenseNumber" />
+        </view>
+        <view class="form-row">
+          <view class="form-item half">
+            <text class="form-label">执业年限</text>
+            <input class="form-input" placeholder="如：15" value="{{lawyerInfo.practiceYears}}" 
+                   bindinput="onInputChange" data-field="practiceYears" type="number" />
+          </view>
+          <view class="form-item half">
+            <text class="form-label">执业区域</text>
+            <input class="form-input" placeholder="如：全国" value="{{lawyerInfo.practiceArea}}" 
+                   bindinput="onInputChange" data-field="practiceArea" />
+          </view>
+        </view>
+        <view class="form-item">
+          <text class="form-label">专业方向</text>
+          <input class="form-input" placeholder="如：民商事诉讼、公司法务" value="{{lawyerInfo.expertise}}" 
+                 bindinput="onInputChange" data-field="expertise" />
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 专业数据统计 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">专业数据</text>
+      </view>
+      <view class="card-content">
+        <view class="stats-grid">
+          <view class="stat-item">
+            <text class="stat-label">累计办案</text>
+            <input class="stat-input" placeholder="0" value="{{lawyerInfo.stats.caseCount}}" 
+                   bindinput="onInputChange" data-subfield="stats.caseCount" type="number" />
+          </view>
+          <view class="stat-item">
+            <text class="stat-label">胜诉率(%)</text>
+            <input class="stat-input" placeholder="0" value="{{lawyerInfo.stats.winRate}}" 
+                   bindinput="onInputChange" data-subfield="stats.winRate" type="number" />
+          </view>
+          <view class="stat-item">
+            <text class="stat-label">客户满意度(%)</text>
+            <input class="stat-input" placeholder="0" value="{{lawyerInfo.stats.clientSatisfaction}}" 
+                   bindinput="onInputChange" data-subfield="stats.clientSatisfaction" type="number" />
+          </view>
+          <view class="stat-item">
+            <text class="stat-label">执业经验(年)</text>
+            <input class="stat-input" placeholder="0" value="{{lawyerInfo.stats.years}}" 
+                   bindinput="onInputChange" data-subfield="stats.years" type="number" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 教育背景 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">教育背景</text>
+      </view>
+      <view class="card-content">
+        <view class="form-item">
+          <text class="form-label">最高学位</text>
+          <input class="form-input" placeholder="如：法学硕士" value="{{lawyerInfo.education.degree}}" 
+                 bindinput="onInputChange" data-subfield="education.degree" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">毕业院校</text>
+          <input class="form-input" placeholder="如：中国政法大学" value="{{lawyerInfo.education.school}}" 
+                 bindinput="onInputChange" data-subfield="education.school" />
+        </view>
+        <view class="form-item">
+          <text class="form-label">专业</text>
+          <input class="form-input" placeholder="如：民商法学" value="{{lawyerInfo.education.major}}" 
+                 bindinput="onInputChange" data-subfield="education.major" />
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 语言能力 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">语言能力</text>
+      </view>
+      <view class="card-content">
+        <textarea class="form-textarea" placeholder="如：中文普通话（母语）、英语（专业八级）" 
+                  value="{{lawyerInfo.languageSkills}}" bindinput="onInputChange" data-field="languageSkills" 
+                  maxlength="200" />
+        <view class="textarea-counter">{{lawyerInfo.languageSkills.length || 0}}/200</view>
+      </view>
+    </view>
+
+    <!-- ===== 专业介绍 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">专业介绍</text>
+      </view>
+      <view class="card-content">
+        <textarea class="form-textarea" placeholder="请详细介绍您的专业背景、执业经验等" 
+                  value="{{lawyerInfo.introduction}}" bindinput="onInputChange" data-field="introduction" 
+                  maxlength="500" />
+        <view class="textarea-counter">{{lawyerInfo.introduction.length || 0}}/500</view>
+      </view>
+    </view>
+
+    <!-- ===== 专业领域 ===== -->
+    <view class="edit-card">
+      <view class="card-header">
+        <text class="card-title">专业领域</text>
+      </view>
+      <view class="card-content">
+        <view class="form-item">
+          <text class="form-label">专业领域（用逗号分隔）</text>
+          <input class="form-input" placeholder="如：合同纠纷,公司股权,金融证券" 
+                 value="{{lawyerInfo.expertiseAreasInput}}" bindinput="onInputChange" 
+                 data-field="expertiseAreasInput" />
+        </view>
+        <view class="tags-preview">
+          <text class="tags-label">预览效果：</text>
+          <view class="tags-container">
+            <view class="tag-item" wx:for="{{expertiseTags}}" wx:key="index">{{item}}</view>
+            <view class="tag-empty" wx:if="{{expertiseTags.length === 0}}">暂无标签</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 工作经历（可添加/删除）===== -->
+    <view class="edit-card">
+      <view class="card-header with-action">
+        <text class="card-title">工作经历</text>
+        <view class="section-action" bindtap="addWorkExperience">
+          <text class="action-icon">+</text>
+          <text class="action-text">添加</text>
+        </view>
+      </view>
+      <view class="card-content experience-list">
+        <view class="experience-item" wx:for="{{lawyerInfo.workExperience}}" wx:key="index" wx:for-index="idx">
+          <view class="experience-header">
+            <text class="experience-index">经历 {{idx + 1}}</text>
+            <view class="experience-actions" wx:if="{{lawyerInfo.workExperience.length > 1}}">
+              <text class="action-delete" bindtap="removeWorkExperience" data-index="{{idx}}">删除</text>
+            </view>
+          </view>
+          <view class="form-item">
+            <text class="form-label">时间段</text>
+            <input class="form-input" placeholder="如：2008年-至今" value="{{item.period}}" 
+                   bindinput="onWorkExperienceInput" data-index="{{idx}}" data-field="period" />
+          </view>
+          <view class="form-item">
+            <text class="form-label">职位</text>
+            <input class="form-input" placeholder="如：高级合伙人" value="{{item.position}}" 
+                   bindinput="onWorkExperienceInput" data-index="{{idx}}" data-field="position" />
+          </view>
+          <view class="form-item">
+            <text class="form-label">详细描述</text>
+            <textarea class="form-textarea compact" placeholder="请描述工作职责和成就" 
+                      value="{{item.detail}}" bindinput="onWorkExperienceInput" 
+                      data-index="{{idx}}" data-field="detail" maxlength="200" />
+            <view class="textarea-counter">{{item.detail.length || 0}}/200</view>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- ===== 代表性案例（可添加/删除）===== -->
+    <view class="edit-card">
+      <view class="card-header with-action">
+        <text class="card-title">代表性案例</text>
+        <view class="section-action" bindtap="addCaseExperience">
+          <text class="action-icon">+</text>
+          <text class="action-text">添加</text>
+        </view>
+      </view>
+      <view class="card-content case-list">
+        <view class="case-item" wx:for="{{lawyerInfo.caseExperience}}" wx:key="index" wx:for-index="idx">
+          <view class="case-header">
+            <text class="case-index">案例 {{idx + 1}}</text>
+            <view class="case-actions" wx:if="{{lawyerInfo.caseExperience.length > 1}}">
+              <text class="action-delete" bindtap="removeCaseExperience" data-index="{{idx}}">删除</text>
+            </view>
+          </view>
+          <view class="form-item">
+            <text class="form-label">案例标题</text>
+            <input class="form-input" placeholder="如：某上市公司股权纠纷案" value="{{item.title}}" 
+                   bindinput="onCaseExperienceInput" data-index="{{idx}}" data-field="title" />
+          </view>
+          <view class="form-item">
+            <text class="form-label">案例类型</text>
+            <input class="form-input" placeholder="如：商事诉讼" value="{{item.type}}" 
+                   bindinput="onCaseExperienceInput" data-index="{{idx}}" data-field="type" />
+          </view>
+          <view class="form-item">
+            <text class="form-label">案例详情</text>
+            <textarea class="form-textarea compact" placeholder="请描述案件情况和您的角色" 
+                      value="{{item.detail}}" bindinput="onCaseExperienceInput" 
+                      data-index="{{idx}}" data-field="detail" maxlength="300" />
+            <view class="textarea-counter">{{item.detail.length || 0}}/300</view>
+          </view>
+          <view class="form-item">
+            <text class="form-label">案件结果</text>
+            <input class="form-input" placeholder="如：胜诉，为客户挽回损失3.2亿元" value="{{item.result}}" 
+                   bindinput="onCaseExperienceInput" data-index="{{idx}}" data-field="result" />
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 底部填充区域，避免内容被固定操作栏遮挡 -->
+    <view class="bottom-padding"></view>
+  </scroll-view>
+
+  <!-- ===== 底部操作栏 ===== -->
+  <view class="edit-footer">
+    <view class="footer-buttons">
+      <view class="footer-btn cancel-btn" bindtap="cancelEdit">
+        <text class="btn-text">取消</text>
+      </view>
+      <view class="footer-btn preview-btn" bindtap="previewCard">
+        <text class="btn-text">预览</text>
+      </view>
+      <view class="footer-btn save-btn" bindtap="saveLawyerInfo">
+        <text class="btn-text">保存</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- ===== 名片预览浮窗（头像区域已支持图片）===== -->
+  <view class="preview-modal-overlay" wx:if="{{showPreviewModal}}">
+    <view class="preview-modal-container">
+      <view class="preview-modal-header">
+        <text class="preview-modal-title">名片预览</text>
+        <view class="preview-modal-close" bindtap="closePreviewModal">✕</view>
+      </view>
+      <scroll-view class="preview-modal-content" scroll-y>
+        <!-- 以下内容完全模仿客户端律师名片页面的视觉结构 -->
+        <view class="preview-lawyer-detail-page">
+
+          <!-- 律师权威头衔区域（优先显示图片） -->
+          <view class="preview-lawyer-authority-section">
+            <view class="preview-lawyer-header-card">
+              <view class="preview-lawyer-avatar-wrapper">
+                <image class="preview-lawyer-avatar-image" wx:if="{{previewData.avatar}}" src="{{previewData.avatar}}" mode="aspectFill"></image>
+                <view class="preview-lawyer-avatar-emoji" wx:else>{{previewData.avatarEmoji}}</view>
+                <view class="preview-lawyer-badge">权威认证</view>
+              </view>
+              <view class="preview-lawyer-intro-section">
+                <text class="preview-lawyer-name">{{previewData.name}}</text>
+                <text class="preview-lawyer-title">{{previewData.title}}</text>
+                <view class="preview-lawyer-organization">
+                  <text class="preview-organization-name">{{previewData.organization}}</text>
+                  <text class="preview-organization-rank">全国百强律所</text>
+                </view>
+              </view>
+            </view>
+            <view class="preview-honor-tags">
+              <view class="preview-honor-tag">高级合伙人</view>
+              <view class="preview-honor-tag">资深律师</view>
+              <view class="preview-honor-tag">法律顾问</view>
+              <view class="preview-honor-tag">专家委员</view>
+            </view>
+          </view>
+
+          <!-- 整合信息模块 -->
+          <view class="preview-integrated-info-section">
+            <!-- 执业信息网格 -->
+            <view class="preview-info-grid">
+              <view class="preview-info-item">
+                <view class="preview-info-icon">⚖️</view>
+                <view class="preview-info-content">
+                  <text class="preview-info-label">执业证号</text>
+                  <text class="preview-info-value">{{previewData.licenseNumber}}</text>
+                </view>
+              </view>
+              <view class="preview-info-item">
+                <view class="preview-info-icon">⏳</view>
+                <view class="preview-info-content">
+                  <text class="preview-info-label">执业年限</text>
+                  <text class="preview-info-value">{{previewData.practiceYears}}年</text>
+                </view>
+              </view>
+              <view class="preview-info-item">
+                <view class="preview-info-icon">📍</view>
+                <view class="preview-info-content">
+                  <text class="preview-info-label">执业区域</text>
+                  <text class="preview-info-value">{{previewData.practiceArea}}</text>
+                </view>
+              </view>
+              <view class="preview-info-item">
+                <view class="preview-info-icon">🎯</view>
+                <view class="preview-info-content">
+                  <text class="preview-info-label">专业方向</text>
+                  <text class="preview-info-value">{{previewData.expertise}}</text>
+                </view>
+              </view>
+            </view>
+
+            <!-- 专业资质 -->
+            <view class="preview-qualification-section">
+              <view class="preview-section-header">
+                <text class="preview-section-title">专业资质</text>
+              </view>
+              <view class="preview-qualification-list">
+                <view class="preview-qualification-item">
+                  <view class="preview-qualification-label">
+                    <text class="preview-qualification-icon">🎓</text>
+                    <text class="preview-qualification-text">教育背景</text>
+                  </view>
+                  <view class="preview-qualification-value">
+                    <text class="preview-qualification-main">{{previewData.education.degree}}</text>
+                    <text class="preview-qualification-sub">{{previewData.education.school}} · {{previewData.education.major}}</text>
+                  </view>
+                </view>
+                <view class="preview-qualification-item">
+                  <view class="preview-qualification-label">
+                    <text class="preview-qualification-icon">📜</text>
+                    <text class="preview-qualification-text">专业认证</text>
+                  </view>
+                  <view class="preview-qualification-value">
+                    <text class="preview-qualification-main">国家司法部注册执业律师</text>
+                    <text class="preview-qualification-sub">律师协会会员 · 无违规记录</text>
+                  </view>
+                </view>
+                <view class="preview-qualification-item">
+                  <view class="preview-qualification-label">
+                    <text class="preview-qualification-icon">🗣️</text>
+                    <text class="preview-qualification-text">语言能力</text>
+                  </view>
+                  <view class="preview-qualification-value">
+                    <text class="preview-qualification-main">{{previewData.languageSkills}}</text>
+                  </view>
+                </view>
+              </view>
+            </view>
+
+            <!-- 专业介绍 -->
+            <view class="preview-introduction-section">
+              <view class="preview-section-header">
+                <text class="preview-section-title">专业介绍</text>
+              </view>
+              <view class="preview-introduction-content">
+                <text class="preview-introduction-text">{{previewData.introduction}}</text>
+              </view>
+            </view>
+
+            <!-- 专业领域 -->
+            <view class="preview-expertise-section">
+              <view class="preview-section-header">
+                <text class="preview-section-title">专业领域</text>
+              </view>
+              <view class="preview-expertise-tags">
+                <block wx:for="{{previewData.expertiseAreas || expertiseTags}}" wx:key="index">
+                  <view class="preview-expertise-tag">{{item}}</view>
+                </block>
+              </view>
+            </view>
+          </view>
+
+          <!-- 专业数据统计 -->
+          <view class="preview-stats-section">
+            <view class="preview-section-title">
+              <text class="preview-title-text">专业数据</text>
+            </view>
+            <view class="preview-stats-grid">
+              <view class="preview-stat-card">
+                <text class="preview-stat-number">{{previewData.stats.caseCount}}+</text>
+                <text class="preview-stat-label">累计办案</text>
+                <text class="preview-stat-desc">成功案例</text>
+              </view>
+              <view class="preview-stat-card">
+                <text class="preview-stat-number">{{previewData.stats.winRate}}%</text>
+                <text class="preview-stat-label">胜诉率</text>
+                <text class="preview-stat-desc">案件成功率</text>
+              </view>
+              <view class="preview-stat-card">
+                <text class="preview-stat-number">{{previewData.stats.clientSatisfaction}}%</text>
+                <text class="preview-stat-label">客户满意</text>
+                <text class="preview-stat-desc">服务满意度</text>
+              </view>
+              <view class="preview-stat-card">
+                <text class="preview-stat-number">{{previewData.stats.years}}+</text>
+                <text class="preview-stat-label">执业经验</text>
+                <text class="preview-stat-desc">资深专业</text>
+              </view>
+            </view>
+          </view>
+
+          <!-- 执业经历 -->
+          <view class="preview-experience-section">
+            <view class="preview-section-title">
+              <text class="preview-title-text">执业经历</text>
+            </view>
+            <view class="preview-experience-timeline">
+              <view class="preview-timeline-item" wx:for="{{previewData.workExperience}}" wx:key="index">
+                <view class="preview-timeline-dot"></view>
+                <view class="preview-timeline-content">
+                  <text class="preview-timeline-period">{{item.period}}</text>
+                  <text class="preview-timeline-position">{{item.position}}</text>
+                  <text class="preview-timeline-detail">{{item.detail}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+
+          <!-- 代表性案例 -->
+          <view class="preview-case-section">
+            <view class="preview-section-title">
+              <text class="preview-title-text">代表性案例</text>
+            </view>
+            <view class="preview-case-list">
+              <view class="preview-case-card" wx:for="{{previewData.caseExperience}}" wx:key="index">
+                <view class="preview-case-header">
+                  <text class="preview-case-title">{{item.title}}</text>
+                  <text class="preview-case-type">{{item.type}}</text>
+                </view>
+                <text class="preview-case-detail">{{item.detail}}</text>
+                <view class="preview-case-result">
+                  <text class="preview-result-label">案件结果：</text>
+                  <text class="preview-result-text">{{item.result}}</text>
+                </view>
+              </view>
+            </view>
+          </view>
+        </view>
+      </scroll-view>
+    </view>
+  </view>
+</view>

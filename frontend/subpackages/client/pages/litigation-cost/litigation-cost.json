@@ -1,0 +1,8 @@
+{
+    "usingComponents": {},
+    "navigationBarTitleText": "诉讼费用",
+    "navigationBarBackgroundColor": "#2a6df5",
+    "navigationBarTextStyle": "white",
+    "backgroundColor": "#f7f8fa",
+    "enablePullDownRefresh": false
+  }

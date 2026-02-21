@@ -1,0 +1,925 @@
+/* subpackages/lawyer/pages/case-detail/case-detail.wxss */
+page {
+    background-color: #f5f7fa;
+  }
+  
+  .container {
+    padding: 20rpx 20rpx 140rpx;
+    min-height: 100vh;
+  }
+  
+  /* 案件头部 */
+  .case-header {
+    background-color: white;
+    border-radius: 16rpx;
+    padding: 32rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.1);
+    border: 1rpx solid #e8f1ff;
+  }
+  
+  .case-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20rpx;
+  }
+  
+  .case-title {
+    font-size: 36rpx;
+    font-weight: 600;
+    color: #1a365d;
+    flex: 1;
+    line-height: 1.4;
+  }
+  
+  .case-no-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  
+  .case-no {
+    font-size: 28rpx;
+    color: #666;
+    font-weight: 500;
+  }
+  
+  .copy-icon {
+    font-size: 28rpx;
+    color: #3182ce;
+    padding: 8rpx;
+  }
+  
+  /* 卡片通用样式 */
+  .card {
+    background-color: #fff;
+    border-radius: 16rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.1);
+    border: 1rpx solid #e8f1ff;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28rpx 32rpx;
+    background-color: #f8fbff;
+    border-bottom: 1rpx solid #e8f1ff;
+  }
+  
+  .card-title-with-icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-icon {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 8rpx;
+    background-color: #3182ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16rpx;
+  }
+  
+  .card-icon .icon {
+    font-size: 28rpx;
+    color: #fff;
+  }
+  
+  .card-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .card-content {
+    padding: 32rpx;
+  }
+  
+  /* 头部操作区 */
+  .header-actions {
+    display: flex;
+    align-items: center;
+    gap: 20rpx;
+  }
+  
+  .edit-btn {
+    display: flex;
+    align-items: center;
+    padding: 8rpx 16rpx;
+    border-radius: 20rpx;
+    background-color: rgba(49, 130, 206, 0.1);
+    color: #3182ce;
+    font-size: 28rpx;
+  }
+  
+  .edit-btn:active {
+    background-color: rgba(49, 130, 206, 0.2);
+  }
+  
+  .collapse-icon {
+    display: flex;
+    align-items: center;
+    font-size: 26rpx;
+    color: #3182ce;
+  }
+  
+  .collapse-icon .icon {
+    margin-right: 8rpx;
+    font-size: 24rpx;
+  }
+  
+  .collapse-text {
+    font-size: 26rpx;
+  }
+  
+  /* 折叠状态简略显示 */
+  .collapsed-content {
+    padding: 20rpx 32rpx;
+    background-color: #f8fbff;
+    border-top: 1rpx solid #e8f1ff;
+  }
+  
+  .collapsed-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20rpx;
+  }
+  
+  .collapsed-item {
+    display: flex;
+    align-items: center;
+    padding: 12rpx 20rpx;
+    background-color: #fff;
+    border-radius: 8rpx;
+    border: 1rpx solid #e8f1ff;
+    box-shadow: 0 2rpx 8rpx rgba(0, 0, 0, 0.05);
+  }
+  
+  .collapsed-dot {
+    width: 16rpx;
+    height: 16rpx;
+    border-radius: 50%;
+    margin-right: 12rpx;
+  }
+  
+  .collapsed-dot.completed {
+    background-color: #38a169;
+  }
+  
+  .collapsed-dot.in-progress {
+    background-color: #3182ce;
+  }
+  
+  .collapsed-dot.upcoming {
+    background-color: #e2e8f0;
+  }
+  
+  .collapsed-avatar {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 12rpx;
+    color: white;
+    font-size: 24rpx;
+    font-weight: 500;
+  }
+  
+  .collapsed-text {
+    font-size: 26rpx;
+    color: #4a5568;
+  }
+  
+  /* ===== 编辑模式样式 ===== */
+  .editable-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24rpx;
+  }
+  
+  .list-header {
+    padding-bottom: 16rpx;
+    border-bottom: 1rpx solid #e8f1ff;
+  }
+  
+  .list-title {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .list-items {
+    display: flex;
+    flex-direction: column;
+    gap: 16rpx;
+    max-height: 500rpx;
+    overflow-y: auto;
+  }
+  
+  .editable-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 24rpx;
+    background-color: #fff;
+    border: 1rpx solid #e8f1ff;
+    border-radius: 12rpx;
+  }
+  
+  .item-content {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+  
+  .item-date, .item-name {
+    font-size: 28rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .item-event, .item-meta, .item-desc, .item-sub {
+    font-size: 26rpx;
+    color: #666;
+    margin-top: 4rpx;
+  }
+  
+  .item-actions {
+    display: flex;
+    align-items: center;
+    gap: 16rpx;
+  }
+  
+  .delete-btn {
+    font-size: 36rpx;
+    color: #e53e3e;
+    padding: 8rpx;
+  }
+  
+  /* 添加触发按钮 */
+  .add-trigger {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24rpx;
+    background-color: #f8fbff;
+    border: 1rpx dashed #3182ce;
+    border-radius: 12rpx;
+    color: #3182ce;
+    font-size: 28rpx;
+    margin: 8rpx 0;
+  }
+  
+  .add-trigger:active {
+    background-color: #e6f7ff;
+  }
+  
+  .add-trigger-icon {
+    font-size: 32rpx;
+    margin-right: 12rpx;
+  }
+  
+  /* 添加表单 */
+  .add-form {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+    padding: 24rpx;
+    background-color: #f8fbff;
+    border-radius: 12rpx;
+    border: 1rpx solid #e8f1ff;
+  }
+  
+  .form-row {
+    width: 100%;
+  }
+  
+  .picker-input {
+    background-color: #fff;
+    border: 1rpx solid #e8f1ff;
+    border-radius: 8rpx;
+    padding: 0 20rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 26rpx;
+    color: #1a1a1a;
+    box-sizing: border-box;
+  }
+  
+  .add-input {
+    width: 100%;
+    background-color: #fff;
+    border: 1rpx solid #e8f1ff;
+    border-radius: 8rpx;
+    padding: 0 20rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 26rpx;
+    color: #1a1a1a;
+    box-sizing: border-box;
+  }
+  
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20rpx;
+    margin-top: 8rpx;
+  }
+  
+  .cancel-small-btn, .confirm-small-btn {
+    padding: 16rpx 32rpx;
+    border-radius: 8rpx;
+    font-size: 26rpx;
+    text-align: center;
+  }
+  
+  .cancel-small-btn {
+    background-color: #f8f9fa;
+    color: #718096;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .confirm-small-btn {
+    background-color: #3182ce;
+    color: white;
+  }
+  
+  .cancel-small-btn:active, .confirm-small-btn:active {
+    opacity: 0.8;
+  }
+  
+  /* 上传文件按钮 */
+  .upload-file-btn {
+    width: 100%;
+    background-color: #f0f8ff;
+    color: #3182ce;
+    border: 1rpx solid #3182ce;
+    padding: 20rpx;
+    border-radius: 12rpx;
+    font-size: 28rpx;
+    font-weight: 500;
+    text-align: center;
+    margin: 8rpx 0;
+    box-sizing: border-box;
+    height: 80rpx;
+    line-height: 40rpx;
+  }
+  
+  .upload-file-btn:active {
+    background-color: #e6f7ff;
+  }
+  
+  /* 编辑区底部按钮 */
+  .edit-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 20rpx;
+    margin-top: 16rpx;
+  }
+  
+  .cancel-btn, .save-btn {
+    padding: 16rpx 32rpx;
+    border-radius: 12rpx;
+    font-size: 28rpx;
+    font-weight: 500;
+    text-align: center;
+    height: 72rpx;
+    line-height: 40rpx;
+    box-sizing: border-box;
+  }
+  
+  .cancel-btn {
+    background-color: #f8f9fa;
+    color: #718096;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .save-btn {
+    background-color: #3182ce;
+    color: white;
+  }
+  
+  .cancel-btn:active, .save-btn:active {
+    opacity: 0.8;
+  }
+  
+  /* ===== 案件基本信息 ===== */
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 32rpx 40rpx;
+  }
+  
+  .info-item {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .label {
+    font-size: 26rpx;
+    color: #718096;
+    margin-bottom: 8rpx;
+    line-height: 1.4;
+  }
+  
+  .value {
+    font-size: 30rpx;
+    color: #2d3748;
+    font-weight: 500;
+    line-height: 1.4;
+  }
+  
+  .status-badge {
+    display: inline-block;
+    padding: 6rpx 20rpx;
+    border-radius: 20rpx;
+    font-size: 24rpx;
+    font-weight: 500;
+  }
+  
+  .status-active {
+    background-color: rgba(56, 161, 105, 0.1);
+    color: #38a169;
+    border: 1rpx solid rgba(56, 161, 105, 0.3);
+  }
+  
+  /* ===== 时间轴（查看模式）===== */
+  .timeline {
+    position: relative;
+    padding-left: 40rpx;
+  }
+  
+  .timeline::before {
+    content: '';
+    position: absolute;
+    left: 15rpx;
+    top: 0;
+    bottom: 0;
+    width: 2rpx;
+    background: linear-gradient(to bottom, #3182ce, #38a169);
+  }
+  
+  .timeline-item {
+    position: relative;
+    margin-bottom: 40rpx;
+    display: flex;
+  }
+  
+  .timeline-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .timeline-dot {
+    position: absolute;
+    left: -40rpx;
+    top: 8rpx;
+    width: 24rpx;
+    height: 24rpx;
+    border-radius: 50%;
+    z-index: 1;
+    border: 3rpx solid #fff;
+    box-shadow: 0 0 0 2rpx #3182ce;
+  }
+  
+  .timeline-dot.completed {
+    background-color: #38a169;
+    box-shadow: 0 0 0 2rpx rgba(56, 161, 105, 0.3);
+  }
+  
+  .timeline-dot.in-progress {
+    background-color: #3182ce;
+    box-shadow: 0 0 0 2rpx rgba(49, 130, 206, 0.3);
+  }
+  
+  .timeline-dot.upcoming {
+    background-color: #e2e8f0;
+    box-shadow: 0 0 0 2rpx rgba(49, 130, 206, 0.2);
+  }
+  
+  .timeline-content {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+  }
+  
+  .timeline-date {
+    font-size: 26rpx;
+    color: #3182ce;
+    margin-bottom: 4rpx;
+    font-weight: 500;
+  }
+  
+  .timeline-event {
+    font-size: 30rpx;
+    color: #1a1a1a;
+    font-weight: 500;
+    line-height: 1.4;
+    margin-bottom: 8rpx;
+  }
+  
+  .timeline-desc {
+    font-size: 26rpx;
+    color: #666;
+    line-height: 1.5;
+  }
+  
+  /* ===== 关联卷宗（查看模式）- 右侧菜单 ===== */
+  .documents-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20rpx;
+  }
+  
+  .document-item {
+    display: flex;
+    align-items: center;
+    padding: 24rpx;
+    background-color: #f8fbff;
+    border-radius: 12rpx;
+    border: 1rpx solid #e8f1ff;
+    transition: all 0.2s;
+  }
+  
+  .document-item:active {
+    background-color: #e6f7ff;
+  }
+  
+  .document-info {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .document-name {
+    font-size: 30rpx;
+    color: #1a365d;
+    margin-bottom: 4rpx;
+    font-weight: 500;
+  }
+  
+  .document-meta {
+    font-size: 24rpx;
+    color: #718096;
+    margin-bottom: 4rpx;
+  }
+  
+  .document-uploader {
+    font-size: 24rpx;
+    color: #3182ce;
+  }
+  
+  .document-more {
+    font-size: 48rpx;
+    color: #718096;
+    padding: 0 20rpx;
+    font-weight: 600;
+    line-height: 1;
+  }
+  
+  .document-more:active {
+    color: #3182ce;
+  }
+  
+  /* ===== 案件相关方（联系按钮）===== */
+  .parties-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20rpx;
+  }
+  
+  .party-card {
+    background-color: #f8fbff;
+    border-radius: 12rpx;
+    padding: 24rpx;
+    border: 1rpx solid #e8f1ff;
+    position: relative;
+    transition: all 0.2s;
+  }
+  
+  .party-card:active {
+    background-color: #e6f7ff;
+    transform: translateY(-2rpx);
+  }
+  
+  .party-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 16rpx;
+  }
+  
+  .party-avatar {
+    width: 60rpx;
+    height: 60rpx;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16rpx;
+    color: white;
+    font-size: 24rpx;
+    font-weight: 500;
+  }
+  
+  .party-plaintiff {
+    background: linear-gradient(135deg, #e53e3e, #c53030);
+  }
+  
+  .party-defendant {
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+  }
+  
+  .party-agent {
+    background: linear-gradient(135deg, #38a169, #2f855a);
+  }
+  
+  .party-witness {
+    background: linear-gradient(135deg, #718096, #4a5568);
+  }
+  
+  .party-title {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .party-name {
+    font-size: 28rpx;
+    color: #1a365d;
+    font-weight: 500;
+    margin-bottom: 4rpx;
+  }
+  
+  .party-type {
+    font-size: 22rpx;
+    color: #718096;
+    background-color: #f0f0f0;
+    padding: 2rpx 8rpx;
+    border-radius: 4rpx;
+    align-self: flex-start;
+  }
+  
+  .party-details {
+    display: flex;
+    flex-direction: column;
+    gap: 4rpx;
+    margin-bottom: 12rpx;
+  }
+  
+  .party-role {
+    font-size: 26rpx;
+    color: #3182ce;
+    font-weight: 500;
+  }
+  
+  .party-contact, .party-address {
+    font-size: 24rpx;
+    color: #666;
+  }
+  
+  /* 联系按钮 */
+  .party-action {
+    display: flex;
+    justify-content: flex-end;
+  }
+  
+  .contact-btn {
+    display: flex;
+    align-items: center;
+    padding: 8rpx 24rpx;
+    background: linear-gradient(135deg, #3182ce, #2b6cb0);
+    border-radius: 30rpx;
+    color: white;
+    font-size: 26rpx;
+    font-weight: 500;
+    gap: 8rpx;
+  }
+  
+  .contact-btn:active {
+    opacity: 0.8;
+    transform: scale(0.96);
+  }
+  
+  .contact-btn.disabled {
+    background: #cbd5e0;
+    color: #64748b;
+    pointer-events: none;
+  }
+  
+  .btn-icon {
+    font-size: 28rpx;
+  }
+  
+  .btn-text {
+    font-size: 26rpx;
+  }
+  
+  /* ===== 底部客户操作按钮栏 ===== */
+  .client-action-bar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    padding: 20rpx 32rpx 30rpx;
+    background: #ffffff;
+    border-top: 1rpx solid #e2e8f0;
+    box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(10px);
+    gap: 24rpx;
+    z-index: 1000;
+  }
+  
+  .client-action-bar .action-btn {
+    flex: 1;
+    height: 88rpx;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12rpx;
+    font-size: 30rpx;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  .client-action-bar .action-btn:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  
+  .client-action-bar .bind-btn {
+    background: #f0f9ff;
+    color: #3182ce;
+    border: 1rpx solid #bee3f8;
+  }
+  
+  .client-action-bar .contact-btn {
+    background: #3182ce;
+    color: white;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.3);
+  }
+  
+  .client-action-bar .btn-icon {
+    font-size: 32rpx;
+  }
+  
+  .client-action-bar .btn-text {
+    font-size: 30rpx;
+    font-weight: 600;
+  }
+  
+  /* ===== 绑定码浮窗（与创建案件页面风格一致）===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  
+  .modal-content {
+    width: 65%;
+    max-width: 500rpx;
+    background-color: #fff;
+    border-radius: 28rpx;
+    overflow: hidden;
+    box-shadow: 0 16rpx 32rpx rgba(0, 0, 0, 0.15);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 24rpx;
+    border-bottom: 1rpx solid #e8f1ff;
+    background-color: #f8fbff;
+  }
+  
+  .modal-title {
+    font-size: 30rpx;
+    font-weight: 700;
+    color: #1a365d;
+  }
+  
+  .close-btn {
+    font-size: 44rpx;
+    color: #718096;
+    line-height: 1;
+    padding: 0 6rpx;
+  }
+  
+  .close-btn:active {
+    color: #3182ce;
+  }
+  
+  .modal-body {
+    padding: 28rpx 24rpx;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bind-code-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20rpx;
+    width: 100%;
+  }
+  
+  .bind-code-label {
+    font-size: 24rpx;
+    color: #475569;
+    margin-bottom: 12rpx;
+  }
+  
+  .bind-code-value {
+    font-size: 40rpx;
+    font-weight: 700;
+    color: #3182ce;
+    letter-spacing: 6rpx;
+    background: #f0f9ff;
+    padding: 16rpx 24rpx;
+    border-radius: 12rpx;
+    border: 1rpx solid #bee3f8;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .bind-tip {
+    font-size: 24rpx;
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  .modal-actions {
+    display: flex;
+    padding: 0 24rpx 24rpx;
+    gap: 16rpx;
+  }
+  
+  .modal-actions .btn {
+    flex: 1;
+    height: 72rpx;
+    border-radius: 36rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26rpx;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  .modal-actions .cancel-btn {
+    background-color: #f8f9fa;
+    color: #64748b;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .modal-actions .confirm-btn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.3);
+  }
+  
+  .modal-actions .btn:active {
+    opacity: 0.8;
+    transform: scale(0.96);
+  }
+  
+  /* 响应式调整 */
+  @media (max-width: 750rpx) {
+    .info-grid {
+      grid-template-columns: 1fr;
+      gap: 24rpx;
+    }
+    
+    .parties-container {
+      grid-template-columns: 1fr;
+    }
+  
+    .client-action-bar {
+      padding: 16rpx 24rpx 24rpx;
+    }
+  
+    .modal-content {
+      width: 75%;
+      max-width: 450rpx;
+    }
+  }

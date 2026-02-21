@@ -1,0 +1,298 @@
+/* subpackages/lawyer/pages/create-case/create-case.wxss */
+.create-case-page {
+    background: #f5faff;
+    min-height: 100vh;
+    padding: 20rpx 20rpx 140rpx;
+    font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Helvetica Neue', sans-serif;
+  }
+  
+  /* ===== 卡片样式（与case-detail完全统一）===== */
+  .form-card {
+    background-color: #fff;
+    border-radius: 24rpx;
+    margin-bottom: 20rpx;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.1);
+    border: 1rpx solid #e8f1ff;
+    overflow: hidden;
+  }
+  
+  .card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 28rpx 32rpx;
+    background-color: #f8fbff;
+    border-bottom: 1rpx solid #e8f1ff;
+  }
+  
+  .card-title-with-icon {
+    display: flex;
+    align-items: center;
+  }
+  
+  .card-icon {
+    width: 48rpx;
+    height: 48rpx;
+    border-radius: 8rpx;
+    background-color: #3182ce;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 16rpx;
+  }
+  
+  .card-icon .icon {
+    font-size: 28rpx;
+    color: #fff;
+  }
+  
+  .card-title {
+    font-size: 32rpx;
+    font-weight: 600;
+    color: #1a365d;
+  }
+  
+  .card-content {
+    padding: 32rpx;
+  }
+  
+  /* ===== 表单项样式 ===== */
+  .form-item {
+    margin-bottom: 32rpx;
+  }
+  
+  .form-item:last-child {
+    margin-bottom: 0;
+  }
+  
+  .form-label {
+    display: block;
+    font-size: 28rpx;
+    color: #1e293b;
+    font-weight: 600;
+    margin-bottom: 16rpx;
+  }
+  
+  .required {
+    color: #e53e3e;
+    margin-left: 4rpx;
+  }
+  
+  /* 输入框统一风格（胶囊圆角，固定高度） */
+  .form-input {
+    width: 100%;
+    background-color: #f8fafc;
+    border: 1rpx solid #e2e8f0;
+    border-radius: 40rpx;
+    padding: 0 28rpx;
+    height: 80rpx;
+    line-height: 80rpx;
+    font-size: 28rpx;
+    color: #1e293b;
+    box-sizing: border-box;
+  }
+  
+  .picker-input {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .form-input.placeholder,
+  .picker-input.placeholder {
+    color: #94a3b8;
+  }
+  
+  .placeholder {
+    color: #94a3b8;
+    font-size: 28rpx;
+  }
+  
+  /* ===== 底部固定按钮栏 ===== */
+  .bottom-actions {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    padding: 20rpx 32rpx 40rpx;
+    background: #ffffff;
+    border-top: 1rpx solid #e2e8f0;
+    box-shadow: 0 -4rpx 20rpx rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(10px);
+    gap: 24rpx;
+    z-index: 1000;
+  }
+  
+  .action-btn {
+    flex: 1;
+    height: 88rpx;
+    border-radius: 44rpx;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 30rpx;
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  .action-btn:active {
+    opacity: 0.8;
+    transform: scale(0.98);
+  }
+  
+  .cancel-btn {
+    background: #f8fafc;
+    color: #64748b;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .save-btn {
+    background: #3182ce;
+    color: white;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.3);
+  }
+  
+  /* ===== 成功浮窗样式（缩小版）===== */
+  .modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+  }
+  
+  .modal-content {
+    width: 65%;                    /* 从80%缩小至65% */
+    max-width: 500rpx;            /* 从600rpx缩小至500rpx */
+    background-color: #fff;
+    border-radius: 28rpx;         /* 略缩小圆角 */
+    overflow: hidden;
+    box-shadow: 0 16rpx 32rpx rgba(0, 0, 0, 0.15);
+  }
+  
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20rpx 24rpx;         /* 从28rpx 32rpx 缩小 */
+    border-bottom: 1rpx solid #e8f1ff;
+    background-color: #f8fbff;
+  }
+  
+  .modal-title {
+    font-size: 30rpx;             /* 从34rpx缩小 */
+    font-weight: 700;
+    color: #1a365d;
+  }
+  
+  .close-btn {
+    font-size: 44rpx;            /* 从48rpx缩小 */
+    color: #718096;
+    line-height: 1;
+    padding: 0 6rpx;
+  }
+  
+  .close-btn:active {
+    color: #3182ce;
+  }
+  
+  .modal-body {
+    padding: 28rpx 24rpx;        /* 从40rpx 32rpx 缩小 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .bind-code-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20rpx;        /* 从30rpx缩小 */
+    width: 100%;
+  }
+  
+  .bind-code-label {
+    font-size: 24rpx;            /* 从28rpx缩小 */
+    color: #475569;
+    margin-bottom: 12rpx;        /* 从16rpx缩小 */
+  }
+  
+  .bind-code-value {
+    font-size: 40rpx;            /* 从48rpx缩小 */
+    font-weight: 700;
+    color: #3182ce;
+    letter-spacing: 6rpx;        /* 从8rpx缩小 */
+    background: #f0f9ff;
+    padding: 16rpx 24rpx;        /* 从20rpx 32rpx 缩小 */
+    border-radius: 12rpx;        /* 从16rpx缩小 */
+    border: 1rpx solid #bee3f8;
+    width: 100%;
+    text-align: center;
+    box-sizing: border-box;
+  }
+  
+  .bind-tip {
+    font-size: 24rpx;            /* 从26rpx缩小 */
+    color: #64748b;
+    text-align: center;
+    line-height: 1.5;
+  }
+  
+  .modal-actions {
+    display: flex;
+    padding: 0 24rpx 24rpx;     /* 从0 32rpx 32rpx 缩小 */
+    gap: 16rpx;                  /* 从20rpx缩小 */
+  }
+  
+  .modal-actions .btn {
+    flex: 1;
+    height: 72rpx;              /* 从80rpx缩小 */
+    border-radius: 36rpx;       /* 从40rpx缩小 */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 26rpx;           /* 从28rpx缩小 */
+    font-weight: 600;
+    transition: all 0.2s;
+  }
+  
+  .modal-actions .cancel-btn {
+    background-color: #f8f9fa;
+    color: #64748b;
+    border: 1rpx solid #e2e8f0;
+  }
+  
+  .modal-actions .confirm-btn {
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    box-shadow: 0 4rpx 12rpx rgba(49, 130, 206, 0.3);
+  }
+  
+  .modal-actions .btn:active {
+    opacity: 0.8;
+    transform: scale(0.96);
+  }
+  
+  /* ===== 响应式 ===== */
+  @media screen and (max-width: 375px) {
+    .form-card {
+      margin-left: 24rpx;
+      margin-right: 24rpx;
+    }
+    .card-content {
+      padding: 28rpx;
+    }
+    .modal-content {
+      width: 75%;               /* 小屏时稍微放宽，但仍比原来小 */
+      max-width: 450rpx;
+    }
+  }

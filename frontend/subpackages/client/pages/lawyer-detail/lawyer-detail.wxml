@@ -1,0 +1,202 @@
+<!-- subpackages/client/pages/lawyer-detail/lawyer-detail.wxml -->
+<view class="lawyer-detail-page">
+  <!-- 律师权威头衔区域 - 去掉圆角 -->
+  <view class="lawyer-authority-section">
+    <!-- 律师头像和基本信息 -->
+    <view class="lawyer-header-card">
+      <view class="lawyer-avatar-wrapper">
+        <view class="lawyer-avatar-emoji">{{lawyerInfo.avatarEmoji}}</view>
+        <view class="lawyer-badge">权威认证</view>
+      </view>
+      <view class="lawyer-intro-section">
+        <text class="lawyer-name">{{lawyerInfo.name}}</text>
+        <text class="lawyer-title">{{lawyerInfo.title}}</text>
+        <view class="lawyer-organization">
+          <text class="organization-name">{{lawyerInfo.organization}}</text>
+          <text class="organization-rank">全国百强律所</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 律师荣誉标签 -->
+    <view class="honor-tags">
+      <view class="honor-tag">高级合伙人</view>
+      <view class="honor-tag">资深律师</view>
+      <view class="honor-tag">法律顾问</view>
+      <view class="honor-tag">专家委员</view>
+    </view>
+  </view>
+
+  <!-- 整合信息模块 -->
+  <view class="integrated-info-section">
+    <!-- 执业信息 -->
+    <view class="info-grid">
+      <view class="info-item">
+        <view class="info-icon">⚖️</view>
+        <view class="info-content">
+          <text class="info-label">执业证号</text>
+          <text class="info-value">{{lawyerInfo.licenseNumber}}</text>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon">⏳</view>
+        <view class="info-content">
+          <text class="info-label">执业年限</text>
+          <text class="info-value">{{lawyerInfo.practiceYears}}年</text>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon">📍</view>
+        <view class="info-content">
+          <text class="info-label">执业区域</text>
+          <text class="info-value">{{lawyerInfo.practiceArea}}</text>
+        </view>
+      </view>
+      <view class="info-item">
+        <view class="info-icon">🎯</view>
+        <view class="info-content">
+          <text class="info-label">专业方向</text>
+          <text class="info-value">{{lawyerInfo.expertise}}</text>
+        </view>
+      </view>
+    </view>
+
+    <!-- 专业资质 -->
+    <view class="qualification-section">
+      <view class="section-header">
+        <text class="section-title">专业资质</text>
+      </view>
+      <view class="qualification-list">
+        <view class="qualification-item">
+          <view class="qualification-label">
+            <text class="qualification-icon">🎓</text>
+            <text class="qualification-text">教育背景</text>
+          </view>
+          <view class="qualification-value">
+            <text class="qualification-main">{{lawyerInfo.education.degree}}</text>
+            <text class="qualification-sub">{{lawyerInfo.education.school}} · {{lawyerInfo.education.major}}</text>
+          </view>
+        </view>
+        <view class="qualification-item">
+          <view class="qualification-label">
+            <text class="qualification-icon">📜</text>
+            <text class="qualification-text">专业认证</text>
+          </view>
+          <view class="qualification-value">
+            <text class="qualification-main">国家司法部注册执业律师</text>
+            <text class="qualification-sub">律师协会会员 · 无违规记录</text>
+          </view>
+        </view>
+        <view class="qualification-item">
+          <view class="qualification-label">
+            <text class="qualification-icon">🗣️</text>
+            <text class="qualification-text">语言能力</text>
+          </view>
+          <view class="qualification-value">
+            <text class="qualification-main">{{lawyerInfo.languageSkills}}</text>
+          </view>
+        </view>
+      </view>
+    </view>
+
+    <!-- 专业介绍 -->
+    <view class="introduction-section">
+      <view class="section-header">
+        <text class="section-title">专业介绍</text>
+      </view>
+      <view class="introduction-content">
+        <text class="introduction-text">{{lawyerInfo.introduction}}</text>
+      </view>
+    </view>
+
+    <!-- 专业领域 -->
+    <view class="expertise-section">
+      <view class="section-header">
+        <text class="section-title">专业领域</text>
+      </view>
+      <view class="expertise-tags">
+        <view class="expertise-tag" wx:for="{{lawyerInfo.expertiseAreas}}" wx:key="index">{{item}}</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 专业数据统计 -->
+  <view class="stats-section">
+    <view class="section-title">
+      <text class="title-text">专业数据</text>
+    </view>
+    <view class="stats-grid">
+      <view class="stat-card">
+        <text class="stat-number">{{lawyerInfo.stats.caseCount}}+</text>
+        <text class="stat-label">累计办案</text>
+        <text class="stat-desc">成功案例</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-number">{{lawyerInfo.stats.winRate}}%</text>
+        <text class="stat-label">胜诉率</text>
+        <text class="stat-desc">案件成功率</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-number">{{lawyerInfo.stats.clientSatisfaction}}%</text>
+        <text class="stat-label">客户满意</text>
+        <text class="stat-desc">服务满意度</text>
+      </view>
+      <view class="stat-card">
+        <text class="stat-number">{{lawyerInfo.stats.years}}+</text>
+        <text class="stat-label">执业经验</text>
+        <text class="stat-desc">资深专业</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 执业经历 -->
+  <view class="experience-section">
+    <view class="section-title">
+      <text class="title-text">执业经历</text>
+    </view>
+    <view class="experience-timeline">
+      <view class="timeline-item" wx:for="{{lawyerInfo.workExperience}}" wx:key="index">
+        <view class="timeline-dot"></view>
+        <view class="timeline-content">
+          <text class="timeline-period">{{item.period}}</text>
+          <text class="timeline-position">{{item.position}}</text>
+          <text class="timeline-detail">{{item.detail}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 代表性案例 -->
+  <view class="case-section">
+    <view class="section-title">
+      <text class="title-text">代表性案例</text>
+    </view>
+    <view class="case-list">
+      <view class="case-card" wx:for="{{lawyerInfo.caseExperience}}" wx:key="index">
+        <view class="case-header">
+          <text class="case-title">{{item.title}}</text>
+          <text class="case-type">{{item.type}}</text>
+        </view>
+        <text class="case-detail">{{item.detail}}</text>
+        <view class="case-result">
+          <text class="result-label">案件结果：</text>
+          <text class="result-text">{{item.result}}</text>
+        </view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 固定咨询按钮（去掉蓝色卡片，直接展示） -->
+  <view class="fixed-consult-section">
+    <view class="consult-actions">
+      <view class="action-btn phone-btn" catchtap="onPhoneTap">
+        <text class="btn-icon">📞</text>
+        <text class="btn-text">电话咨询</text>
+      </view>
+      <view class="action-btn consult-btn" catchtap="onConsultTap">
+        <text class="btn-icon">💬</text>
+        <text class="btn-text">立即咨询</text>
+      </view>
+    </view>
+  </view>
+</view>
