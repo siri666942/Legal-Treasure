@@ -1,4 +1,18 @@
 // pages/find-lawyer/index.js
+const request = require('../../../common/utils/request.js');
+
+function mapLawyer(item) {
+  return {
+    id: item.id,
+    name: item.name || '',
+    title: item.title || '',
+    avatarEmoji: item.avatarEmoji || '👨‍⚖️',
+    introduction: item.introduction || '',
+    tags: Array.isArray(item.tags) ? item.tags : [],
+    categories: Array.isArray(item.categories) ? item.categories : []
+  };
+}
+
 Page({
     data: {
       searchKeyword: '',
@@ -15,122 +29,22 @@ Page({
         { id: 'traffic', name: '交通事故' },
         { id: 'medical', name: '医疗纠纷' }
       ],
-      allLawyers: [
-        {
-          id: 1,
-          name: '张伟律师',
-          title: '高级合伙人',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '民事纠纷专家，执业15年，处理案件超过800件',
-          tags: ['民事纠纷', '合同纠纷', '债务纠纷'],
-          categories: ['civil', 'contract']
-        },
-        {
-          id: 2,
-          name: '王明律师',
-          title: '刑事部主任',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '刑事辩护专家，成功辩护多起重大刑事案件',
-          tags: ['刑事辩护', '经济犯罪', '职务犯罪'],
-          categories: ['criminal']
-        },
-        {
-          id: 3,
-          name: '李娜律师',
-          title: '公司法务顾问',
-          avatarEmoji: '👩‍⚖️',
-          introduction: '上市公司法律顾问，擅长企业风险防控',
-          tags: ['公司法务', '合同审查', '股权纠纷'],
-          categories: ['company', 'contract']
-        },
-        {
-          id: 4,
-          name: '陈晨律师',
-          title: '知识产权专家',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '专利商标侵权案件专家，保护企业知识产权',
-          tags: ['知识产权', '专利侵权', '商标维权'],
-          categories: ['ip']
-        },
-        {
-          id: 5,
-          name: '赵强律师',
-          title: '劳动法专家',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '专注劳动纠纷，维护劳动者合法权益',
-          tags: ['劳动纠纷', '工伤赔偿', '劳动争议'],
-          categories: ['labor']
-        },
-        {
-          id: 6,
-          name: '刘芳律师',
-          title: '婚姻家庭专家',
-          avatarEmoji: '👩‍⚖️',
-          introduction: '婚姻家庭纠纷调解，保护妇女儿童权益',
-          tags: ['婚姻家庭', '离婚诉讼', '财产分割'],
-          categories: ['marriage']
-        },
-        {
-          id: 7,
-          name: '周涛律师',
-          title: '房产法律专家',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '房产买卖纠纷处理，房屋产权争议解决',
-          tags: ['房产纠纷', '买卖纠纷', '产权争议'],
-          categories: ['property']
-        },
-        {
-          id: 8,
-          name: '吴磊律师',
-          title: '综合法律顾问',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '综合法律服务，擅长各类民商事案件',
-          tags: ['民事纠纷', '合同纠纷', '公司法务'],
-          categories: ['civil', 'company', 'contract']
-        },
-        {
-          id: 9,
-          name: '孙悦律师',
-          title: '交通事故专家',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '交通事故责任认定，赔偿纠纷处理',
-          tags: ['交通事故', '人身损害', '保险理赔'],
-          categories: ['traffic']
-        },
-        {
-          id: 10,
-          name: '郑洁律师',
-          title: '医疗纠纷专家',
-          avatarEmoji: '👩‍⚖️',
-          introduction: '医疗事故鉴定，医患纠纷调解处理',
-          tags: ['医疗纠纷', '医疗事故', '医患调解'],
-          categories: ['medical']
-        },
-        {
-          id: 11,
-          name: '马超律师',
-          title: '债务纠纷专家',
-          avatarEmoji: '👨‍⚖️',
-          introduction: '债务追讨，企业坏账处理，信用风险防控',
-          tags: ['债务纠纷', '债权债务', '信用风险'],
-          categories: ['civil']
-        },
-        {
-          id: 12,
-          name: '黄芳律师',
-          title: '劳动仲裁顾问',
-          avatarEmoji: '👩‍⚖️',
-          introduction: '劳动争议仲裁，集体诉讼，企业劳动合规',
-          tags: ['劳动纠纷', '仲裁调解', '集体诉讼'],
-          categories: ['labor']
-        }
-      ],
+      allLawyers: [],
       displayedLawyers: [],
       searchResultCount: 0
     },
-  
+
     onLoad() {
-      this.updateDisplayedLawyers();
+      wx.showLoading({ title: '加载中...' });
+      request.get('/lawyers', false).then(({ data }) => {
+        wx.hideLoading();
+        const list = Array.isArray(data) ? data.map(mapLawyer) : [];
+        this.setData({ allLawyers: list }, () => this.updateDisplayedLawyers());
+      }).catch(() => {
+        wx.hideLoading();
+        wx.showToast({ title: '加载律师列表失败', icon: 'none' });
+        this.updateDisplayedLawyers();
+      });
     },
   
     // 搜索输入处理
@@ -170,24 +84,22 @@ Page({
       
       let filteredLawyers;
       
-      // 第一步：按筛选标签过滤
       if (currentFilter === 'all') {
         filteredLawyers = allLawyers;
       } else {
-        filteredLawyers = allLawyers.filter(lawyer => 
-          lawyer.categories.includes(currentFilter)
+        filteredLawyers = allLawyers.filter(lawyer =>
+          (lawyer.categories || []).includes(currentFilter)
         );
       }
-      
-      // 第二步：按搜索关键词过滤
       if (searchKeyword) {
         const keyword = searchKeyword.toLowerCase();
         filteredLawyers = filteredLawyers.filter(lawyer => {
-          // 搜索律师姓名、职称、简介和标签
-          return lawyer.name.toLowerCase().includes(keyword) ||
-                 lawyer.title.toLowerCase().includes(keyword) ||
-                 lawyer.introduction.toLowerCase().includes(keyword) ||
-                 lawyer.tags.some(tag => tag.toLowerCase().includes(keyword));
+          const intro = (lawyer.introduction || '').toLowerCase();
+          const tags = (lawyer.tags || []).map(t => t.toLowerCase());
+          return (lawyer.name || '').toLowerCase().includes(keyword) ||
+                 (lawyer.title || '').toLowerCase().includes(keyword) ||
+                 intro.includes(keyword) ||
+                 tags.some(tag => tag.includes(keyword));
         });
       }
       

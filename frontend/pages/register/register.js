@@ -1,5 +1,6 @@
 // pages/register/register.js
 const app = getApp();
+const request = require('../../common/utils/request.js');
 
 Page({
   data: {
@@ -23,7 +24,7 @@ Page({
   onEmailInput(e) { this.setData({ email: e.detail.value }); },    // 邮箱输入
   onCodeInput(e) { this.setData({ code: e.detail.value }); },
 
-  // 发送邮箱验证码（模拟，后端待接入）
+  // 发送邮箱验证码（后端暂未接入，仅前端占位）
   getCode() {
     const { email, countdown } = this.data;
     if (!email.trim()) return this.showErrorToast('请输入邮箱');
@@ -64,18 +65,26 @@ Page({
     this.setData({ loading: true });
     wx.showLoading({ title: '注册中...', mask: true });
 
-    // 模拟注册请求
-    await this.sleep(1500);
-    wx.hideLoading();
-    this.setData({ loading: false });
-    
-    wx.showToast({ title: '注册成功', icon: 'success', duration: 1500 });
-    setTimeout(() => wx.redirectTo({ url: '/pages/login/login' }), 1500);
+    try {
+      await request.post('/auth/register', {
+        username: username.trim(),
+        password,
+        email: email.trim(),
+        code: code.trim()
+      }, false);
+      wx.hideLoading();
+      this.setData({ loading: false });
+      wx.showToast({ title: '注册成功', icon: 'success', duration: 1500 });
+      setTimeout(() => wx.redirectTo({ url: '/pages/login/login' }), 1500);
+    } catch (err) {
+      wx.hideLoading();
+      this.setData({ loading: false });
+      this.showErrorToast(err.message || '注册失败');
+    }
   },
 
   goToLogin() { wx.redirectTo({ url: '/pages/login/login' }); },
   onForgetPasswordTap() { wx.navigateTo({ url: '/pages/forget-password/forget-password' }); },
 
-  showErrorToast(msg) { wx.showToast({ title: msg, icon: 'none', duration: 2000 }); },
-  sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); }
+  showErrorToast(msg) { wx.showToast({ title: msg, icon: 'none', duration: 2000 }); }
 });

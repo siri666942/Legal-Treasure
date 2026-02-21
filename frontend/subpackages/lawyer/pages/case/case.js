@@ -1,90 +1,15 @@
 // 律师端案件列表页
 const app = getApp();
+const request = require('../../../common/utils/request.js');
+
+const STATUS_ZH = { pending: '待处理', processing: '处理中', completed: '已结案' };
+function mapCaseItem(item) {
+  return Object.assign({}, item, { status: STATUS_ZH[item.statusType] || item.statusType });
+}
 
 Page({
   data: {
-    // 案件列表数据（包含所有状态）
-    caseList: [
-      {
-        id: 1,
-        caseNo: '2024-民-001',
-        title: '张三诉李四合同纠纷案',
-        status: '处理中',
-        statusType: 'processing',
-        client: '张三',
-        date: '2024-01-15',
-        progress: 60,
-        type: '合同纠纷'
-      },
-      {
-        id: 2,
-        caseNo: '2024-民-002',
-        title: '王五离婚诉讼案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '王五',
-        date: '2024-01-10',
-        progress: 100,
-        type: '婚姻家庭'
-      },
-      {
-        id: 3,
-        caseNo: '2024-刑-001',
-        title: '赵六故意伤害案',
-        status: '待处理',
-        statusType: 'pending',
-        client: '赵六',
-        date: '2024-01-20',
-        progress: 30,
-        type: '刑事'
-      },
-      {
-        id: 4,
-        caseNo: '2024-民-003',
-        title: '钱七劳动争议案',
-        status: '处理中',
-        statusType: 'processing',
-        client: '钱七',
-        date: '2024-01-25',
-        progress: 40,
-        type: '劳动争议'
-      },
-      {
-        id: 5,
-        caseNo: '2024-民-004',
-        title: '孙八借贷纠纷案',
-        status: '处理中',
-        statusType: 'processing',
-        client: '孙八',
-        date: '2024-01-28',
-        progress: 80,
-        type: '债权债务'
-      },
-      {
-        id: 6,
-        caseNo: '2023-民-100',
-        title: '周九遗产继承纠纷案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '周九',
-        date: '2023-12-15',
-        progress: 100,
-        type: '婚姻家庭'
-      },
-      {
-        id: 7,
-        caseNo: '2023-刑-050',
-        title: '吴十盗窃案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '吴十',
-        date: '2023-11-30',
-        progress: 100,
-        type: '刑事'
-      }
-    ],
-    
-    // 筛选后的案件列表
+    caseList: [],
     filteredCaseList: [],
     
     // 搜索关键词
@@ -123,43 +48,41 @@ Page({
     this.updateTabBar();
   },
   
-  // 初始化数据
   initData() {
-    this.filterCases();
+    const showHistory = this.data.showHistory;
+    const params = showHistory ? '?history=true' : '';
+    return request.get('/cases' + params, true).then(({ data }) => {
+      const list = Array.isArray(data) ? data.map(mapCaseItem) : [];
+      this.setData({ caseList: list });
+      this.filterCases();
+    }).catch((err) => {
+      if (err.statusCode === 401) {
+        wx.redirectTo({ url: '/pages/login/login' });
+        return;
+      }
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' });
+      this.setData({ caseList: [], filteredCaseList: [] });
+    });
   },
-  
-  // 过滤案件
+
   filterCases() {
     const keyword = this.data.searchKeyword.trim();
     const showHistory = this.data.showHistory;
-    
     let filtered = this.data.caseList;
-    
-    // 根据是否显示过往案件过滤
     if (showHistory) {
-      // 显示已结案的案件
-      filtered = filtered.filter(caseItem => 
-        caseItem.statusType === 'completed'
-      );
+      filtered = filtered.filter(caseItem => caseItem.statusType === 'completed');
     } else {
-      // 显示未结案的案件
-      filtered = filtered.filter(caseItem => 
-        caseItem.statusType !== 'completed'
-      );
+      filtered = filtered.filter(caseItem => caseItem.statusType !== 'completed');
     }
-    
-    // 根据搜索关键词过滤
     if (keyword) {
       filtered = filtered.filter(caseItem => {
-        return caseItem.caseNo.includes(keyword) || 
-               caseItem.title.includes(keyword) || 
-               caseItem.client.includes(keyword);
+        const client = (caseItem.client || '') + '';
+        return (caseItem.caseNo || '').includes(keyword) ||
+               (caseItem.title || '').includes(keyword) ||
+               client.includes(keyword);
       });
     }
-    
-    this.setData({
-      filteredCaseList: filtered
-    });
+    this.setData({ filteredCaseList: filtered });
   },
   
   // 更新底部导航状态
@@ -290,83 +213,23 @@ Page({
     });
   },
   
-  // 加载更多数据（只对进行中案件有效）
   loadMore() {
     if (this.data.showHistory) {
-      wx.showToast({
-        title: '过往案件不支持加载更多',
-        icon: 'none'
-      });
+      wx.showToast({ title: '过往案件不支持加载更多', icon: 'none' });
       return;
     }
-    
-    wx.showLoading({ title: '加载中...' });
-    
-    // 模拟加载更多数据
-    setTimeout(() => {
-      const newCases = [
-        {
-          id: 8,
-          caseNo: '2024-民-006',
-          title: '周九房屋买卖纠纷案',
-          status: '处理中',
-          statusType: 'processing',
-          client: '周九',
-          date: '2024-01-30',
-          progress: 50,
-          type: '房产纠纷'
-        },
-        {
-          id: 9,
-          caseNo: '2024-民-007',
-          title: '吴十交通事故责任纠纷案',
-          status: '待处理',
-          statusType: 'pending',
-          client: '吴十',
-          date: '2024-02-01',
-          progress: 10,
-          type: '交通事故'
-        }
-      ];
-      
-      // 添加到总列表
-      const updatedList = [...this.data.caseList, ...newCases];
-      
-      // 过滤掉已结案的，添加到显示列表
-      const activeNewCases = newCases.filter(caseItem => 
-        caseItem.statusType !== 'completed'
-      );
-      
-      const updatedFiltered = [...this.data.filteredCaseList, ...activeNewCases];
-      
-      this.setData({
-        caseList: updatedList,
-        filteredCaseList: updatedFiltered,
-        hasMore: false // 模拟没有更多数据
-      });
-      
-      wx.hideLoading();
-      wx.showToast({
-        title: '已加载更多案件',
-        icon: 'success'
-      });
-    }, 1500);
+    wx.showToast({ title: '已全部加载', icon: 'none' });
   },
   
-  // 下拉刷新
   onPullDownRefresh() {
     wx.showNavigationBarLoading();
-    
-    // 模拟刷新数据
-    setTimeout(() => {
-      this.initData();
-      
+    this.initData().then(() => {
       wx.hideNavigationBarLoading();
       wx.stopPullDownRefresh();
-      wx.showToast({
-        title: '刷新成功',
-        icon: 'success'
-      });
-    }, 1000);
+      wx.showToast({ title: '刷新成功', icon: 'success' });
+    }).catch(() => {
+      wx.hideNavigationBarLoading();
+      wx.stopPullDownRefresh();
+    });
   }
 });

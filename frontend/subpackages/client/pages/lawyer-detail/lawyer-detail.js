@@ -1,216 +1,68 @@
 // subpackages/client/pages/lawyer-detail/lawyer-detail.js
+const request = require('../../../common/utils/request.js');
+
 Page({
     data: {
       lawyerId: null,
       lawyerInfo: {
-        name: '张伟律师',
-        title: '高级合伙人律师',
+        name: '',
+        title: '',
         avatarEmoji: '👨‍⚖️',
-        organization: '北京大成律师事务所',
-        licenseNumber: '111011196886688',
-        practiceYears: '15',
-        practiceArea: '全国',
-        expertise: '民商事诉讼、公司法务',
-        
-        // 统计数据
-        stats: {
-          caseCount: '850',
-          winRate: '92',
-          clientSatisfaction: '98',
-          years: '15'
-        },
-        
-        // 教育背景
-        education: {
-          degree: '法学硕士',
-          school: '中国政法大学',
-          major: '民商法学'
-        },
-        
-        // 语言能力
-        languageSkills: '中文普通话（母语）、英语（专业八级）、日语（商务水平）',
-        
-        // 专业介绍
-        introduction: '张伟律师拥有15年执业经验，是国内民商事诉讼领域的资深专家。曾代理多起重大复杂案件，包括最高人民法院审理的股权纠纷案、金融借款合同纠纷案等。擅长处理企业法律风险防控、商事合同纠纷、公司治理等法律事务。多次荣获"全国优秀律师"、"十佳诉讼律师"等荣誉称号，现任中国律师协会民商法专业委员会委员。',
-        
-        // 专业领域
-        expertiseAreas: ['合同纠纷', '公司股权', '金融证券', '知识产权', '建设工程', '房地产纠纷', '债务追讨', '法律顾问'],
-        
-        // 工作经历
-        workExperience: [
-          {
-            period: '2008年-至今',
-            position: '高级合伙人',
-            detail: '北京大成律师事务所，负责民商事诉讼团队管理，带领团队处理重大复杂案件'
-          },
-          {
-            period: '2005年-2008年',
-            position: '执业律师',
-            detail: '金杜律师事务所，专注于公司法律事务和商事诉讼'
-          },
-          {
-            period: '2003年-2005年',
-            position: '法官助理',
-            detail: '北京市高级人民法院，参与民商事案件审理工作'
-          }
-        ],
-        
-        // 代表性案例
-        caseExperience: [
-          {
-            title: '某上市公司股权纠纷案',
-            type: '商事诉讼',
-            detail: '代理某上市公司处理股东间股权转让纠纷，案件涉及金额超过5亿元人民币。通过精准的法律分析和诉讼策略，成功维护了委托人的合法权益。',
-            result: '胜诉，为客户挽回损失3.2亿元'
-          },
-          {
-            title: '跨国企业合同纠纷仲裁案',
-            type: '国际仲裁',
-            detail: '代理国内某大型企业与欧洲跨国公司之间的技术许可合同纠纷，案件在斯德哥尔摩商会仲裁院进行。',
-            result: '达成有利和解协议'
-          },
-          {
-            title: '某集团建筑工程纠纷案',
-            type: '建设工程',
-            detail: '处理某大型房地产集团与施工方之间的建设工程合同纠纷，涉及工程质量、工期延误、工程款支付等多个复杂法律问题。',
-            result: '部分胜诉，减少损失8000万元'
-          }
-        ]
+        organization: '',
+        licenseNumber: '',
+        practiceYears: '',
+        practiceArea: '',
+        expertise: '',
+        stats: { caseCount: '', winRate: '', clientSatisfaction: '', years: '' },
+        education: { degree: '', school: '', major: '' },
+        languageSkills: '',
+        introduction: '',
+        expertiseAreas: [],
+        workExperience: [],
+        caseExperience: []
       }
     },
-  
+
     onLoad(options) {
       const lawyerId = options.id;
-      console.log('接收到的律师ID:', lawyerId);
-      this.setData({
-        lawyerId: lawyerId
+      this.setData({ lawyerId });
+      if (!lawyerId) return;
+      wx.showLoading({ title: '加载中...' });
+      request.get('/lawyers/' + lawyerId, false).then(({ data }) => {
+        wx.hideLoading();
+        const stats = data.stats || {};
+        const education = data.education || {};
+        const info = {
+          name: data.name || '',
+          title: data.title || '',
+          avatarEmoji: data.avatarEmoji || '👨‍⚖️',
+          organization: data.organization || '',
+          licenseNumber: data.licenseNumber || '',
+          practiceYears: data.practiceYears || '',
+          practiceArea: data.practiceArea || '',
+          expertise: data.expertise || '',
+          stats: {
+            caseCount: stats.caseCount || '',
+            winRate: stats.winRate || '',
+            clientSatisfaction: stats.clientSatisfaction || '',
+            years: stats.years || data.practiceYears || ''
+          },
+          education: {
+            degree: education.degree || '',
+            school: education.school || '',
+            major: education.major || ''
+          },
+          languageSkills: data.languageSkills || '',
+          introduction: data.introduction || '',
+          expertiseAreas: Array.isArray(data.expertiseAreas) ? data.expertiseAreas : [],
+          workExperience: Array.isArray(data.workExperience) ? data.workExperience : [],
+          caseExperience: Array.isArray(data.caseExperience) ? data.caseExperience : []
+        };
+        this.setData({ lawyerInfo: info });
+      }).catch(() => {
+        wx.hideLoading();
+        wx.showToast({ title: '加载律师信息失败', icon: 'none' });
       });
-      this.loadLawyerInfo(lawyerId);
-    },
-  
-    // 加载律师信息
-    loadLawyerInfo(lawyerId) {
-      // 这里应该根据lawyerId从服务器获取数据
-      // 目前使用模拟数据
-      const lawyersDetail = {
-        1: {
-          name: '张伟律师',
-          title: '高级合伙人律师',
-          avatarEmoji: '👨‍⚖️',
-          organization: '北京大成律师事务所',
-          licenseNumber: '111011196886688',
-          practiceYears: '15',
-          practiceArea: '全国',
-          expertise: '民商事诉讼、公司法务',
-          stats: {
-            caseCount: '850',
-            winRate: '92',
-            clientSatisfaction: '98',
-            years: '15'
-          },
-          education: {
-            degree: '法学硕士',
-            school: '中国政法大学',
-            major: '民商法学'
-          },
-          languageSkills: '中文普通话（母语）、英语（专业八级）、日语（商务水平）',
-          introduction: '张伟律师拥有15年执业经验，是国内民商事诉讼领域的资深专家。曾代理多起重大复杂案件，包括最高人民法院审理的股权纠纷案、金融借款合同纠纷案等。擅长处理企业法律风险防控、商事合同纠纷、公司治理等法律事务。多次荣获"全国优秀律师"、"十佳诉讼律师"等荣誉称号，现任中国律师协会民商法专业委员会委员。',
-          expertiseAreas: ['合同纠纷', '公司股权', '金融证券', '知识产权', '建设工程', '房地产纠纷', '债务追讨', '法律顾问'],
-          workExperience: [
-            {
-              period: '2008年-至今',
-              position: '高级合伙人',
-              detail: '北京大成律师事务所，负责民商事诉讼团队管理，带领团队处理重大复杂案件'
-            },
-            {
-              period: '2005年-2008年',
-              position: '执业律师',
-              detail: '金杜律师事务所，专注于公司法律事务和商事诉讼'
-            },
-            {
-              period: '2003年-2005年',
-              position: '法官助理',
-              detail: '北京市高级人民法院，参与民商事案件审理工作'
-            }
-          ],
-          caseExperience: [
-            {
-              title: '某上市公司股权纠纷案',
-              type: '商事诉讼',
-              detail: '代理某上市公司处理股东间股权转让纠纷，案件涉及金额超过5亿元人民币。通过精准的法律分析和诉讼策略，成功维护了委托人的合法权益。',
-              result: '胜诉，为客户挽回损失3.2亿元'
-            },
-            {
-              title: '跨国企业合同纠纷仲裁案',
-              type: '国际仲裁',
-              detail: '代理国内某大型企业与欧洲跨国公司之间的技术许可合同纠纷，案件在斯德哥尔摩商会仲裁院进行。',
-              result: '达成有利和解协议'
-            },
-            {
-              title: '某集团建筑工程纠纷案',
-              type: '建设工程',
-              detail: '处理某大型房地产集团与施工方之间的建设工程合同纠纷，涉及工程质量、工期延误、工程款支付等多个复杂法律问题。',
-              result: '部分胜诉，减少损失8000万元'
-            }
-          ]
-        },
-        2: {
-          name: '王明律师',
-          title: '刑事部主任律师',
-          avatarEmoji: '👨‍⚖️',
-          organization: '北京市中伦律师事务所',
-          licenseNumber: '111011197778899',
-          practiceYears: '12',
-          practiceArea: '全国',
-          expertise: '刑事辩护、经济犯罪',
-          stats: {
-            caseCount: '350',
-            winRate: '85',
-            clientSatisfaction: '96',
-            years: '12'
-          },
-          education: {
-            degree: '法学博士',
-            school: '北京大学',
-            major: '刑法学'
-          },
-          languageSkills: '中文普通话（母语）、英语（流利）',
-          introduction: '王明律师是刑事辩护领域的权威专家，专注于经济犯罪、职务犯罪等重大刑事案件的辩护工作。曾成功代理多起在全国有重大影响的刑事案件，多次获得"优秀刑事辩护律师"称号。现任中国刑法学研究会理事。',
-          expertiseAreas: ['刑事辩护', '经济犯罪', '职务犯罪', '毒品犯罪', '贪污受贿', '诈骗罪辩护'],
-          workExperience: [
-            {
-              period: '2010年-至今',
-              position: '刑事部主任',
-              detail: '北京市中伦律师事务所，带领刑事辩护团队，专注于重大复杂刑事案件'
-            },
-            {
-              period: '2006年-2010年',
-              position: '执业律师',
-              detail: '北京市人民检察院，担任检察官，后转为执业律师'
-            }
-          ],
-          caseExperience: [
-            {
-              title: '某省副省长职务犯罪案',
-              type: '刑事辩护',
-              detail: '担任某省副省长涉嫌受贿、滥用职权案的辩护律师，案件在全国有重大影响。',
-              result: '成功辩护，获得从轻处罚'
-            },
-            {
-              title: '某上市公司财务造假案',
-              type: '经济犯罪',
-              detail: '代理某上市公司高管涉嫌财务造假、内幕交易案的辩护工作。',
-              result: '部分罪名不成立'
-            }
-          ]
-        }
-      };
-  
-      if (lawyersDetail[lawyerId]) {
-        this.setData({
-          lawyerInfo: lawyersDetail[lawyerId]
-        });
-      }
     },
   
     // 电话咨询

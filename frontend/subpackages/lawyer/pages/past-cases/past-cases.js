@@ -1,117 +1,19 @@
 // 过往案件查询页面
 const app = getApp();
+const request = require('../../../common/utils/request.js');
+const STATUS_ZH = { pending: '待处理', processing: '处理中', completed: '已结案' };
+function mapCaseItem(item) {
+  const base = Object.assign({}, item, { status: STATUS_ZH[item.statusType] || item.statusType });
+  if (!base.completeDate) base.completeDate = base.date || '';
+  if (!base.completeType) base.completeType = '';
+  if (!base.court) base.court = '';
+  if (!base.result) base.result = '';
+  return base;
+}
 
 Page({
   data: {
-    // 过往案件数据
-    caseList: [
-      {
-        id: 1,
-        caseNo: '2023-民-001',
-        title: '张三诉李四合同纠纷案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '张三',
-        date: '2023-12-15',
-        completeDate: '2023-12-10',
-        completeType: '调解结案',
-        type: '合同纠纷',
-        court: '北京市朝阳区人民法院',
-        judge: '王法官',
-        result: '胜诉'
-      },
-      {
-        id: 2,
-        caseNo: '2023-民-002',
-        title: '王五离婚诉讼案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '王五',
-        date: '2023-11-20',
-        completeDate: '2023-11-15',
-        completeType: '判决',
-        type: '婚姻家庭',
-        court: '上海市浦东新区人民法院',
-        judge: '李法官',
-        result: '部分支持'
-      },
-      {
-        id: 3,
-        caseNo: '2023-刑-001',
-        title: '赵六故意伤害案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '赵六',
-        date: '2023-10-30',
-        completeDate: '2023-10-25',
-        completeType: '判决',
-        type: '刑事',
-        court: '广州市中级人民法院',
-        judge: '张法官',
-        result: '缓刑'
-      },
-      {
-        id: 4,
-        caseNo: '2022-民-100',
-        title: '钱七劳动争议案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '钱七',
-        date: '2022-09-15',
-        completeDate: '2022-09-10',
-        completeType: '仲裁',
-        type: '劳动争议',
-        court: '深圳市劳动人事争议仲裁委员会',
-        result: '胜诉'
-      },
-      {
-        id: 5,
-        caseNo: '2022-民-101',
-        title: '孙八借贷纠纷案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '孙八',
-        date: '2022-08-20',
-        completeDate: '2022-08-15',
-        completeType: '调解结案',
-        type: '债权债务',
-        court: '杭州市西湖区人民法院',
-        judge: '陈法官',
-        result: '胜诉'
-      },
-      {
-        id: 6,
-        caseNo: '2022-刑-050',
-        title: '周九交通肇事案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '周九',
-        date: '2022-07-10',
-        completeDate: '2022-07-05',
-        completeType: '判决',
-        type: '刑事',
-        court: '南京市鼓楼区人民法院',
-        judge: '刘法官',
-        result: '有期徒刑1年'
-      },
-      {
-        id: 7,
-        caseNo: '2021-民-200',
-        title: '吴十房屋买卖合同纠纷案',
-        status: '已结案',
-        statusType: 'completed',
-        client: '吴十',
-        date: '2021-06-25',
-        completeDate: '2021-06-20',
-        completeType: '判决',
-        type: '房产纠纷',
-        court: '成都市锦江区人民法院',
-        judge: '杨法官',
-        result: '胜诉'
-      }
-    ],
-    
-    // 筛选后的案件列表
+    caseList: [],
     filteredCaseList: [],
     
     // 搜索关键词
@@ -129,16 +31,21 @@ Page({
   },
   
   onLoad() {
-    // 检查登录状态
     if (!app.globalData.isLogin) {
-      wx.redirectTo({
-        url: '/pages/login/login'
-      });
+      wx.redirectTo({ url: '/pages/login/login' });
       return;
     }
-    
-    // 初始化数据
-    this.filterCases();
+    wx.showLoading({ title: '加载中...' });
+    request.get('/cases?history=true', true).then(({ data }) => {
+      wx.hideLoading();
+      const list = Array.isArray(data) ? data.filter(i => i.statusType === 'completed').map(mapCaseItem) : [];
+      this.setData({ caseList: list }, () => this.filterCases());
+    }).catch((err) => {
+      wx.hideLoading();
+      if (err.statusCode === 401) wx.redirectTo({ url: '/pages/login/login' });
+      else wx.showToast({ title: err.message || '加载失败', icon: 'none' });
+      this.setData({ caseList: [] }, () => this.filterCases());
+    });
   },
   
   onShow() {
@@ -153,12 +60,12 @@ Page({
     const caseTypeIndex = this.data.caseTypeIndex;
     const yearFilter = this.data.yearFilter;
     
-    // 关键词搜索
     if (keyword) {
       filtered = filtered.filter(caseItem => {
-        return caseItem.caseNo.includes(keyword) || 
-               caseItem.title.includes(keyword) || 
-               caseItem.client.includes(keyword) ||
+        const c = (caseItem.client || '') + (caseItem.lawyer || '');
+        return (caseItem.caseNo || '').includes(keyword) ||
+               (caseItem.title || '').includes(keyword) ||
+               c.includes(keyword) ||
                (caseItem.court && caseItem.court.includes(keyword));
       });
     }
@@ -169,11 +76,10 @@ Page({
       filtered = filtered.filter(caseItem => caseItem.type === selectedType);
     }
     
-    // 年份筛选
     if (yearFilter) {
       filtered = filtered.filter(caseItem => {
-        const caseYear = caseItem.completeDate ? caseItem.completeDate.split('-')[0] : caseItem.date.split('-')[0];
-        return caseYear === yearFilter;
+        const d = caseItem.completeDate || caseItem.date || '';
+        return d.split('-')[0] === yearFilter;
       });
     }
     

@@ -1,68 +1,15 @@
 // subpackages/client/pages/case/case.js
 const app = getApp();
+const request = require('../../../common/utils/request.js');
+
+const STATUS_ZH = { pending: '待处理', processing: '处理中', completed: '已结案' };
+function mapCaseItem(item) {
+  return Object.assign({}, item, { status: STATUS_ZH[item.statusType] || item.statusType });
+}
 
 Page({
   data: {
-    // 案件列表数据
-    caseList: [
-      {
-        id: 1,
-        caseNo: '2024-民-001',
-        title: '合同纠纷案',
-        status: '处理中',
-        statusType: 'processing',
-        lawyer: '张律师',
-        date: '2024-01-15',
-        progress: 60,
-        type: '合同纠纷'
-      },
-      {
-        id: 2,
-        caseNo: '2024-民-002',
-        title: '离婚诉讼案',
-        status: '已结案',
-        statusType: 'completed',
-        lawyer: '李律师',
-        date: '2024-01-10',
-        progress: 100,
-        type: '婚姻家庭'
-      },
-      {
-        id: 3,
-        caseNo: '2024-刑-001',
-        title: '故意伤害案',
-        status: '待处理',
-        statusType: 'pending',
-        lawyer: '王律师',
-        date: '2024-01-20',
-        progress: 30,
-        type: '刑事'
-      },
-      {
-        id: 4,
-        caseNo: '2024-民-003',
-        title: '劳动争议案',
-        status: '处理中',
-        statusType: 'processing',
-        lawyer: '赵律师',
-        date: '2024-01-25',
-        progress: 40,
-        type: '劳动争议'
-      },
-      {
-        id: 5,
-        caseNo: '2024-民-004',
-        title: '借贷纠纷案',
-        status: '处理中',
-        statusType: 'processing',
-        lawyer: '孙律师',
-        date: '2024-01-28',
-        progress: 80,
-        type: '债权债务'
-      }
-    ],
-    
-    // 筛选后的案件列表
+    caseList: [],
     filteredCaseList: [],
     
     // 搜索关键词
@@ -101,25 +48,28 @@ Page({
   },
 
   onPullDownRefresh() {
-    // 下拉刷新
     wx.showNavigationBarLoading();
-    
-    // 模拟刷新数据
-    setTimeout(() => {
-      this.initData();
+    this.initData().then(() => {
       wx.hideNavigationBarLoading();
       wx.stopPullDownRefresh();
-      wx.showToast({
-        title: '刷新成功',
-        icon: 'success'
-      });
-    }, 1000);
+      wx.showToast({ title: '刷新成功', icon: 'success' });
+    }).catch(() => {
+      wx.hideNavigationBarLoading();
+      wx.stopPullDownRefresh();
+    });
   },
 
-  // 初始化数据
   initData() {
-    this.setData({
-      filteredCaseList: this.data.caseList
+    return request.get('/cases', true).then(({ data }) => {
+      const list = Array.isArray(data) ? data.map(mapCaseItem) : [];
+      this.setData({ caseList: list, filteredCaseList: list });
+    }).catch((err) => {
+      if (err.statusCode === 401) {
+        wx.redirectTo({ url: '/pages/login/login' });
+        return;
+      }
+      wx.showToast({ title: err.message || '加载失败', icon: 'none' });
+      this.setData({ caseList: [], filteredCaseList: [] });
     });
   },
 
@@ -176,21 +126,19 @@ Page({
 
   onSearch() {
     const keyword = this.data.searchKeyword.trim();
-    
     if (!keyword) {
-      this.initData();
+      this.setData({ filteredCaseList: this.data.caseList });
       return;
     }
-    
     const filtered = this.data.caseList.filter(caseItem => {
-      return caseItem.caseNo.includes(keyword) || 
-             caseItem.title.includes(keyword) || 
-             caseItem.lawyer.includes(keyword) ||
-             caseItem.type.includes(keyword);
+      const lawyer = (caseItem.lawyer || '') + '';
+      const type = (caseItem.type || '') + '';
+      return (caseItem.caseNo || '').includes(keyword) ||
+             (caseItem.title || '').includes(keyword) ||
+             lawyer.includes(keyword) ||
+             type.includes(keyword);
     });
-    
     this.setData({ filteredCaseList: filtered });
-    
     if (filtered.length === 0) {
       wx.showToast({ title: '未找到相关案件', icon: 'none' });
     }

@@ -1,5 +1,6 @@
 // pages/login/login.js
 const app = getApp();
+const request = require('../../common/utils/request.js');
 
 Page({
   data: {
@@ -27,37 +28,39 @@ Page({
     this.setData({ loading: true });
     wx.showLoading({ title: '登录中...', mask: true });
 
-    // 模拟登录请求（实际应调用云函数或API）
-    await this.sleep(1500);
-    
-    // 模拟登录成功
-    const mockResult = {
-      success: true,
-      token: 'mock_token_' + Date.now(),
-      userInfo: { username, role: 'client' } // 角色可根据实际业务确定
-    };
+    try {
+      const { data } = await request.post('/auth/login', { username: username.trim(), password }, false);
+      const token = data.access_token;
+      const user = data.user || {};
+      const userInfo = {
+        userId: user.id,
+        username: user.username,
+        role: user.role || null,
+        avatar: user.avatar || null,
+        phone: user.phone || null,
+        email: user.email || null
+      };
 
-    wx.hideLoading();
-    this.setData({ loading: false });
+      wx.hideLoading();
+      this.setData({ loading: false });
 
-    if (mockResult.success) {
-      // 🔥 关键修复：设置全局登录状态
       app.globalData.isLogin = true;
-      app.globalData.token = mockResult.token;
-      app.globalData.userInfo = mockResult.userInfo;
+      app.globalData.token = token;
+      app.globalData.userInfo = userInfo;
+      app.globalData.userRole = userInfo.role || null;
 
-      // 存入缓存，保证小程序重启后依然登录
-      wx.setStorageSync('lubao_token', mockResult.token);
-      wx.setStorageSync('lubao_userInfo', mockResult.userInfo);
+      wx.setStorageSync('lubao_token', token);
+      wx.setStorageSync('lubao_userInfo', userInfo);
+      wx.setStorageSync('lubao_userRole', userInfo.role || null);
 
       wx.showToast({ title: '登录成功', icon: 'success', duration: 1500 });
-
       setTimeout(() => {
-        // 跳转到角色选择页（请确认路径正确）
         wx.redirectTo({ url: '/pages/role-select/role-select' });
       }, 1500);
-    } else {
-      this.showErrorToast(mockResult.message || '登录失败');
+    } catch (err) {
+      wx.hideLoading();
+      this.setData({ loading: false });
+      this.showErrorToast(err.message || '登录失败');
     }
   },
 
@@ -71,7 +74,6 @@ Page({
   onForgetPasswordTap() { wx.navigateTo({ url: '/pages/forget-password/forget-password' }); },
 
   showErrorToast(msg) { wx.showToast({ title: msg, icon: 'none', duration: 2000 }); },
-  sleep(ms) { return new Promise(resolve => setTimeout(resolve, ms)); },
 
   onShow() {
     const lastUsername = wx.getStorageSync('last_username');

@@ -60,6 +60,9 @@ class RegisterIn(BaseModel):
     # 角色：可选，lawyer=律师 / client=客户，默认不传则由前端角色选择页再设
     role: str | None = Field(default=None, max_length=20)
 
+    # 验证码：前端表单可能携带，后端暂不校验，仅接收以适配前端
+    code: str | None = Field(default=None, max_length=10)
+
 
 class LoginIn(BaseModel):
     """

@@ -174,64 +174,46 @@ Page({
     });
   },
 
-  // 提交反馈（律师端专用）
   submitFeedback() {
-    if (!this.data.canSubmit || this.data.isSubmitting) {
-      return;
-    }
-    
+    if (!this.data.canSubmit || this.data.isSubmitting) return;
     const { type, content, contact, images } = this.data.feedback;
-    
-    // 简单验证
     if (content.length < 10) {
-      wx.showToast({
-        title: '请至少输入10个字符',
-        icon: 'none'
-      });
+      wx.showToast({ title: '请至少输入10个字符', icon: 'none' });
       return;
     }
-    
     if (content.length > 500) {
-      wx.showToast({
-        title: '内容不能超过500个字符',
-        icon: 'none'
-      });
+      wx.showToast({ title: '内容不能超过500个字符', icon: 'none' });
       return;
     }
-    
     this.setData({ isSubmitting: true });
-    
-    // 模拟提交过程
-    wx.showLoading({
-      title: '提交中...',
-      mask: true
-    });
-    
-    // 实际开发中这里应该调用API提交
-    setTimeout(() => {
+    wx.showLoading({ title: '提交中...', mask: true });
+    const request = require('../../../common/utils/request.js');
+    const payload = {
+      type,
+      content,
+      contact: contact || null,
+      images: (images && images.length) ? images.slice(0, 3) : null
+    };
+    request.post('/feedback', payload, false).then(() => {
       wx.hideLoading();
-      
-      // 提交成功
       wx.showModal({
         title: '提交成功',
         content: '感谢您的反馈！我们将在24小时内处理并回复您。',
         showCancel: false,
         success: () => {
-          // 清空表单
           this.setData({
-            feedback: {
-              type: 1,
-              content: '',
-              contact: '',
-              images: []
-            },
+            feedback: { type: 1, content: '', contact: '', images: [] },
             contentLength: 0,
             isSubmitting: false,
             canSubmit: false
           });
         }
       });
-    }, 2000);
+    }).catch((err) => {
+      wx.hideLoading();
+      this.setData({ isSubmitting: false });
+      wx.showToast({ title: err.message || '提交失败', icon: 'none' });
+    });
   },
 
   // 拨打客服电话

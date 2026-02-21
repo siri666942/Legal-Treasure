@@ -1,4 +1,6 @@
 // subpackages/lawyer/pages/create-case/create-case.js
+const request = require('../../../common/utils/request.js');
+
 Page({
     data: {
       // 表单数据（全部为文本输入，除立案时间）
@@ -111,24 +113,28 @@ Page({
       }
   
       wx.showLoading({ title: '创建中...' });
-  
-      // 模拟创建请求
-      setTimeout(() => {
+      const payload = {
+        caseNo: form.caseNo.trim(),
+        caseTitle: form.caseTitle.trim(),
+        caseType: form.caseType.trim() || null,
+        court: form.court.trim() || null,
+        judge: form.judge.trim() || null,
+        filingDate: form.filingDate || null,
+        amount: form.amount.trim() || null,
+        applicableLaw: form.applicableLaw.trim() || null
+      };
+      request.post('/cases', payload, true).then(() => {
         wx.hideLoading();
-  
-        // 1. 生成绑定码
         const bindCode = this.generateBindCode();
-        console.log('新案件数据:', form);
-        console.log('生成绑定码:', bindCode);
-  
-        // 2. 更新数据并显示成功浮窗
-        this.setData({
-          bindCode: bindCode,
-          showSuccessModal: true
-        });
-  
-        // 实际开发中应将案件数据和绑定码提交至服务器
-      }, 1000);
+        this.setData({ bindCode, showSuccessModal: true });
+      }).catch((err) => {
+        wx.hideLoading();
+        if (err.statusCode === 401) {
+          wx.redirectTo({ url: '/pages/login/login' });
+          return;
+        }
+        wx.showToast({ title: err.message || '创建失败', icon: 'none' });
+      });
     },
   
     // ========== 复制绑定码并返回 ==========

@@ -1,4 +1,5 @@
 const app = getApp();
+const request = require('../../../common/utils/request.js');
 
 Page({
   data: {
@@ -193,30 +194,32 @@ Page({
     
     this.setData({ isSubmitting: true });
     wx.showLoading({ title: '提交中...', mask: true });
-    
-    // 模拟提交
-    setTimeout(() => {
+    const payload = {
+      type,
+      content,
+      contact: contact || null,
+      images: (images && images.length) ? images.slice(0, 3) : null
+    };
+    request.post('/feedback', payload, false).then(() => {
       wx.hideLoading();
       wx.showModal({
         title: '提交成功',
         content: '感谢您的反馈！我们将尽快处理并回复您。',
         showCancel: false,
         success: () => {
-          // 清空表单
           this.setData({
-            feedback: {
-              type: 1,
-              content: '',
-              contact: '',
-              images: []
-            },
+            feedback: { type: 1, content: '', contact: '', images: [] },
             contentLength: 0,
             isSubmitting: false,
             canSubmit: false
           });
         }
       });
-    }, 2000);
+    }).catch((err) => {
+      wx.hideLoading();
+      this.setData({ isSubmitting: false });
+      wx.showToast({ title: err.message || '提交失败', icon: 'none' });
+    });
   },
 
   // 拨打客服电话
